@@ -1,0 +1,1961 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ClownFish.Data</name>
+    </assembly>
+    <members>
+        <member name="T:ClownFish.Data.EntityAssemblyAttribute">
+            <summary>
+            指示包含实体的程序集
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.EntityAdditionAttribute">
+            <summary>
+            实体的附加描述标记，仅供框架内部使用。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.EntityAdditionAttribute.ProxyType">
+            <summary>
+            相关联的实体代理类型
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.EntityProxyAttribute">
+            <summary>
+            用于指示ACTION参数是一个实体代理类型
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.EntityProxyAttribute.GetHttpValue(System.Web.HttpContext,System.Reflection.ParameterInfo)">
+            <summary>
+            根据HttpContext和ParameterInfo获取参数值
+            </summary>
+            <param name="context"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.EntityProxyAssemblyAttribute">
+            <summary>
+            指示包含实体代理的程序集，
+            注意：
+            1、这个标记仅供工具使用，不要在代码中使用！
+            2、包含这个标记的程序集，在生成代理类时将不会搜索其中定义的实体类型
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.CodeDom.ProxyBuilder">
+            <summary>
+            用于生成并编译实体的代理类的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.CompileAllEntityProxy(System.Boolean)">
+            <summary>
+            自动搜索当前程序加载的所有实体类型，并为它们编译生成代理类型及注册。
+            
+            注意：
+            1、搜索实体时只搜索用EntityAssemblyAttribute标记的程序集！
+            2、这个方法应该在初始化时被调用一次（再次调用会引发异常）
+            3、当前方法采用同步单线程方式运行，如果实体过多的大型项目，建议使用工具提前生成代理类型。
+            </summary>
+            <param name="useAttrFilter">
+            仅搜索标记为EntityAssemblyAttribute的程序集，
+            设置为true将会加快搜索速度，
+            但是要求包含实体类型的程序集用 [assembly: ClownFish.Data.EntityAssembly] 标记出来</param>
+            <returns>返回处理了哪些实体类型（通常情况下不需要接收返回值，除非需要排错）。</returns>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.SearchExistEntityCompileResult">
+            <summary>
+            加载所有已存在的实体代理对应的实体类型。
+            说明：已经存在的代理类型是用工具提前生成好的。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.RegisterCompileResult(System.Collections.Generic.List{ClownFish.Data.CodeDom.EntityCompileResult})">
+            <summary>
+            注册实体代理类型
+            </summary>
+            <param name="result"></param>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.SearchAllEntityTypes(System.Collections.Generic.List{ClownFish.Data.CodeDom.EntityCompileResult},System.Boolean)">
+            <summary>
+            查找当前进程加载的程序集中所有的实体类型
+            </summary>
+            <param name="existCompileResult"></param>
+            <param name="useAttrFilter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.GetAssemblyEntityTypes(System.Reflection.Assembly)">
+            <summary>
+            查找程序集中所有数据实体（从ClownFish.Data.Entity继承）
+            </summary>
+            <param name="asm"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.ProxyBuilder.Compile(System.Type[],System.String)">
+            <summary>
+            生成并编译指定类型的代理类型
+            </summary>
+            <param name="entityTypes"></param>
+            <param name="dllFilePath"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.CodeDom.CompileException">
+            <summary>
+            表示编译异常
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.CompileException.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.CompileException.#ctor(System.String,System.CodeDom.Compiler.CompilerResults)">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CodeDom.CompileException.Code">
+            <summary>
+            需要编译的代码
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CodeDom.CompileException.CompilerResult">
+            <summary>
+            编译结果
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CodeDom.CompileException.Message">
+            <summary>
+            异常消息的描述信息
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.CompileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            当在派生类中重写时，用于异常的信息设置
+            </summary>
+            <param name="info">它存有有关所引发异常的序列化的对象数据。</param>
+            <param name="context">它包含有关源或目标的上下文信息。</param>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.CompileException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            当在派生类中重写时，用于异常的信息设置
+            </summary>
+            <param name="info">它存有有关所引发异常的序列化的对象数据。</param>
+            <param name="context">它包含有关源或目标的上下文信息。</param>
+        </member>
+        <member name="T:ClownFish.Data.CodeDom.EntityGenerator">
+            <summary>
+            实体代理类型的代码生成器
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator.UsingCodeBlock">
+            <summary>
+            默认的代码文件头上的 using 语句块
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator.NameSpace">
+            <summary>
+            所有动态生成的实体类型的命名空间
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator._entityType">
+            <summary>
+            当前处理的实体类型
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator._typeInfo">
+            <summary>
+            实体的描述信息
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator._PrimaryKeyDbName">
+            <summary>
+            实体主键的数据库字段名
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator._PrimaryKeyNetName">
+            <summary>
+            实体主键的.NET属性名
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CodeDom.EntityGenerator.ProxyClassName">
+            <summary>
+            代理类的名称
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CodeDom.EntityGenerator.DataLoaderClassName">
+            <summary>
+            数据加载类型的名称
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.CodeDom.EntityGenerator._code">
+            <summary>
+            用于拼接C#代码的StringBuilder实例
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CodeDom.EntityGenerator.GetCode``1">
+            <summary>
+            生成实体的代理类型代码，将用于编译成代理类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DbExceuteException">
+            <summary>
+            表示在数据访问执行过程中发生的异常。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbExceuteException.Command">
+            <summary>
+            SQL执行时关联的命令对象。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbExceuteException.#ctor(System.Exception,System.Data.Common.DbCommand)">
+            <summary>
+            初始化 <see cref="T:ClownFish.Data.DbExceuteException"/>对象。
+            </summary>
+            <param name="innerException">当前异常对象。</param>
+            <param name="command"><see cref="T:System.Data.Common.DbCommand"/>的实例。</param>
+        </member>
+        <member name="T:ClownFish.Data.SomeExtensions">
+            <summary>
+            定义一些扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.SomeExtensions.CreateCPQuery(ClownFish.Data.DbContext)">
+            <summary>
+            创建一个与DbContext有关的CPQuery实例
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.BaseDataLoader`1">
+            <summary>
+            动态生成的DataLoader的基类，
+            框架内部使用的类型，请不要直接使用
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.CreateIndex(System.Object)">
+            <summary>
+            根据数据源生成字段的索引数组
+            </summary>
+            <param name="dataSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.LoadFromDataReader(System.Data.Common.DbDataReader,System.Int32[],`0)">
+            <summary>
+            从DbDataReader中填充一个数据实体的属性
+            </summary>
+            <param name="reader"></param>
+            <param name="colIndex"></param>
+            <param name="m"></param>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.LoadFromDataRow(System.Data.DataRow,System.Int32[],`0)">
+            <summary>
+            从DataRow中填充一个数据实体的属性
+            </summary>
+            <param name="row"></param>
+            <param name="colIndex"></param>
+            <param name="m"></param>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.ToSingle(System.Data.DataRow)">
+            <summary>
+            从DataRow中加载一个实体对象
+            </summary>
+            <param name="row"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.ToSingle(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader中加载一个实体对象
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.ToList(System.Data.DataTable)">
+            <summary>
+            从DataTable中加载一个实体列表
+            </summary>
+            <param name="table"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseDataLoader`1.ToList(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader中加载一个实体列表
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ClownFish.Data.ColumnInfo.DataType">
+            <summary>
+            PropertyInfo的实际数据类型（可空类型返回对应的值类型）
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ColumnInfo.Index">
+            <summary>
+            属性的出现次序，主要用于映射状态变更数组中的序号
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.EntityDescription.PropertyCount">
+            <summary>
+            实体的属性数量，可能 大于 MemberDict.Count，因为有些属性可能被忽略！
+            这个属性目前用于控制【变量状态数组】的长度
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Initializer">
+            <summary>
+            初始化接口封装类
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.Initializer.Instance">
+            <summary>
+            Initializer的实例引用
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Initializer.DefaultEntityListLen">
+            <summary>
+            默认的实例列表长度
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Initializer.IsAutoCreateOneOffDbContext">
+            <summary>
+            是否允许创建一次性的DbContext实例，默认值：false
+            如果启用，那么可以不必创建ConnectionScope范围块，则直接操作数据库
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.AllowCreateOneOffDbContext">
+            <summary>
+            是否允许创建一次性的DbContext实例，默认值：false
+            如果启用，那么可以不必创建ConnectionScope范围块，则直接操作数据库
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.SetDefaultEntityListLen(System.Int32)">
+            <summary>
+            设置默认的实例列表长度
+            </summary>
+            <param name="len"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.InitConnection(System.String)">
+            <summary>
+            初始化连接配置
+            </summary>
+            <param name="configFilePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.LoadXmlCommandFromDirectory(System.String)">
+            <summary>
+            从指定的目录中加载所有 XmlCommand 配置
+            </summary>
+            <param name="directoryPath">包含XmlCommand配置文件的目录，如果不指定就表示接受XmlCommand规范的默认目录</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.LoadXmlCommandFromText(System.String)">
+            <summary>
+            加载XML字符串中包含的 XmlCommand
+            </summary>
+            <param name="xml"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Initializer.CompileAllEntityProxy(System.Boolean)">
+            <summary>
+            自动搜索当前程序加载的所有实体类型，并为它们编译生成代理类型及注册。
+            </summary>
+            <param name="useAttrFilter"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.SqlClient.EntityExtensions">
+            <summary>
+            实体针对SQLSERVER的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.SqlClient.EntityExtensions.InsertReturnNewId(ClownFish.Data.Entity)">
+            <summary>
+            执行INSERT操作，并返回新的自增列ID
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.SqlClient.SqlServerExtensions">
+            <summary>
+            SQLSERVER相关的扩展工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.SqlClient.SqlServerExtensions.ToPageList``1(ClownFish.Data.XmlCommand,ClownFish.Data.PagingInfo)">
+            <summary>
+            分页查询，返回实体列表
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <param name="command">XmlCommand实例引用</param>
+            <param name="pageInfo">分页信息</param>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:ClownFish.Data.SqlClient.SqlServerExtensions.ToPageTable(ClownFish.Data.XmlCommand,ClownFish.Data.PagingInfo)">
+            <summary>
+            分页查询，返回DataTable
+            </summary>
+            <param name="command"></param>
+            <param name="pageInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DataLoaderHelper">
+            <summary>
+            用于数据加载相关的扩展工具类，供框架内部使用！
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DataLoaderHelper.CreateNameMapIndex(System.Object,System.Int32,System.Collections.Generic.KeyValuePair{System.Int32,System.String}[])">
+            <summary>
+            供实体加载器使用的内部方法，请不要在代码中调用！
+            </summary>
+            <param name="dataSource"></param>
+            <param name="len"></param>
+            <param name="kvs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityHelper.GetDbFieldName(System.Reflection.MemberInfo)">
+            <summary>
+            获取实体属性对应的数据库字段名
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityHelper.GetDbTableName(System.Type)">
+            <summary>
+            获取实体对应的数据库表名
+            </summary>
+            <param name="entityType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.EntityMethodFactory">
+            <summary>
+            实体方法的工厂类型，供框架内部使用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.EntityMethodFactory.From``1">
+            <summary>
+            创建与实体相关的EntityTable实例，开始数据库操作
+            </summary>
+            <typeparam name="T">实体的类型参数</typeparam>
+            <returns>与实体相关的EntityTable实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityMethodFactory.Query``1">
+            <summary>
+            开始LINQ查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityMethodFactory.BeginEdit``1(``0)">
+            <summary>
+            创建与实体相关的代理对象，并指示实体进入编辑状态，
+            请基本此方法的返回值来修改实体的属性，而不要直接修改原实体对象。
+            例如：var product = Entity.BeginEdit(product);
+            注意：Insert/Delete/Update操作必须基本此方法的返回值对象才能调用。
+            </summary>
+            <returns>与实体相关的代理对象</returns>
+        </member>
+        <member name="T:ClownFish.Data.EntityTable`1">
+            <summary>
+            实体对应的数据表操作类型
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Set(System.Action{`0})">
+            <summary>
+            设置实体要更新的字段
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Where(System.Action{`0})">
+            <summary>
+            根据赋值的属生成WHERE条件
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Select(System.Action{`0})">
+            <summary>
+            根据赋值的属生成SELECT字段列表，对ToSingle/ToList方法有效
+            </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Insert">
+            <summary>
+            根据指定的实体属性，生成INSERT语句，并执行数据库插入操作
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Delete">
+            <summary>
+            根据指定的实体属性，生成DELETE查询条件，并执行数据库插入操作
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.Update">
+            <summary>
+            根据指定的实体属性，生成UPDATE的语句，并执行数据库插入操作
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.ToSingle">
+            <summary>
+            根据Where调用产生的查询条件获取单个实体对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityTable`1.ToList">
+            <summary>
+            根据Where调用产生的查询条件获取实体对象列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.IEntityProxy">
+            <summary>
+            定义实体代理应该实现的接口（此接口仅供框架内部使用）
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.IEntityProxy.Init(ClownFish.Data.Entity)">
+            <summary>
+            设置代理要包装的实体对象
+            </summary>
+            <param name="entity"></param>
+        </member>
+        <member name="P:ClownFish.Data.IEntityProxy.RealEntity">
+            <summary>
+            获取与代理对象关联的原实体对象
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.IEntityProxy.GetChangeNames">
+            <summary>
+            获取哪些字段发生了改变，返回对应的字段名称列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IEntityProxy.GetChangeValues">
+            <summary>
+            获取哪些字段发生了改变，返回对应的字段值列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IEntityProxy.GetRowKey">
+            <summary>
+            获取实体的主键信息：字段名，字段值
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IEntityProxy.ClearChangeFlags">
+            <summary>
+            清除代理实体中所有属性的修改标记
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Linq.EntityLinqProvider">
+            <summary>
+            实体的LINQ查询的提供者
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityLinqProvider.CreateQuery(System.Linq.Expressions.Expression)">
+            <summary>
+            构造一个 System.Linq.IQueryable 对象，该对象可计算指定表达式目录树所表示的查询。
+            </summary>
+            <param name="expression">表示 LINQ 查询的表达式目录树。</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityLinqProvider.CreateQuery``1(System.Linq.Expressions.Expression)">
+            <summary>
+            构造一个 System.Linq.IQueryable`1 对象，该对象可计算指定表达式目录树所表示的查询。
+            </summary>
+            <typeparam name="TElement">返回的 System.Linq.IQueryable`1 的元素的类型</typeparam>
+            <param name="expression">表示 LINQ 查询的表达式目录树。</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityLinqProvider.Execute(System.Linq.Expressions.Expression)">
+            <summary>
+            执行指定表达式目录树所表示的查询。
+            </summary>
+            <param name="expression">表示 LINQ 查询的表达式目录树。</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityLinqProvider.Execute``1(System.Linq.Expressions.Expression)">
+            <summary>
+            执行指定表达式目录树所表示的强类型查询。
+            </summary>
+            <typeparam name="TResult">执行查询所生成的值的类型</typeparam>
+            <param name="expression">表示 LINQ 查询的表达式目录树。</param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.Linq.EntityQuery`1">
+            <summary>
+            表示一个实体的LINQ查询
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityQuery`1.#ctor(ClownFish.Data.Linq.EntityLinqProvider)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="provider"></param>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityQuery`1.#ctor(ClownFish.Data.Linq.EntityLinqProvider,System.Linq.Expressions.Expression)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="provider"></param>
+            <param name="expression"></param>
+        </member>
+        <member name="P:ClownFish.Data.Linq.EntityQuery`1.ElementType">
+            <summary>
+            获取在执行与 System.Linq.IQueryable 的此实例关联的表达式目录树时返回的元素的类型。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Linq.EntityQuery`1.Expression">
+            <summary>
+            获取与 System.Linq.IQueryable 的实例关联的表达式目录树。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Linq.EntityQuery`1.Provider">
+            <summary>
+            获取与此数据源关联的查询提供程序。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.Linq.EntityQuery`1.GetEnumerator">
+            <summary>
+            返回循环访问集合的枚举数。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.Linq.WhereParase">
+            <summary>
+            解析WHERE条件
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.BaseCommand">
+            <summary>
+            执行数据库操作的基类
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.BaseCommand._context">
+            <summary>
+            DbContext实例
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.BaseCommand.ParaNameBuilder">
+            <summary>
+            用于SQL语句的参数占位符，命令名称的计算
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.BaseCommand._command">
+            <summary>
+            DbCommand实例
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.BaseCommand.Command">
+            <summary>
+            执行存储过程使用的DbCommand对象
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.BeforeExecute">
+            <summary>
+            开始执行数据库操作前要处理的额外操作
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ExecuteNonQuery">
+            <summary>
+            执行命令，并返回影响函数
+            </summary>
+            <returns>影响行数</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ToDataTable">
+            <summary>
+            执行查询，以DataTable形式返回结果
+            </summary>
+            <returns>数据集</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ToDataSet">
+            <summary>
+            执行查询，以DataSet形式返回结果
+            </summary>
+            <returns>数据集</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ExecuteReader">
+            <summary>
+            执行命令，返回DbDataReader对象实例
+            </summary>
+            <returns>DbDataReader实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ExecuteScalar``1">
+            <summary>
+            执行命令，返回第一行第一列的值
+            </summary>
+            <typeparam name="T">返回值类型</typeparam>
+            <returns>结果集的第一行,第一列</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ToScalarList``1">
+            <summary>
+            执行命令，并返回第一列的值列表
+            </summary>
+            <typeparam name="T">返回值类型</typeparam>
+            <returns>结果集的第一列集合</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ToList``1">
+            <summary>
+            执行命令，将结果集转换为实体列表
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <returns>实体集合</returns>
+        </member>
+        <member name="M:ClownFish.Data.BaseCommand.ToSingle``1">
+            <summary>
+            执行命令，将结果集的第一行转换为实体
+            </summary>
+            <typeparam name="T">实体类型</typeparam>
+            <returns>实体</returns>
+        </member>
+        <member name="T:ClownFish.Data.ConnectionManager">
+            <summary>
+            管理数据库的连接信息。
+            即使不调用，也会自动调用Init()方法一次。
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.ConnectionManager.s_defaultConnection">
+            <summary>
+            默认的连接（第一个注册的连接）
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionManager.Init">
+            <summary>
+            用web.config或者app.config中的数据库连接信息初始化，
+            框架会默认使用这种方式完成初始化过程。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionManager.Init(System.String)">
+            <summary>
+            使用指定的配置文件初始化连接信息，配置文件要求包含ConnectionStringSettings配置节点
+            </summary>
+            <param name="configFilePath"></param>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionManager.RegisterConnection(System.Configuration.ConnectionStringSettings)">
+            <summary>
+            直接注册数据库连接
+            </summary>
+            <param name="setting"></param>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionManager.GetConnection(System.String)">
+            <summary>
+            根据名称获取对应的连接信息
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.ConnectionInfo">
+            <summary>
+            数据库连接的描述信息
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ConnectionInfo.ConnectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ConnectionInfo.ProviderName">
+            <summary>
+            数据库提供者类型名称
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.CPQueryFactory">
+            <summary>
+            CPQuery工厂类，供框架内部使用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryFactory.Create(System.String)">
+            <summary>
+            根据指定的参数化SQL创建CPQuery实例
+            </summary>
+            <param name="parameterizedSQL"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryFactory.Create(System.String,System.Object)">
+            <summary>
+            根据指定的参数化SQL和参数对象创建CPQuery实例
+            </summary>
+            <param name="parameterizedSQL"></param>
+            <param name="argsObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryFactory.Create(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            根据指定的参数化SQL和参数对象创建CPQuery实例
+            </summary>
+            <param name="parameterizedSQL"></param>
+            <param name="dictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryFactory.Create(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据指定的参数化SQL和参数对象创建CPQuery实例
+            </summary>
+            <param name="parameterizedSQL"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DefaultDataLoader`1">
+            <summary>
+            默认的实体加载IDataLoader实现
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:ClownFish.Data.DataLoaderFactory">
+            <summary>
+            DataLoader工厂
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DataLoaderFactory.GetLoader``1">
+            <summary>
+            获取某种数据类型的IDataLoader实现对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DataLoaderFactory.RegisterType(System.Type)">
+            <summary>
+            注册数据实体类型对应的IDataLoader实现类型
+            </summary>
+            <param name="dataloaderType"></param>
+        </member>
+        <member name="M:ClownFish.Data.DataLoaderFactory.RegisterInstance(System.Object)">
+            <summary>
+            注册数据实体类型对应的IDataLoader实现对象
+            </summary>
+            <param name="instance"></param>
+        </member>
+        <member name="M:ClownFish.Data.DataLoaderFactory.BatchRegister(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            （内部使用的）批量注册DataLoader
+            </summary>
+            <param name="dataloaders"></param>
+        </member>
+        <member name="T:ClownFish.Data.EntityProxyFactory">
+            <summary>
+            实体代理的工厂类型
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.EntityProxyFactory.GetProxy(System.Type)">
+            <summary>
+            获取某个实体类型的代理类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.EntityProxyFactory.Register(System.Type)">
+            <summary>
+            注册实体的代理类型
+            </summary>
+            <param name="proxyType"></param>
+        </member>
+        <member name="M:ClownFish.Data.EntityProxyFactory.BatchRegister(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            （内部使用的）批量注册EntityProxy
+            </summary>
+            <param name="proxyTypes"></param>
+        </member>
+        <member name="T:ClownFish.Data.EventManager">
+            <summary>
+            数据访问过程中的事件管理类
+            </summary>
+        </member>
+        <member name="E:ClownFish.Data.EventManager.ConnectionOpened">
+            <summary>
+            连接打开事件
+            </summary>
+        </member>
+        <member name="E:ClownFish.Data.EventManager.BeforeExecute">
+            <summary>
+            命令执行之前事件
+            </summary>
+        </member>
+        <member name="E:ClownFish.Data.EventManager.AfterExecute">
+            <summary>
+            命令执行之后事件
+            </summary>
+        </member>
+        <member name="E:ClownFish.Data.EventManager.OnException">
+            <summary>
+            异常事件
+            </summary>
+        </member>
+        <member name="E:ClownFish.Data.EventManager.OnCommit">
+            <summary>
+            提交事务
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.ConnectionEventArgs">
+            <summary>
+            数据库连接事件参数
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ConnectionEventArgs.Connection">
+            <summary>
+            当前打开的数据库连接
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.CommandEventArgs">
+            <summary>
+            执行命令事件参数（执行前，执行后）
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CommandEventArgs.Command">
+            <summary>
+            当前正在执行的数据库命令（CPQuery/XmlCommand/StoreProcedure）
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CommandEventArgs.DbCommand">
+            <summary>
+            当前正在执行的数据库命令（DbCommand实例）
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.ExceptionEventArgs">
+            <summary>
+            异常事件参数
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ExceptionEventArgs.Exception">
+            <summary>
+            异常事件中包含的内部异常
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.IDataLoader`1">
+            <summary>
+            定义每个实体的数据加载接口
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:ClownFish.Data.IDataLoader`1.ToSingle(System.Data.DataRow)">
+            <summary>
+            从DataRow中加载单个实体对象
+            </summary>
+            <param name="row"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IDataLoader`1.ToSingle(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader中加载单个实体对象
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IDataLoader`1.ToList(System.Data.DataTable)">
+            <summary>
+            从DataTable中加载实体列表
+            </summary>
+            <param name="table"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.IDataLoader`1.ToList(System.Data.Common.DbDataReader)">
+            <summary>
+            从DbDataReader中加载实体列表
+            </summary>
+            <param name="reader"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.ParaNameBuilder">
+            <summary>
+            构造参数名的基类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ParaNameBuilder.GetParaName(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的命令参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.ParaNameBuilder.GetPlaceholder(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的SQL语句中的参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.SqlParaNameBuilder">
+            <summary>
+            ParaNameBuilder的SQLSERVER实现类（也可用于MySQL, Sqlite）
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.SqlParaNameBuilder.GetParaName(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的命令参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.SqlParaNameBuilder.GetPlaceholder(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的SQL语句中的参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.OleDbParaNameBuilder">
+            <summary>
+            ParaNameBuilder的OleDb实现类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.OleDbParaNameBuilder.GetParaName(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的命令参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.OleDbParaNameBuilder.GetPlaceholder(System.String)">
+            <summary>
+            根据指定的名称返回与数据库类型匹配的SQL语句中的参数名称
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.ParaNameBuilderFactory">
+            <summary>
+            ParaNameBuilder的工厂类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ParaNameBuilderFactory.GetBuilder(System.Data.Common.DbCommand)">
+            <summary>
+            根据指定的DbCommand创建匹配的ParaNameBuilder，
+            框架直接三种DbCommand类型：SqlCommand, OdbcCommand, OleDbCommand
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.ParaNameBuilderFactory.TryGetOtherBuilder(System.Data.Common.DbCommand)">
+            <summary>
+            创建其它数据库类型匹配的ParaNameBuilder，
+            例如要支持Oralce，它的参数名要求以冒号开头。
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DataExtensions">
+            <summary>
+            用于数据加载相关的扩展工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DataExtensions.GetColumnNames(System.Data.Common.DbDataReader)">
+            <summary>
+            返回一个DbDataReader对象获取到的结果集的全部列名
+            </summary>
+            <param name="reader">DbDataReader实例</param>
+            <returns>结果集的全部列名</returns>
+        </member>
+        <member name="M:ClownFish.Data.DataExtensions.GetColumnNames(System.Data.DataTable)">
+            <summary>
+            返回一个DataTable包含的全部列名
+            </summary>
+            <param name="table">DataTable实例</param>
+            <returns>数据表的全部列名</returns>
+        </member>
+        <member name="M:ClownFish.Data.DataExtensions.FindIndex(System.String[],System.String)">
+            <summary>
+            在一个字符串数组中查找指定的字符串所在的序号。
+            </summary>
+            <param name="array">一个字符串数组</param>
+            <param name="value">要搜索的字符串</param>
+            <returns>如果找到，则返回从零开始的索引；否则为 -1。</returns>
+        </member>
+        <member name="M:ClownFish.Data.DataExtensions.FindIndex(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            在一个字符串列表中查找指定的字符串所在的序号。
+            </summary>
+            <param name="list">一个字符串列表</param>
+            <param name="value">要搜索的字符串</param>
+            <returns>如果找到，则返回从零开始的索引；否则为 -1。</returns>
+        </member>
+        <member name="T:ClownFish.Data.ProviderFactoryHelper">
+            <summary>
+            DbProviderFactory的辅助工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ProviderFactoryHelper.GetDbProviderFactory(System.String)">
+            <summary>
+            根据指定的数据提供者名称创建对应的DbProviderFactory实例，
+            如果不能创建指定的提供者，将会抛出异常
+            </summary>
+            <param name="providerName">数据提供者名称</param>
+            <returns>与数据提供者名称对应的DbProviderFactory实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.ProviderFactoryHelper.GetDbProviderFactoryViaReflection(System.String)">
+            <summary>
+            当DbProviderFactories.GetFactory的注册机制无效时，再尝试使用反射方式查找DbProviderFactory
+            </summary>
+            <param name="providerName">数据提供者名称</param>
+            <returns>与数据提供者名称对应的DbProviderFactory实例</returns>
+        </member>
+        <member name="T:ClownFish.Data.SqlFragment">
+            <summary>
+            表示一个SQL片段，用于和CPQuery一起拼接
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.SqlFragment.Value">
+            <summary>
+            对象的值
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.SqlFragment.#ctor(System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="text"></param>
+        </member>
+        <member name="M:ClownFish.Data.SqlFragment.ToString">
+            <summary>
+            重写ToString方法
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.StoreProcedureFactory">
+            <summary>
+            StoreProcedure工厂，供框架内部使用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedureFactory.Create(System.String)">
+            <summary>
+            根据存储过程名称创建StoreProcedure实例
+            </summary>
+            <param name="spName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedureFactory.Create(System.String,System.Object)">
+            <summary>
+            根据存储过程名称和参数对象创建StoreProcedure实例
+            </summary>
+            <param name="spName"></param>
+            <param name="parameterObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedureFactory.Create(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            根据存储过程名称和参数对象创建StoreProcedure实例
+            </summary>
+            <param name="spName"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.TableExtensions">
+            <summary>
+            从DataTable加载数据的扩展工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.TableExtensions.ToList``1(System.Data.DataTable)">
+            <summary>
+            从DataTable中加载一个实体列表
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="table"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.TableExtensions.ToSingle``1(System.Data.DataRow)">
+            <summary>
+            从DataRow加载一个实体对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="row"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.XmlCommandFactory">
+            <summary>
+            XmlCommand工厂，供框架内部使用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommandFactory.Create(System.String)">
+            <summary>
+            根据XmlCommand名称创建XmlCommand实例
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommandFactory.Create(System.String,System.Object)">
+            <summary>
+            根据XmlCommand名称和参数对象创建XmlCommand实例
+            </summary>
+            <param name="name"></param>
+            <param name="argsObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommandFactory.Create(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            根据XmlCommand名称和参数对象创建XmlCommand实例
+            </summary>
+            <param name="name"></param>
+            <param name="dictionary"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DbEntityAttribute">
+            <summary>
+            描述数据实体属性
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbEntityAttribute.Alias">
+            <summary>
+            别名
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Entity">
+            <summary>
+            数据实体的基类
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Entity.DbContext">
+            <summary>
+            获取与当前实体关联的DbContext实例
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.Entity.GetProxy(ClownFish.Data.DbContext)">
+            <summary>
+            根据当前实体创建代理对象，然后可执行数据库更新操作，
+            代理对象将监视属性的赋值过程，当给代理对象的属性赋值后，对应的字段会标记为更新状态。
+            </summary>
+            <param name="context"></param>
+            <returns>与实体相关的代理对象</returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.From``1">
+            <summary>
+            创建与实体相关的EntityTable实例，开始数据库操作
+            </summary>
+            <typeparam name="T">实体的类型参数</typeparam>
+            <returns>与实体相关的EntityTable实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.Query``1(System.Boolean)">
+            <summary>
+            开始LINQ查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="withNoLock">是否在表名后面添加 with(nolock) 提示</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.BeginEdit``1(``0)">
+            <summary>
+            创建与实体相关的代理对象，并指示实体进入编辑状态，
+            请基于此方法的返回值来修改实体的属性，而不要直接修改原实体对象。
+            例如：var product = Entity.BeginEdit(product);
+            注意：Insert/Delete/Update操作必须基本此方法的返回值对象才能调用。
+            如果不指定entity参数，就创建一个新的实体对象（可用于新增）来封装代理对象。
+            </summary>
+            <typeparam name="T">实体的类型参数</typeparam>
+            <param name="entity">需要封装成代理的实体对象</param>
+            <returns>与实体相关的代理对象</returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.Insert">
+            <summary>
+            根据已修改的实体属性，生成INSERT语句，并执行数据库插入操作，
+            注意：此方法只能在实体的代理对象上调用。
+            </summary>
+            <returns>数据库操作过程中影响的行数</returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.Delete">
+            <summary>
+            根据已修改的实体属性，生成DELETE查询条件，并执行数据库插入操作，
+            注意：此方法只能在实体的代理对象上调用。
+            </summary>
+            <returns>数据库操作过程中影响的行数</returns>
+        </member>
+        <member name="M:ClownFish.Data.Entity.Update">
+            <summary>
+            根据已修改的实体属性，生成UPDATE操作语句（WHERE条件由主键生成[DbColumn(PrimaryKey=true)]），并执行数据库插入操作，
+            注意：此方法只能在实体的代理对象上调用。
+            </summary>
+            <returns>数据库操作过程中影响的行数</returns>
+        </member>
+        <member name="T:ClownFish.Data.ConnectionScope">
+            <summary>
+            表示连接与事务的作用域
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.Create">
+            <summary>
+            使用默认的连接字符串创建ConnectionScope实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.GetExistOrCreate">
+            <summary>
+            尝试从当前上下文中获取已存在的ConnectionScope，
+            如果没有已存在的实例，就用默认的连接字符串创建一个ConnectionScope实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.Create(System.String)">
+            <summary>
+            根据指定的数据库连接字符串创建ConnectionScope实例
+            </summary>
+            <param name="connectionName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.Create(System.String,System.String)">
+            <summary>
+            根据指定的数据库连接字符串和数据库类型创建ConnectionScope实例
+            </summary>
+            <param name="connectionString"></param>
+            <param name="providerName"></param>
+            <returns></returns>
+        </member>
+        <member name="F:ClownFish.Data.ConnectionScope.s_current">
+            <summary>
+            用一个静态变量来保存【当前实例】的引用
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.ConnectionScope._lastInstance">
+            <summary>
+            当前using范围块之前的ConnectionScope实例
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.Dispose">
+            <summary>
+            实现IDisposable接口
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.ConnectionScope.Context">
+            <summary>
+            DbContext实例引用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.BeginTransaction">
+            <summary>
+            开启数据库事务
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.ConnectionScope.Commit">
+            <summary>
+            提交数据库事务
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.CPQuery">
+            <summary>
+            安全简单的拼接SQL的工具类
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.CPQuery.Command">
+            <summary>
+            获取当前CPQuery内部的DbCommand对象，
+            当前重写属性会更新CommandText属性
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.Create(System.String)">
+            <summary>
+            根据指定的参数化SQL语句，创建CPQuery对象实例
+            </summary>
+            <param name="parameterizedSQL">参数化SQL语句</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.Create(System.String,System.Object)">
+            <summary>
+            根据指定的参数化SQL语句，匿名对象参数，创建CPQuery对象实例
+            </summary>
+            <param name="parameterizedSQL">参数化SQL语句</param>
+            <param name="argsObject">匿名对象，每个属性对应一个命令参数</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.Create(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            通过参数化SQL、哈希表的方式,创建CPQuery对象实例
+            </summary>
+            <param name="parameterizedSQL">参数化的SQL字符串</param>
+            <param name="dictionary">哈希表</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.Create(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            通过参数化SQL、SqlParameter数组的方式，创建CPQuery实例
+            </summary>
+            <param name="parameterizedSQL">参数化的SQL字符串</param>
+            <param name="parameters">SqlParameter参数数组</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.SetInArrayParameters(System.String,System.Collections.ICollection)">
+            <summary>
+            设置 IN 参数，参数名称格式要求：{parameterName}
+            例如：select * from t1 where rid in ( {parameterName} )
+            </summary>
+            <param name="name"></param>
+            <param name="collection"></param>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.AppendArrayParameter(System.Collections.ICollection)">
+            <summary>
+            供LINQ查询中的IN操作，用于拼接一个 IN 数组（或者集合）
+            </summary>
+            <param name="collection"></param>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.ArrayToString(System.Collections.ICollection,System.Text.StringBuilder)">
+            <summary>
+            尝试将 int[], Guid[] 变成 SQL语句中的一部分
+            </summary>
+            <param name="collection"></param>
+            <param name="sb"></param>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.MoveParameters(System.Data.Common.DbCommand)">
+            <summary>
+            将当前所有的命令参数转移到指定的DbCommand中
+            </summary>
+            <param name="command"></param>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.ToString">
+            <summary>
+            返回CPQuery中生成的SQL语句
+            </summary>
+            <returns>SQL语句</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,System.String)">
+            <summary>
+            添加SQL语句片段
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="s">SQL语句片段</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,System.Text.StringBuilder)">
+            <summary>
+            添加SQL语句片段
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="s">SQL语句片段</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,ClownFish.Data.SqlFragment)">
+            <summary>
+            将字符串拼接到CPQuery对象
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="s">SqlText对象</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,ClownFish.Data.CPQuery)">
+            <summary>
+            将QueryParameter实例拼接到CPQuery对象
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="query2">QueryParameter对象实例</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,ClownFish.Data.QueryParameter)">
+            <summary>
+            将QueryParameter实例拼接到CPQuery对象
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="p">QueryParameter对象实例</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQuery.op_Addition(ClownFish.Data.CPQuery,System.Data.Common.DbParameter)">
+            <summary>
+            将SqlParameter实例拼接到CPQuery对象
+            </summary>
+            <param name="query">CPQuery对象实例</param>
+            <param name="p">SqlParameter对象实例</param>
+            <returns>CPQuery对象实例</returns>
+        </member>
+        <member name="T:ClownFish.Data.QueryParameter">
+            <summary>
+            表示一个SQL参数对象
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.#ctor(System.Object)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="val">要包装的参数值</param>
+        </member>
+        <member name="P:ClownFish.Data.QueryParameter.Value">
+            <summary>
+            参数值
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Explicit(System.String)~ClownFish.Data.QueryParameter">
+            <summary>
+            将string【显式】转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.DBNull)~ClownFish.Data.QueryParameter">
+            <summary>
+            将DBNull隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Boolean)~ClownFish.Data.QueryParameter">
+            <summary>
+            将bool隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Char)~ClownFish.Data.QueryParameter">
+            <summary>
+            将char隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.SByte)~ClownFish.Data.QueryParameter">
+            <summary>
+            将sbyte隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Byte)~ClownFish.Data.QueryParameter">
+            <summary>
+            将byte隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Int32)~ClownFish.Data.QueryParameter">
+            <summary>
+            将int隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.UInt32)~ClownFish.Data.QueryParameter">
+            <summary>
+            将uint隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Int64)~ClownFish.Data.QueryParameter">
+            <summary>
+            将long隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.UInt64)~ClownFish.Data.QueryParameter">
+            <summary>
+            将ulong隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Int16)~ClownFish.Data.QueryParameter">
+            <summary>
+            将short隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.UInt16)~ClownFish.Data.QueryParameter">
+            <summary>
+            将ushort隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Single)~ClownFish.Data.QueryParameter">
+            <summary>
+            将float隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Double)~ClownFish.Data.QueryParameter">
+            <summary>
+            将double隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Decimal)~ClownFish.Data.QueryParameter">
+            <summary>
+            将decimal隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Guid)~ClownFish.Data.QueryParameter">
+            <summary>
+            将Guid隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.DateTime)~ClownFish.Data.QueryParameter">
+            <summary>
+            将DateTime隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.QueryParameter.op_Implicit(System.Byte[])~ClownFish.Data.QueryParameter">
+            <summary>
+            将byte隐式转换为QueryParameter
+            </summary>
+            <param name="value">要转换的值</param>
+            <returns>QueryParameter实例</returns>
+        </member>
+        <member name="T:ClownFish.Data.CPQueryExtensions">
+            <summary>
+            提供CPQuery扩展方法的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryExtensions.AsCPQuery(System.String)">
+            <summary>
+            将指定的字符串（T-SQL的片段）转成CPQuery对象
+            </summary>
+            <param name="sql">T-SQL的片段的字符串</param>
+            <returns>包含T-SQL的片段的CPQuery对象</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryExtensions.AsQueryParameter(System.String)">
+            <summary>
+            将string转换成QueryParameter对象
+            </summary>
+            <param name="value">要转换成QueryParameter的原对象</param>
+            <returns>转换后的QueryParameter对象</returns>
+        </member>
+        <member name="M:ClownFish.Data.CPQueryExtensions.AsSql(System.String)">
+            <summary>
+            SqlFragment
+            </summary>
+            <param name="text">T-SQL的片段的字符串</param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.DbColumnAttribute">
+            <summary>
+            定义数据列的描述信息
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbColumnAttribute.Alias">
+            <summary>
+            数据库字段名（相对于C#属性来说就是别名）
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbColumnAttribute.Ignore">
+            <summary>
+            是否不从数据库加载
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbColumnAttribute.PrimaryKey">
+            <summary>
+            是否主键（用于UPDATE操作生成WHERE条件）
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.DbContext">
+            <summary>
+            数据访问的上下文信息
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbContext.AutoDisposable">
+            <summary>
+            是否需要自动释放。
+            如果启用，将在执行完一次数据库操作后自动释放
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbContext.CPQuery">
+            <summary>
+            CPQuery工厂实例引用
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbContext.XmlCommand">
+            <summary>
+            XmlCommand工厂实例引用
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbContext.StoreProcedure">
+            <summary>
+            StoreProcedure工厂实例引用
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.DbContext.Entity">
+            <summary>
+            EntityMethodFactory实例引用
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.Create">
+            <summary>
+            使用默认的连接字符串创建DbContext实例
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.Create(System.String)">
+            <summary>
+            根据指定的数据库连接字符串创建DbContext实例
+            </summary>
+            <param name="connectionName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.Create(System.String,System.String)">
+            <summary>
+            根据指定的数据库连接字符串和数据库类型创建DbContext实例
+            </summary>
+            <param name="connectionString"></param>
+            <param name="providerName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.OpenConnection">
+            <summary>
+            同步方式打开数据库连接
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.OpenConnectionAsync">
+            <summary>
+            异步方式打开数据库连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.InitConnection">
+            <summary>
+            用于连接创建后的初始化
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.ChangeDatabase(System.String)">
+            <summary>
+            为打开的连接更改当前数据库。
+            </summary>
+            <param name="databaseName"></param>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.BeginTransaction">
+            <summary>
+            开启数据库事务
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.BeginTransaction(System.Data.IsolationLevel)">
+            <summary>
+            开启数据库事务，并指定事务的隔离级别
+            </summary>
+            <param name="isolationLevel"></param>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.Commit">
+            <summary>
+            提交数据库事务
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.CreateParameter(System.Data.DbType,System.Object,System.Nullable{System.Int32})">
+            <summary>
+            创建一个常用的命令参数
+            </summary>
+            <param name="dbType"></param>
+            <param name="value"></param>
+            <param name="size"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.CreateOutParameter(System.Data.DbType,System.Nullable{System.Int32},System.Object)">
+            <summary>
+            创建一个用于输出的命令参数
+            </summary>
+            <param name="dbType"></param>
+            <param name="size"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.DbContext.Dispose">
+            <summary>
+            实现IDisposable接口
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.PagingInfo">
+            <summary>
+            基本的分页信息。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.PagingInfo.PageIndex">
+            <summary>
+            分页序号，从0开始计数
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.PagingInfo.PageSize">
+            <summary>
+            分页大小
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.PagingInfo.TotalRows">
+            <summary>
+            从相关查询中获取到的符合条件的总记录数
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.PagingInfo.CalcPageCount">
+            <summary>
+            计算总页数
+            </summary>
+            <returns>总页数</returns>
+        </member>
+        <member name="T:ClownFish.Data.StoreProcedure">
+            <summary>
+            表示一个存储过程命令
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedure.Init(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="spName">存储过程名称</param>
+            <param name="parameters">DbParameter参数数组</param>
+            <returns>StoreProcedure实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedure.Create(System.String)">
+            <summary>
+            创建StoreProcedure对象的实例
+            </summary>
+            <param name="spName">存储过程名称</param>
+            <returns>StoreProcedure对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedure.Create(System.String,System.Object)">
+            <summary>
+            创建StoreProcedure对象的实例
+            </summary>
+            <param name="spName">存储过程名称</param>
+            <param name="argsObject">匿名对象参数</param>
+            <returns>StoreProcedure对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.StoreProcedure.Create(System.String,System.Data.Common.DbParameter[])">
+            <summary>
+            创建StoreProcedure对象的实例
+            </summary>
+            <param name="spName">存储过程名称</param>
+            <param name="parameters">匿名对象</param>
+            <returns>StoreProcedure对象实例</returns>
+        </member>
+        <member name="M:ClownFish.Data.ReflectionExtensions.GetCommonestTypeName(System.Type)">
+            <summary>
+            获取一些常用类型的简写名称，免得生成像 System.Int32 这样长名称
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Data.TypeList">
+            <summary>
+            免得老是写typeof(xxx)，定义一个静态类型方便写代码
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Xml.XmlCmdParameter">
+            <summary>
+            XmlCommand的命令参数。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCmdParameter.Name">
+            <summary>
+            参数名称
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCmdParameter.Type">
+            <summary>
+            参数的数据类型
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCmdParameter.Size">
+            <summary>
+            参数值的长度。
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.Xml.XmlCmdParameter.Direction">
+            <summary>
+            参数的输入输出方向
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Xml.XmlCommandItem">
+            <summary>
+            表示*.XmlCommand.config文件中的一个XmlCommand配置项。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCommandItem.CommandName">
+            <summary>
+            命令的名字，这个名字将在XmlCommand.From时被使用。
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.Xml.XmlCommandItem.Parameters">
+            <summary>
+            命令所引用的所有参数集合
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCommandItem.CommandText">
+            <summary>
+            命令的文本。是一段可运行的SQL脚本或存储过程名称。
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.Xml.XmlCommandItem.CommandType">
+            <summary>
+            SQL命令类型
+            </summary>
+        </member>
+        <member name="F:ClownFish.Data.Xml.XmlCommandItem.Timeout">
+            <summary>
+            获取或设置在终止执行命令的尝试并生成错误之前的等待时间。 
+            </summary>
+        </member>
+        <member name="P:ClownFish.Data.Xml.XmlCommandItem.Database">
+            <summary>
+            指示CommandText中的语句相对于哪个数据库。【可以为空】，
+            如果指定这个设置，将在执行语句前切换数据库。
+            </summary>
+        </member>
+        <member name="T:ClownFish.Data.Xml.XmlCommandManager">
+            <summary>
+            用于维护配置文件中数据库访问命令的管理类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.Xml.XmlCommandManager.LoadFromText(System.String)">
+            <summary>
+            从指定的Xml字符串加载XmlCommand（例如将XmlCommand文件做为嵌入程序集资源）
+            </summary>
+            <param name="xml">xml字符串</param>
+        </member>
+        <member name="M:ClownFish.Data.Xml.XmlCommandManager.LoadFromDirectory(System.String)">
+            <summary>
+            <para>从指定的目录中加载全部的用于数据访问命令。</para>
+            <para>说明：1. 这个方法只需要在程序初始化调用一次就够了。</para>
+            <para>       2. 如果是一个ASP.NET程序，CommandManager还会负责监视此目录，如果文件有更新，会自动重新加载。</para>
+            </summary>
+            <param name="directoryPath">包含数据访问命令的目录。不加载子目录，仅加载扩展名为 .config 的文件。</param>
+        </member>
+        <member name="M:ClownFish.Data.Xml.XmlCommandManager.GetCommand(System.String)">
+            <summary>
+            根据配置文件中的命令名获取对应的命令对象。
+            </summary>
+            <param name="name">命令名称，它应该能对应一个XmlCommand</param>
+            <returns>如果找到符合名称的XmlCommand，则返回它，否则返回null</returns>
+        </member>
+        <member name="T:ClownFish.Data.XmlCommand">
+            <summary>
+            一种将SQL语句配置在XML中数据库操作命令
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.Create(System.String,System.Object)">
+            <summary>
+            创建一个XmlCommand对象实例。
+            </summary>
+            <param name="name">命令名字</param>
+            <param name="argsObject">匿名对象表示的参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.Create(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            创建一个XmlCommand对象实例。
+            </summary>
+            <param name="name">命令名字</param>
+            <param name="dictionary">要传递的参数字典</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.GetParameter(System.String)">
+            <summary>
+            根据指定的命令参数名称获取XmlCommand已定义的命令参数
+            </summary>
+            <param name="name">XML配置文件中定义的参数名称，包含参数前缀</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.SetParameter(System.String,System.Object)">
+            <summary>
+            根据指定的name/value，给命令参数赋值，或者处理【占位符参数】
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.FillParameters(ClownFish.Data.Xml.XmlCommandItem)">
+            <summary>
+            将XmlCommand中定义的参数填充到命令中
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:ClownFish.Data.XmlCommand.BeforeExecute">
+            <summary>
+            开始执行数据库操作前要处理的额外操作
+            </summary>
+        </member>
+    </members>
+</doc>

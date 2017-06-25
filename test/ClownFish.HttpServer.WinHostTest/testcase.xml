@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfRequestTest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/NewGuid.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="36" />
+                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Now.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="19" />
+                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Sha1.aspx?s=fish-li HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="=" value="Sha1(fish-li) = EC28DFD34504F5E8D721381A11C355072D20FBD8" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ShowAgent.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="ClownFish.net.HttpClient/" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ShowBody.aspx HTTP/1.1
+
+aaaaaaa中文汉字aaaaaaaaaaaaaaaaaaa
+可以将 REM 语句单独放在一行，也可以将之放在另一语句后的行上。 
+REM 语句必须是该行上最后的语句。 如果它跟在另一语句后面，则 REM 与该语句间必须有一个空格。
+ccccccccccccccccccccccccc
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="aaaaaaa中文汉字aaaaaaaaaaaaaaaaaaa" />
+                <check name="Text" check="include" value="可以将 REM 语句单独放在一行，也可以将之放在另一语句后的行上。 " />
+                <check name="Text" check="include" value="ccccccccccccccccccccccccc" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Add.aspx?a=2&b=3 HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="404">
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoService" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ErrorTest.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="500">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="ErrorTest_InvalidOperationException" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/NewGuid.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="36" />
+                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="19" />
+                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx?sleepMillisecondsTimeout=1000 HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="19" />
+                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Sha1/fishli.aspx HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="40" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Add.aspx?a=2&b=3 HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="404">
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoController" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/model/53/fishli/ok.aspx  HTTP/1.1
+Content-Type: application/json
+
+{"Id":123,"Name":"abcd"}
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="=" value="a=53, b=fishli, id=123, name=abcd" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+
+    <RequestTest Category="DemoHandler" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=NewGuid HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="36" />
+                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="DemoHandler" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=GetTime HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Length" check="=" value="19" />
+                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+
+    <RequestTest Category="Website" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/index.html HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/html; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="&lt;!DOCTYPE html&gt;" />
+                <check name="Text" check="include" value="&lt;title&gt;Hello ClownFish.HttpServer&lt;/title&gt;" />
+                <check name="Text" check="include" value="/static/Stylesheet1.css" />
+                <check name="Text" check="include" value="/static/JavaScript1.js" />
+                <check name="Text" check="include" value="&lt;h1&gt;Hello ClownFish.HttpServer !&lt;/h1&gt;" />
+                <check name="Text" check="include" value="&lt;p&gt;中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！&lt;/p&gt;" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="Website" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/static/Stylesheet1.css HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/css; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="font-size: 12px;" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+    <RequestTest Category="Website" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/static/JavaScript1.js HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="application/javascript; charset=UTF-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="include" value="// This is javascript file." />
+                <check name="Text" check="include" value="// 中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
+
+    <RequestTest Category="XmlCommamnd" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/api/xmlcommand/query/GetCustomerById.aspx HTTP/1.1
+
+CustomerID=1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+            </Headers>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="XmlCommamnd" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/api/xmlcommand/execute/ChangeProductQuantity.aspx HTTP/1.1
+
+ProductID=1&Quantity=53
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+            </Headers>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="XmlCommamnd" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/api/xmlcommand/query/GetProductByCategoryId.aspx HTTP/1.1
+X-Gzip-Respond: 1
+
+CategoryID=1&PageIndex=2&PageSize=5&TotalRecords=0
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Encoding" check="=" value="gzip" />
+            </Headers>
+        </Response>
+    </RequestTest>
+
+
+    <RequestTest Category="XmlCommamnd" Title="">
+        <Request>
+            <![CDATA[
+POST http://localhost:50456/api/xmlcommand/page-2-5/GetProductListByCategoryId.aspx HTTP/1.1
+X-Gzip-Respond: 1
+
+CategoryID=1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Encoding" check="=" value="gzip" />
+            </Headers>
+        </Response>
+    </RequestTest>
+
+
+
+
+
+</ArrayOfRequestTest>

@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF0F48F6-EAEE-46B9-8256-AFB55B441EEA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClownFish.HttpServer</RootNamespace>
+    <AssemblyName>ClownFish.HttpServer</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\ClownFish.HttpServer.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\ClownFish.HttpServer.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClownFish.Base">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\ControllerAssemblyAttribute.cs" />
+    <Compile Include="Attributes\FromBodyAttribute.cs" />
+    <Compile Include="Attributes\FromRequestAttribute.cs" />
+    <Compile Include="Common\AssemblyLoader.cs" />
+    <Compile Include="Common\DictionaryExtensions.cs" />
+    <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
+    <Compile Include="Routing\RouteHelper.cs" />
+    <Compile Include="Routing\RouteAttribute.cs" />
+    <Compile Include="Handlers\ErrorHandler.cs" />
+    <Compile Include="InvalidCodeException.cs" />
+    <Compile Include="Routing\RouteMatchExistException.cs" />
+    <Compile Include="Routing\RoutingObject.cs" />
+    <Compile Include="Web\HttpApplicationEndRequestException.cs" />
+    <Compile Include="Web\HttpApplicationFactory.cs" />
+    <Compile Include="Web\HttpHandlerFactory.cs" />
+    <Compile Include="Routing\RouteUrlAttribute.cs" />
+    <Compile Include="Handlers\Http404Handler.cs" />
+    <Compile Include="Result\ResultConvert.cs" />
+    <Compile Include="ServerOptions.cs" />
+    <Compile Include="Common\TypeExtensions.cs" />
+    <Compile Include="Web\HttpModule.cs" />
+    <Compile Include="Web\HttpApplication.cs" />
+    <Compile Include="Web\IHttpHandler.cs" />
+    <Compile Include="Handlers\OptionsHandler.cs" />
+    <Compile Include="Web\HttpContext.cs" />
+    <Compile Include="Web\HttpRequest.cs" />
+    <Compile Include="ServerHost.cs" />
+    <Compile Include="Common\ParameterResolver.cs" />
+    <Compile Include="Web\IHttpHandlerFactory.cs" />
+    <Compile Include="Web\IRequireHttpContext.cs" />
+    <Compile Include="Web\RequestDataType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Web\ResponseContentType.cs" />
+    <Compile Include="Result\IActionResult.cs" />
+    <Compile Include="Result\JsonResult.cs" />
+    <Compile Include="Result\TextResult.cs" />
+    <Compile Include="Web\HttpResponse.cs" />
+    <Compile Include="Routing\RoutingManager.cs" />
+    <Compile Include="Web\ServiceHandler.cs" />
+    <Compile Include="Common\StringConverter.cs" />
+    <Compile Include="Handlers\StaticFileHandler.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Routing\_三种路由方式.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

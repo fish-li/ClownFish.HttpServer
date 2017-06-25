@@ -1,6 +1,7 @@
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
+ErrorLog.txt
 
 # Folder config file
 Desktop.ini
@@ -40,4 +41,18 @@ $RECYCLE.BIN/
 .AppleDesktop
 Network Trash Folder
 Temporary Items
+obj
+TestResults
+Log111
+bin
+dll_release
+
 .apdisk
+*.pdb
+*.suo
+*.user
+*.CodeAnalysisLog.xml
+*.lastcodeanalysissucceeded
+
+
+.vs/

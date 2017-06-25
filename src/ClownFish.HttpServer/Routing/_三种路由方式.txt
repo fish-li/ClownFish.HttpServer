@@ -1,0 +1,51 @@
+﻿
+
+第一种路由方式（映射到IHttpHandler）
+在实现 IHttpHandler 的【类型】上标记 [RouteUrl("......")]
+RouteUrl的构造函数的参数可以是三种形式之一：
+1、固定URL，例如：[RouteUrl("/inner-test.aspx")]
+2、URL占位符模式，例如：[RouteUrl(@"/page/{id}/{year}-{month}-{day}.aspx")]
+3、正则表达式，例如：[RouteUrl(@"/m/(?<guid>[^/]{36})\.aspx")]
+说明：“URL占位符模式”其实会在内部转换成正则表达式。
+
+
+
+第二种路由方式（映射到Controller/Service类型）
+在【类型】上标记 [Route("/api/ns/class/{action}.aspx")]，必须指定参数
+在【方法】上标记 [RouteAction(Name = "New-Guid")]，Name属性将用于替换{action}占位符
+或者，公开的方法也可以响应HTTP请求，方法名将用于替换{action}占位符
+或者，指定 [RouteIgnore] 将会忽略某个公开的方法做路由匹配
+如果，[Route]的Url属性没有包含{action}占位符，那么Request.HttpMethod将替换{action}占位符
+此外，[Route]的Url属性允许包含其它的占位符，例如：Url = "/api/product/{id}", 那么将会根据HttpMethod来匹配对应的方法名
+
+
+
+
+第三种路由方式（映射到Action方法）
+在【类型】上标记 [Route]
+在【方法】上标记 [RouteUrl("......")]
+RouteUrl的构造函数的参数同样支持三种形式，
+1、固定URL，例如：[RouteUrl("/inner-test.aspx")]
+2、URL占位符模式，例如：[RouteUrl(@"/page/{id}/{year}-{month}-{day}.aspx")]
+3、正则表达式，例如：[RouteUrl(@"/m/(?<guid>[^/]{36})\.aspx")]
+所有没有标记的方法将【不参与】路由匹配
+注意：如果类型指定了 [Route(Url = ".....")]，方法上的 [RouteUrl] 不起作用。
+
+
+
+
+
+
+三种路由方式的总结：
+1、[RouteUrl]标记类型时，必须是一个IHttpHandler的实现类型，
+2、[Route]只能标记类型，指定Url属性时，所有的公开方法都是可以对外响应，使用[RouteAction]实现别名，使用[RouteIgnore]忽略某个方法
+2、[Route]不指定的Url属性时，方法需要使用[RouteUrl]来标记
+
+
+
+注意事项：
+1、所有路由匹配顺序都是不可预知的！
+2、【正则表达式】一定要预留【特征字符串】，否则结果无法不可控。
+3、所有固定URL参数，不能有重复，否则会抛异常。
+
+
