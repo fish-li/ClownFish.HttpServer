@@ -36,9 +36,11 @@
   <ItemGroup>
     <Reference Include="ClownFish.Base">
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ClownFish.Data">
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -63,6 +65,7 @@
     <ProjectReference Include="..\..\src\ClownFish.HttpServer\ClownFish.HttpServer.csproj">
       <Project>{bf0f48f6-eaee-46b9-8256-afb55b441eea}</Project>
       <Name>ClownFish.HttpServer</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

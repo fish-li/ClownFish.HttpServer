@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClownFish.Base.Xml;
 using ClownFish.HttpTest;
+using System.Management;
 
 namespace ClownFish.HttpServer.WinHostTest
 {
@@ -66,6 +67,20 @@ namespace ClownFish.HttpServer.WinHostTest
 		}
 
 
+		private static string GetComputerName()
+		{
+			// 取计算机名
+			SelectQuery query = new SelectQuery("Win32_ComputerSystem");
+			using( ManagementObjectSearcher searcher = new ManagementObjectSearcher(query) ) {
+				foreach( ManagementObject mo in searcher.Get() ) {
+					if( (bool)mo["partofdomain"] )
+						return mo["DNSHostName"].ToString() + "." + mo["domain"].ToString();
+				}
+			}
+
+			return System.Environment.MachineName;
+		}
+
 		private void LoadTestCases()
 		{
 			string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testcase.xml");
@@ -73,8 +88,8 @@ namespace ClownFish.HttpServer.WinHostTest
 				return;
 
 			string fileContent = File.ReadAllText(file, Encoding.UTF8)
-						.Replace("http://localhost:", 
-								$"http://{System.Environment.MachineName}:" );
+						.Replace("http://localhost:",
+								$"http://{GetComputerName()}:");
 
 
 			List <RequestTest> list = XmlHelper.XmlDeserialize<List<RequestTest>>(fileContent);
