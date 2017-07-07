@@ -17,17 +17,19 @@ namespace ClownFish.HttpServer
 	public sealed class ServerHost : IDisposable
 	{
 		private HttpListener _listener;
+        private ServerOptions _options;
+        private Thread _workThread;
 
-		private string _websitePath;
 
-		/// <summary>
-		/// 获取一个值，指示 HttpListener 是否已启动。
-		/// </summary>
-		public bool IsListening {
+        /// <summary>
+        /// 获取一个值，指示 HttpListener 是否已启动。
+        /// </summary>
+        public bool IsListening {
 			get {
 				if( _listener == null )
-					throw new InvalidOperationException("需要先调用 Run 方法。");
-				return _listener.IsListening;
+                    return false;
+
+                return _listener.IsListening;
 			}
 		}
 
@@ -37,13 +39,12 @@ namespace ClownFish.HttpServer
 		/// </summary>
 		public void Run(ServerOptions options)
 		{
-			if( _listener != null )
-				throw new InvalidOperationException("不能多次调用Run方法。");
+			if( _options != null )
+				throw new InvalidOperationException("不要重复调用Run方法。");
 
 			// 检查参数是否完整
 			options.CheckMe();
-
-			this._websitePath = options.WebsitePath;
+            _options = options.Clone();
 
 
 			// 注册HttpModule
@@ -58,32 +59,34 @@ namespace ClownFish.HttpServer
 			RoutingManager.Instance.LoadRoutes();
 
 
-			// 创建HttpListener实例并初始化
-			InitHttpListener(options);
-			this.Start();
+
+            // 启动后台线程响应所有请求
+            _workThread = new Thread(ServerProc);
+            _workThread.IsBackground = true;
+            _workThread.Start();
+
+            // 创建HttpListener实例并初始化
+            this.Start();
+        }
 
 
-			// 启动后台线程响应所有请求
-			Thread thread = new Thread(ServerProc);
-			thread.IsBackground = true;
-			thread.Start();
-		}
-
-
-		private void InitHttpListener(ServerOptions options)
+		private HttpListener CreaetetHttpListener()
 		{
 			if( HttpListener.IsSupported == false )
 				throw new NotSupportedException("当前操作系统版本太低，不支持HttpListener");
 
-			_listener = new HttpListener();
+            HttpListener listener = new HttpListener();
 
-			// 允许匿名访问
-			_listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
+            // 允许匿名访问
+            listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
 			// 监听端口
-			foreach( var t in options.HostAddress ) 
-				_listener.Prefixes.Add(t.ToString());
-		}
+			foreach( var t in _options.HostAddress )
+                listener.Prefixes.Add(t.ToString());
+
+            listener.Start();
+            return listener;
+        }
 
 
 		/// <summary>
@@ -91,13 +94,13 @@ namespace ClownFish.HttpServer
 		/// </summary>
 		public void Start()
 		{
-			if( _listener == null )
-				throw new InvalidOperationException("不能直接调用Start方法，请先调用Run方法。");
+            if( _listener != null && _listener.IsListening )
+                throw new InvalidOperationException("HttpListener的实例已经启动了，不要重复调用Start方法。");
 
-			if( _listener.IsListening )
-				throw new InvalidOperationException("HttpListener的实例已经启动了，不要重复调用Start方法。");
 
-			_listener.Start();
+            // 不重用 HttpListener 的实例，
+            // 如果启动时失败，状态会标记为关闭，后面根本就不能再开启监听
+            _listener = CreaetetHttpListener();
 		}
 
 		/// <summary>
@@ -105,11 +108,14 @@ namespace ClownFish.HttpServer
 		/// </summary>
 		public void Stop()
 		{
-			if( _listener == null )
-				throw new InvalidOperationException("不能直接调用Start方法，请先调用Run方法。");
+            if( _listener == null )
+                return;
 
-			_listener.Stop();
-		}
+            // 不重用 HttpListener 的实例，
+            // 如果启动时失败，状态会标记为关闭，后面根本就不能再开启监听
+            this.Dispose();
+        }
+
 
 		/// <summary>
 		/// 关闭 HttpListener
@@ -126,27 +132,35 @@ namespace ClownFish.HttpServer
 		private void ServerProc(object runOptions)
 		{
 			while( true ) {
-				if( _listener.IsListening == false ) {
-					// 如果没有监听，就休眠一下
-					System.Threading.Thread.Sleep(1000);
-					continue;
-				}
+                if( _listener == null || _listener.IsListening == false ) {
+                    // 如果没有监听，就休眠一下
+                    System.Threading.Thread.Sleep(1000);
+                    continue;
+                }
 
-				try {
+                if( _listener == null || _listener.IsListening == false ) {
+                    continue;
+                }
+
+                try {
 					HttpListenerContext context = _listener.GetContext();
 					ProcessRequest(context);
 				}
-				catch( HttpListenerException ) {
-					// TODO: 暂时先不处理这个异常，以后再来优化
-				}
-			}
+                catch( ObjectDisposedException ) { // 此对象已关闭。 
+                }
+                catch( InvalidOperationException ) { // 此对象尚未启动或当前已停止。
+                }
+                catch( HttpListenerException ) {
+                    // TODO: 暂时先不处理这个异常，以后再来优化
+                }
+            }
 		}
 
 
 		private void ProcessRequest(HttpListenerContext context)
 		{
 			HttpContext httpContext = new HttpContext(context);
-			httpContext.Request.WebsitePath = _websitePath;
+			httpContext.Request.WebsitePath = _options.WebsitePath;
 
 
 			HttpApplication app = HttpApplication.GetInstance(httpContext);

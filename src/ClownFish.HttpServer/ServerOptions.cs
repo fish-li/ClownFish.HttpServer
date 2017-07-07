@@ -12,10 +12,10 @@ using System.IO;
 
 namespace ClownFish.HttpServer
 {
-	/// <summary>
-	/// 表示当前监听服务运行的参数信息
-	/// </summary>
-	public sealed class ServerOptions
+    /// <summary>
+    /// 表示当前监听服务运行的参数信息
+    /// </summary>
+    public sealed class ServerOptions
 	{
 		internal List<HttpListenerOption> HostAddress { get; } = new List<HttpListenerOption>();
 
@@ -28,11 +28,28 @@ namespace ClownFish.HttpServer
 
 		private ServerOptions() { }
 
-		/// <summary>
-		/// 创建一个ServerOptions实例
-		/// </summary>
-		/// <returns></returns>
-		public static ServerOptions Create()
+        internal ServerOptions Clone()
+        {
+            ServerOptions option = new ServerOptions();
+
+            foreach( var h in this.HostAddress )
+                option.HostAddress.Add(h);
+
+            foreach( var t in this.ModuleTypeList )
+                option.ModuleTypeList.Add(t);
+
+            foreach( var d in this.HttpHandlerFactoryList )
+                option.HttpHandlerFactoryList.Add(d);
+
+            option.WebsitePath = this.WebsitePath;
+            return option;
+        }
+
+        /// <summary>
+        /// 创建一个ServerOptions实例
+        /// </summary>
+        /// <returns></returns>
+        public static ServerOptions Create()
 		{
 			return new ServerOptions();
 		}
