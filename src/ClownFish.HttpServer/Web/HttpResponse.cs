@@ -173,7 +173,10 @@ namespace ClownFish.HttpServer.Web
         /// </summary>
         public void End()
         {
+            // 为了照顾ASP.NET的开发习惯，所以保留这个方法。
+            // 其实它只是一个快捷方式。
 
+            this._context.Application.CompleteRequest();
         }
 
 

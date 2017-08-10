@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -55,11 +56,22 @@ namespace ClownFish.HttpServer.Web
 		/// </summary>
 		public IHttpHandler HttpHandler { get; internal set; }
 
+        /// <summary>
+        /// 获取用于为客户端获取标识、身份验证信息和安全角色的对象
+        /// </summary>
+        public IPrincipal User { get; internal set; }
 
-		/// <summary>
-		/// 最近一次产生的异常对象
-		/// </summary>
-		public Exception LastException { get; internal set; }
+        /// <summary>
+        /// 获取或设置一个值，该值指示是否应跳过对当前请求的授权检查
+        /// </summary>
+        public bool SkipAuthorization { get; set; }
+
+
+
+        /// <summary>
+        /// 最近一次产生的异常对象
+        /// </summary>
+        public Exception LastException { get; internal set; }
 
 		/// <summary>
 		/// 清除最近产生的异常对象

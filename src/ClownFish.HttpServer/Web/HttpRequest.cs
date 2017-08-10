@@ -103,7 +103,11 @@ namespace ClownFish.HttpServer.Web
         /// 获取一个 System.Boolean 值，该值指示发送此请求的客户端是否经过身份验证。
         /// </summary>
         public virtual bool IsAuthenticated {
-            get { return _request.IsAuthenticated; }
+            get {
+                return this._context.User != null
+                    && this._context.User.Identity != null
+                    && this._context.User.Identity.IsAuthenticated;
+            }
         }
 
 

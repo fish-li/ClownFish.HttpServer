@@ -54,8 +54,12 @@
     <Compile Include="Attributes\ControllerAssemblyAttribute.cs" />
     <Compile Include="Attributes\FromBodyAttribute.cs" />
     <Compile Include="Attributes\FromRequestAttribute.cs" />
+    <Compile Include="Authentication\GenericIdentity.cs" />
+    <Compile Include="Authentication\GenericPrincipal.cs" />
+    <Compile Include="Authentication\IUser.cs" />
     <Compile Include="Common\AssemblyLoader.cs" />
     <Compile Include="Common\DictionaryExtensions.cs" />
+    <Compile Include="Authentication\AuthenticationHelper.cs" />
     <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
     <Compile Include="Routing\RouteHelper.cs" />
     <Compile Include="Routing\RouteAttribute.cs" />
