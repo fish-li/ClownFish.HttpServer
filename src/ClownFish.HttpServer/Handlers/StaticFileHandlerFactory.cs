@@ -36,8 +36,15 @@ namespace ClownFish.HttpServer.Handlers
 				|| path.EndsWith(".css", StringComparison.OrdinalIgnoreCase)
 				|| path.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
 				|| path.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
-				|| path.EndsWith("gif", StringComparison.OrdinalIgnoreCase)
-				) {
+				|| path.EndsWith(".gif", StringComparison.OrdinalIgnoreCase)
+
+                || path.EndsWith(".eot", StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(".svg", StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(".ttf", StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(".woff", StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(".woff2", StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(".map", StringComparison.OrdinalIgnoreCase)
+                ) {
 				return new StaticFileHandler();
 			}
 
