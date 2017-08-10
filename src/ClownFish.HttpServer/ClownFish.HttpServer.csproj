@@ -102,7 +102,7 @@
     <None Include="Routing\_三种路由方式.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Authentication\身份认证实现方式.txt" />
+    <None Include="Authentication\身份认证实现方式.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
