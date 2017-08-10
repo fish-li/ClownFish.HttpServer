@@ -32,7 +32,7 @@ namespace ClownFish.HttpServer.Authentication
                 throw new ArgumentNullException(nameof(user));
 
             DateTime utcNow = DateTime.UtcNow;
-            DateTime expirationUtc = utcNow.AddYears(1);
+            DateTime expirationUtc = utcNow.AddYears(10);
 
             string json = user.ToJson();
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(

@@ -54,6 +54,7 @@
     <Compile Include="Attributes\ControllerAssemblyAttribute.cs" />
     <Compile Include="Attributes\FromBodyAttribute.cs" />
     <Compile Include="Attributes\FromRequestAttribute.cs" />
+    <Compile Include="Authentication\AuthorizeAttribute.cs" />
     <Compile Include="Authentication\GenericIdentity.cs" />
     <Compile Include="Authentication\GenericPrincipal.cs" />
     <Compile Include="Authentication\IUser.cs" />
@@ -99,6 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Routing\_三种路由方式.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Authentication\身份认证实现方式.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

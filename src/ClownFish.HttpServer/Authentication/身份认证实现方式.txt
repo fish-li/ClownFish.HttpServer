@@ -1,0 +1,12 @@
+﻿
+1、首先要定义一个用户类型，并实现 IUser 接口。
+   既然要做身份认证，那么定义用户类型自然是省不了的
+
+2、在用户点击登录时，在服务端校验用户名和密码正确后，调用 AuthenticationHelper.Login 方法
+
+3、在用户点击注消时，调用 AuthenticationHelper.LogOut 方法
+
+4、实现一个 HttpModule，并订阅 AuthenticateRequest事件，在里面调用 AuthenticationHelper.CheckLogin 方法
+
+5、在代码中访问 HttpRequest.IsAuthenticated 来检查用户是否已登录
+   或者将[Authorize]放在类型，方法上，即可实现权限检查

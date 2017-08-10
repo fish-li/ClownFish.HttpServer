@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClownFish.Base.Reflection;
 using ClownFish.Base.TypeExtend;
+using ClownFish.HttpServer.Authentication;
 
 namespace ClownFish.HttpServer.Web
 {
@@ -70,10 +72,25 @@ namespace ClownFish.HttpServer.Web
 		/// 当安全模块已验证用户授权时发生。
 		/// </summary>
 		public event EventHandler PostAuthorizeRequest;
-		internal void Execute_PostAuthorizeRequest()
-		{
-			this.PostAuthorizeRequest?.Invoke(_app, null);
-		}
+        internal void Execute_PostAuthorizeRequest()
+        {
+            this.PostAuthorizeRequest?.Invoke(_app, null);
+
+
+            ServiceHandler serviceHandler = _app.Context.HttpHandler as ServiceHandler;
+            if( serviceHandler != null )
+                serviceHandler.CheckAuthorization(_app.Context);
+
+            else {
+                AuthorizeAttribute attr = _app.Context.HttpHandler.GetType().GetMyAttribute<AuthorizeAttribute>();
+                if( attr != null ) {
+
+                    if( attr.AuthenticateRequest(_app.Context) == false )
+                        throw new System.Web.HttpException(403,
+                                    "很抱歉，您没有合适的权限访问该资源：" + _app.Context.Request.RawUrl);
+                }
+            }
+        }
 
 
 

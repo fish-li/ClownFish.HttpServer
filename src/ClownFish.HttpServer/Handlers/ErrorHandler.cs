@@ -29,7 +29,7 @@ namespace ClownFish.HttpServer.Handlers
 			context.Response.SetBasicHeaders();
 
 			context.Response.StatusCode = 500;
-			context.Response.ContentType = "text/plain";
+			context.Response.ContentType = ResponseContentType.Text;
 
 
 			// 将错误消息写入响应流

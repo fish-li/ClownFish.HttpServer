@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ClownFish.Base;
 using ClownFish.HttpServer.Attributes;
 using ClownFish.HttpServer.Routing;
+using ClownFish.HttpServer.Web;
 
 namespace ClownFish.HttpServer.DemoServices
 {
@@ -13,13 +14,14 @@ namespace ClownFish.HttpServer.DemoServices
 	/// 演示使用 [Route] ，注意 {action} 这个占位符是必须的。
 	/// </summary>
 	[Route("/hello/ClownFish-HttpServer/demo-service/{action}.aspx")]
-	public sealed class DemoService
-	{
+	public sealed class DemoService : IRequireHttpContext
+    {
+        public HttpContext HttpContext { get; set; }
 
-		/// <summary>
-		/// 演示使用 [RouteAction] 来实现Action的别名
-		/// </summary>
-		[RouteAction(Name = "NewGuid")]
+        /// <summary>
+        /// 演示使用 [RouteAction] 来实现Action的别名
+        /// </summary>
+        [RouteAction(Name = "NewGuid")]
 		public string GetGuid()
 		{
             // 匹配URL:　http://localhost:50456/hello/ClownFish-HttpServer/demo-service/NewGuid.aspx
@@ -45,6 +47,10 @@ namespace ClownFish.HttpServer.DemoServices
 		{
             // 匹配URL:　http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Sha1.aspx?s=fish-li
             // 测试URL： http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Sha1.aspx?s=%e5%a4%a7%e6%98%8e%e7%8e%8b%e6%9c%9d
+
+            string s2 = this.HttpContext.Request["s"];
+            if( s != s2 )
+                throw new InvalidCodeException("xxxxxxxxxxxxxx");
 
             //return s.Sha1();
             string sha1 = s.Sha1();

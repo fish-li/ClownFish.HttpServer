@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Base.Reflection;
 using ClownFish.Base.TypeExtend;
+using ClownFish.HttpServer.Authentication;
 using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Result;
 
@@ -42,11 +43,16 @@ namespace ClownFish.HttpServer.Web
 		/// <returns></returns>
 		public IActionResult ProcessRequest2(HttpContext context)
 		{
-			// 创建类型实例
-			object instance = _serviceType.FastNew();
+            // 创建类型实例
+            object instance = _serviceType.FastNew();
 
-			// 构造方法的调用参数
-			ParameterResolver pr = ObjectFactory.New<ParameterResolver>();
+            IRequireHttpContext xx = instance as IRequireHttpContext;
+            if( xx != null )
+                xx.HttpContext = context;
+
+
+            // 构造方法的调用参数
+            ParameterResolver pr = ObjectFactory.New<ParameterResolver>();
 			object[] parameters = pr.GetParameters(_method, context.Request);
 
 			// 执行方法
@@ -70,5 +76,25 @@ namespace ClownFish.HttpServer.Web
 
 			return actionResult;
 		}
-	}
+
+        /// <summary>
+        /// 检查授权
+        /// </summary>
+        internal void CheckAuthorization(HttpContext context)
+        {
+            AuthorizeAttribute attr = _method.GetMyAttribute<AuthorizeAttribute>();
+            if( attr == null )
+                attr = _serviceType.GetMyAttribute<AuthorizeAttribute>();
+            if( attr == null )
+                return;
+
+
+            if( attr.AuthenticateRequest(context) == false)
+                throw new System.Web.HttpException(403,
+                            "很抱歉，您没有合适的权限访问该资源：" + context.Request.RawUrl);
+        }
+
+
+
+    }
 }

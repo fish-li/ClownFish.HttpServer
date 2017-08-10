@@ -90,12 +90,10 @@ namespace ClownFish.HttpServer.Web
 				
 				_httpModule.Execute_BeginRequest();	// event
 
+                // 验证请求
 				_httpModule.Execute_AuthenticateRequest();  // event
 				_httpModule.Execute_PostAuthenticateRequest();  // event
-
-				_httpModule.Execute_AuthorizeRequest(); // event
-				_httpModule.Execute_PostAuthorizeRequest(); // event
-				
+                				
 
 				// 查找能处理当前请求的HttpHandler
 				_httpModule.Execute_PreMapRequestHandle();  // event
@@ -103,17 +101,20 @@ namespace ClownFish.HttpServer.Web
 					this.Context.HttpHandler = GetHandler();
 				_httpModule.Execute_PostMapRequestHandle(); // event
 
-				
-				_httpModule.Execute_PreRequestHandlerExecute(); // event
+                // 授权验证
+                _httpModule.Execute_AuthorizeRequest(); // event
+                _httpModule.Execute_PostAuthorizeRequest(); // event
 
-				// 执行HttpHandler前的准备工作
-				BeforeProcessRequest();
 
-				// 处理请求
-				if( this.Context.HttpHandler is IHttpHandler2 ) {
+                // 执行HttpHandler前的准备工作
+                _httpModule.Execute_PreRequestHandlerExecute(); // event
+                BeforeProcessRequest();
+
+                // 处理请求
+                if( this.Context.HttpHandler is IHttpHandler2 ) {
 					// 只执行Action方法
 					IHttpHandler2 handler2 = this.Context.HttpHandler as IHttpHandler2;
-					IActionResult result = handler2.ProcessRequest2(this.Context);
+                    IActionResult result = handler2.ProcessRequest2(this.Context);
 					_httpModule.Execute_PostRequestHandlerExecute();    // event
                                         
 
@@ -127,6 +128,12 @@ namespace ClownFish.HttpServer.Web
 				}				
 			}
 			catch( HttpApplicationEndRequestException ) { /* 这里就是一个标记异常，所以直接吃掉 */ }
+
+            catch( System.Web.HttpException httpException ) {   // 允许代码中抛出异常，中止请求
+                this.Response.StatusCode = httpException.ErrorCode;
+                this.Response.ContentType = ResponseContentType.Text;
+                this.Response.Write(httpException.Message);
+            }
 			catch( Exception ex ) {
 				this.Context.LastException = ex;
 
