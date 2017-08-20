@@ -8,7 +8,7 @@ GET http://spec.mingyuanyun.com:55768/Report.phtml HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/html; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/html; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="代码检查日报" />
@@ -26,7 +26,7 @@ GET http://10.5.10.48:50125/Report.phtml HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/html; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/html; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="代码检查日报" />

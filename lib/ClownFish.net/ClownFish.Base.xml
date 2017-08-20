@@ -23,6 +23,54 @@
             <param name="base64"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Base.BinSerializerHelper">
+            <summary>
+            二进制序列化的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.BinSerializerHelper.Serialize(System.Object)">
+            <summary>
+            将对象序列化成二进制数组
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.BinSerializerHelper.Deserialize``1(System.Byte[])">
+            <summary>
+            从二进制数组中反序列化
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.BinSerializerHelper.DeserializeObject(System.Byte[])">
+            <summary>
+            从二进制数组中反序列化
+            </summary>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.BinSerializerHelper.CloneObject``1(``0)">
+            <summary>
+            采用二进制序列化的方式克隆对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.ByteExtensions">
+            <summary>
+            二进制数据操作的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.ByteExtensions.IsEqual(System.Byte[],System.Byte[])">
+            <summary>
+            比较二个字节数组是不是相等
+            </summary>
+            <param name="b1"></param>
+            <param name="b2"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.CryptoHelper">
             <summary>
             “对称加密算法”的封装工具类
@@ -159,6 +207,29 @@
             </summary>
             <param name="datetime"></param>
             <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.DictionaryExtensions">
+            <summary>
+            包含一些字典相关的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.DictionaryExtensions.AddValue``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
+            <summary>
+            往字典中插入数据项，如果有异常，则报告KEY是什么
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+            <param name="dict"></param>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:ClownFish.Base.DictionaryExtensions.AddValue(System.Collections.Hashtable,System.Object,System.Object)">
+            <summary>
+            往Hashtable中插入数据项，如果有异常，则报告KEY是什么
+            </summary>
+            <param name="table"></param>
+            <param name="key"></param>
+            <param name="value"></param>
         </member>
         <member name="T:ClownFish.Base.GzipHelper">
             <summary>
@@ -454,6 +525,61 @@
             如果 ExceptionForTest 为NULL，将忽略本次调用
             </summary>
         </member>
+        <member name="T:ClownFish.Base.TypeExtensions">
+            <summary>
+            包含一些与类型相关的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.IsCommonValueType(System.Type)">
+            <summary>
+            判断指定的类型是不是常见的值类型，范围：DateTime，Guid，decimal， Enum
+            </summary>
+            <param name="t"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.GetRealType(System.Type)">
+            <summary>
+            得到一个实际的类型（排除Nullable类型的影响）。比如：int? 最后将得到int
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.IsNullableType(System.Type)">
+            <summary>
+            判断指定的类型是不是可空类型
+            </summary>
+            <param name="nullableType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.IsCompatible(System.Type,System.Type)">
+            <summary>
+            判断二个类型是不是兼容（可转换）的
+            </summary>
+            <param name="t">要测试的类型</param>
+            <param name="convertToType">需要转换的类型（基类或者接口类型）</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.HasReturn(System.Reflection.MethodInfo)">
+            <summary>
+            判断方法是不是有返回值
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.IsTaskMethod(System.Reflection.MethodInfo)">
+            <summary>
+            判断是不是一个 Task 方法
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtensions.GetTaskMethodResultType(System.Reflection.MethodInfo)">
+            <summary>
+            检查是不是Task&lt;T&gt;方法，如果是，则返回类型参数T，否则返回 null
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.Files.CacheResult`1">
             <summary>
             缓存结果项的包装类
@@ -482,8 +608,17 @@
             构造方法。
             注意：请将些类型的实例用【静态字段】来引用，否则会产生内存泄露。
             </summary>
-            <param name="func"></param>
-            <param name="files"></param>
+            <param name="loadFileCallback">当需要加载文件时的回调委托</param>
+            <param name="files">要读取的文件，读取后会做修改监控</param>
+        </member>
+        <member name="M:ClownFish.Base.Files.FileDependencyManager`1.#ctor(System.Func{System.String[],`0},System.Action{System.String[],System.Web.Caching.CacheItemRemovedReason},System.String[])">
+            <summary>
+            构造方法。
+            注意：请将些类型的实例用【静态字段】来引用，否则会产生内存泄露。
+            </summary>
+            <param name="loadFileCallback">当需要加载文件时的回调委托</param>
+            <param name="afterRemoveCallback">缓存移除后触发的回调委托</param>
+            <param name="files">要读取的文件，读取后会做修改监控</param>
         </member>
         <member name="F:ClownFish.Base.Files.FileDependencyManager`1.s_WaitFileCloseTimeout">
             <summary>

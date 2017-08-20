@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ClownFish.Base;
 using ClownFish.Base.TypeExtend;
+using ClownFish.HttpServer.Common;
+using ClownFish.HttpServer.Config;
+using ClownFish.HttpServer.Handlers;
 using ClownFish.HttpServer.Routing;
 using ClownFish.HttpServer.Web;
 
@@ -17,7 +22,7 @@ namespace ClownFish.HttpServer
 	public sealed class ServerHost : IDisposable
 	{
 		private HttpListener _listener;
-        private ServerOptions _options;
+        private ServerOption _option;
         private Thread _workThread;
 
 
@@ -34,40 +39,95 @@ namespace ClownFish.HttpServer
 		}
 
 
+
 		/// <summary>
-		/// 启动HTTP请求监听
+		/// 根据指定的参数对象启动监听服务
 		/// </summary>
-		public void Run(ServerOptions options)
+		/// <param name="option"></param>
+		public void Run(ServerOption option)
 		{
-			if( _options != null )
+			if( option == null )
+				throw new ArgumentNullException(nameof(option));
+
+			// 先将参数克隆一份，避免调用代码后期修改参数对象
+			ServerOption option2 = option.CloneObject();
+			InternalInit(option2);
+		}
+
+		/// <summary>
+		/// 根据指定的配置文件启动监听服务
+		/// </summary>
+		/// <param name="configPath"></param>
+		public void Run(string configPath)
+		{
+			if( string.IsNullOrEmpty(configPath) )
+				throw new ArgumentNullException(nameof(configPath));
+
+			if( File.Exists(configPath) == false )
+				throw new FileNotFoundException("指定的配置文件不存在：" + configPath);
+
+
+			ServerOption option = ClownFish.Base.Xml.XmlHelper.XmlDeserializeFromFile<ServerOption>(configPath);
+			InternalInit(option);
+		}
+
+
+		/// <summary>
+		/// 使用默认的配置文件启动监听服务，
+		/// 默认配置文件：当前目录下的ServerOption.config
+		/// </summary>
+		public void Run()
+		{
+			string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServerOption.config");
+			Run(configPath);
+		}
+
+
+		private void InternalInit(ServerOption option)
+		{
+			if( _option != null )
 				throw new InvalidOperationException("不要重复调用Run方法。");
 
-			// 检查参数是否完整
-			options.CheckMe();
-            _options = options.Clone();
+			ServerOptionValidator validator = new ServerOptionValidator();
+			validator.Validate(option);
+			validator.SetDefaultValues(option);
+
+
+			// 注册HttpHandlerFactory
+			foreach( Type handlerType in option.HandlerTypes ) {
+				var factory = Activator.CreateInstance(handlerType) as IHttpHandlerFactory;
+				HttpHandlerFactory.GetInstance().RegisterFactory(factory);
+			}
 
 
 			// 注册HttpModule
-			foreach(Type moduleType in options.ModuleTypeList)
+			foreach( Type moduleType in option.ModuleTypes )
 				ExtenderManager.RegisterSubscriber(moduleType);
 
-			// 注册HttpHandlerFactory
-			foreach( var factory in options.HttpHandlerFactoryList )
-				HttpHandlerFactory.GetInstance().RegisterFactory(factory);
+			if( option.Website != null ) {
+				StaticFileHandlerFactory.Init(option);
+				StaticFileHandler.Init(option);
+			}
+
+			
+
+			// 加载当前目录下的所有程序集
+			AssemblyLoader.GetBinAssemblyReferences(AppDomain.CurrentDomain.BaseDirectory);
 
 			// 加载所有路由规则
 			RoutingManager.Instance.LoadRoutes();
 
+			_option = option;
 
 
-            // 启动后台线程响应所有请求
-            _workThread = new Thread(ServerProc);
-            _workThread.IsBackground = true;
-            _workThread.Start();
+			// 启动后台线程响应所有请求
+			_workThread = new Thread(ServerProc);
+			_workThread.IsBackground = true;
+			_workThread.Start();
 
-            // 创建HttpListener实例并初始化
-            this.Start();
-        }
+			// 创建HttpListener实例并初始化
+			this.Start();
+		}
 
 
 		private HttpListener CreaetetHttpListener()
@@ -81,7 +141,7 @@ namespace ClownFish.HttpServer
             listener.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
 
 			// 监听端口
-			foreach( var t in _options.HostAddress )
+			foreach( var t in _option.HttpListenerOptions )
                 listener.Prefixes.Add(t.ToString());
 
             listener.Start();
@@ -160,7 +220,9 @@ namespace ClownFish.HttpServer
 		private void ProcessRequest(HttpListenerContext context)
 		{
 			HttpContext httpContext = new HttpContext(context);
-			httpContext.Request.WebsitePath = _options.WebsitePath;
+
+			if( _option.Website != null )
+				httpContext.Request.WebsitePath = _option.Website.LocalPath;
 
 
 			HttpApplication app = HttpApplication.GetInstance(httpContext);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ClownFish.HttpServer.Config;
 using ClownFish.HttpServer.Web;
 using Microsoft.Win32;
 
@@ -22,6 +23,14 @@ namespace ClownFish.HttpServer.Handlers
 		private HttpContext _context;
 
 		private FileInfo _fileinfo;
+
+
+		internal static void Init(ServerOption option)
+		{
+			if( option.Website.StaticFiles != null && option.Website.StaticFiles.Length > 0 )
+				foreach( var x in option.Website.StaticFiles )
+					s_mineTable[x.Ext] = x;
+		}
 
 
 		/// <summary>
@@ -85,14 +94,21 @@ namespace ClownFish.HttpServer.Handlers
 		/// </summary>
 		private void SetHeaders()
 		{
-			// 默认缓存时间：10分钟
-			_context.Response.AppendHeader("Cache-Control", "public, max-age=600");
-			_context.Response.AppendHeader("X-StaticFileHandler", "10-Minutes");
-			_context.Response.AppendHeader("ETag", _fileinfo.LastWriteTime.Ticks.ToString());
+			StaticFileOption option = GetStaticFileOption(_fileinfo.Extension);
 
+			if( option.Cache > 0 ) {
+				// 设置缓存响应头
+				_context.Response.AppendHeader("Cache-Control", "public, max-age=" + option.Cache);
+				_context.Response.AppendHeader("X-StaticFileHandler", option.Cache.ToString());
+				_context.Response.AppendHeader("ETag", _fileinfo.LastWriteTime.Ticks.ToString());
+			}
+			else {
+				// 不缓存，这里使用ASP.NET默认行为
+				_context.Response.AppendHeader("Cache-Control", "private");
+			}
 
 			// 设置响应内容标头
-			_context.Response.ContentType = GetContentType(_fileinfo.Extension);
+			_context.Response.ContentType = option.Mine;
 		}
 
 
@@ -101,14 +117,17 @@ namespace ClownFish.HttpServer.Handlers
 		/// </summary>
 		/// <param name="extname"></param>
 		/// <returns></returns>
-		private string GetContentType(string extname)
+		private StaticFileOption GetStaticFileOption(string extname)
 		{
-			string contentType = (string)s_mineTable[extname];
-			if( contentType == null ) {
-				contentType = GetMimeType(extname);
-				s_mineTable[extname] = contentType;
+			StaticFileOption option = (StaticFileOption)s_mineTable[extname];
+			if( option == null ) {
+				option = new StaticFileOption();
+				option.Cache = 3600 * 24 * 365;      // 默认缓存1年
+				option.Mine = GetMimeType(extname);
+
+				s_mineTable[extname] = option;
 			}
-			return contentType;
+			return option;
 		}		
 
 
@@ -117,7 +136,7 @@ namespace ClownFish.HttpServer.Handlers
 		/// </summary>
 		/// <param name="extname"></param>
 		/// <returns></returns>
-		private string GetMimeType(string extname)
+		internal static string GetMimeType(string extname)
         {
             string mimeType = "application/octet-stream";
             if( string.IsNullOrEmpty(extname) )

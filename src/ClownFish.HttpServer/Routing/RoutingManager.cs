@@ -8,6 +8,7 @@ using ClownFish.Base.Reflection;
 using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Web;
 using ClownFish.HttpServer.Attributes;
+using ClownFish.Base;
 
 namespace ClownFish.HttpServer.Routing
 {

@@ -1061,6 +1061,11 @@
             常量字符串：代理站点的Cookie名字
             </summary>
         </member>
+        <member name="F:ClownFish.Web.Proxy.ReverseProxyModule.s_DefaultProxySite">
+            <summary>
+            默认的反向代理目标站点，可用于将所有请求转发到内网地址
+            </summary>
+        </member>
         <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.Init(System.Web.HttpApplication)">
             <summary>
             实现 IHttpModule.Init 方法
@@ -1140,27 +1145,6 @@
             判断是否是一个可支持的参数类型。仅包括：基元类型，string ，decimal，DateTime，Guid, string[], 枚举
             </summary>
             <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.GetRealType(System.Type)">
-            <summary>
-            得到一个实际的类型（排除Nullable类型的影响）。比如：int? 最后将得到int
-            </summary>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.IsTaskMethod(System.Reflection.MethodInfo)">
-            <summary>
-            判断是不是一个 Task 方法
-            </summary>
-            <param name="method"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Web.Reflection.ReflectionHelper.GetTaskMethodResultType(System.Reflection.MethodInfo)">
-            <summary>
-            检查是不是Task&lt;T&gt;方法，如果是，则返回类型参数T，否则返回 null
-            </summary>
-            <param name="method"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Web.Reflection.ActionDescription">

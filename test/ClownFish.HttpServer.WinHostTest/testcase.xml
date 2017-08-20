@@ -8,7 +8,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/NewGuid.aspx 
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="36" />
@@ -25,7 +25,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Now.aspx HTTP
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="19" />
@@ -42,7 +42,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Sha1.aspx?s=f
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="=" value="Sha1(fish-li) = EC28DFD34504F5E8D721381A11C355072D20FBD8" />
@@ -58,7 +58,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ShowAgent.asp
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="ClownFish.net.HttpClient/" />
@@ -80,7 +80,7 @@ ccccccccccccccccccccccccc
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="aaaaaaa中文汉字aaaaaaaaaaaaaaaaaaa" />
@@ -110,7 +110,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ErrorTest.asp
         </Request>
         <Response StatusCode="500">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="ErrorTest_InvalidOperationException" />
@@ -127,7 +127,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/NewGuid.aspx HTTP
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="36" />
@@ -145,7 +145,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="19" />
@@ -163,7 +163,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx?sleepMil
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="19" />
@@ -180,7 +180,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Sha1/fishli.aspx 
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="40" />
@@ -211,7 +211,7 @@ Content-Type: application/json
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="=" value="a=53, b=fishli, id=123, name=abcd" />
@@ -229,7 +229,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=NewGu
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="36" />
@@ -247,7 +247,7 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=GetTi
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Length" check="=" value="19" />
@@ -266,7 +266,7 @@ GET http://localhost:50456/index.html HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/html; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/html; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="&lt;!DOCTYPE html&gt;" />
@@ -288,7 +288,7 @@ GET http://localhost:50456/static/Stylesheet1.css HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/css; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="text/css; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="font-size: 12px;" />
@@ -304,7 +304,7 @@ GET http://localhost:50456/static/JavaScript1.js HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/javascript; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="application/javascript; charset=utf-8" />
             </Headers>
             <Body>
                 <check name="Text" check="include" value="// This is javascript file." />
@@ -325,7 +325,7 @@ CustomerID=1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
             </Headers>
         </Response>
     </RequestTest>
@@ -341,7 +341,7 @@ ProductID=1&Quantity=53
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
             </Headers>
         </Response>
     </RequestTest>
@@ -358,7 +358,7 @@ CategoryID=1&PageIndex=2&PageSize=5&TotalRecords=0
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
                 <check name="Content-Encoding" check="=" value="gzip" />
             </Headers>
         </Response>
@@ -376,7 +376,7 @@ CategoryID=1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=UTF-8" />
+                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
                 <check name="Content-Encoding" check="=" value="gzip" />
             </Headers>
         </Response>

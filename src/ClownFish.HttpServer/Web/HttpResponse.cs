@@ -50,7 +50,7 @@ namespace ClownFish.HttpServer.Web
 			set {
 				// 固定以UTF-8编码方式返回结果
 				if( value.IndexOf("charset=") < 0 )
-					_response.ContentType = value + "; charset=UTF-8";
+					_response.ContentType = value + "; charset=utf-8";
 				else
 					_response.ContentType = value;
 			}
@@ -132,7 +132,7 @@ namespace ClownFish.HttpServer.Web
 		{
 			// 设置正常响应头（适合于大多数据场景）
 			_response.StatusCode = 200;
-			_response.ContentType = "text/plain; charset=UTF-8";
+			_response.ContentType = "text/plain; charset=utf-8";
 			_response.ContentEncoding = Encoding.UTF8;
 			_response.AppendHeader("X-Server", "ClownFish.HttpServer/" + DllVersion);
 

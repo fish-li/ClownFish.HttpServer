@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using ClownFish.Base;
 using ClownFish.Base.Reflection;
 using ClownFish.Base.TypeExtend;
 using ClownFish.HttpServer.Authentication;

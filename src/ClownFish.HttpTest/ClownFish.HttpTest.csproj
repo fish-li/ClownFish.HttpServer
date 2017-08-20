@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertResult.cs" />
-    <Compile Include="BinSerializerHelper.cs" />
     <Compile Include="BodyAssertChecker.cs" />
     <Compile Include="HeaderAssertChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClownFish.HttpServer.Config;
 using ClownFish.HttpTest;
 
 namespace ClownFish.HttpServer.WinHostTest
@@ -17,12 +19,13 @@ namespace ClownFish.HttpServer.WinHostTest
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			//Test();
+			//Create_Testcase_Xml();
+			Create_ServerOption_Config();
 			Application.Run(new Form1());
 		}
 
 
-		static void Test()
+		static void Create_Testcase_Xml()
 		{
 			List<RequestTest> list = new List<RequestTest>();
 
@@ -40,7 +43,7 @@ CategoryID=1";
 			case1.Response = new ResponseAssert();
 			case1.Response.StatusCode = 200;
 			case1.Response.Headers = new List<ResponseHeaderAssert>();
-			case1.Response.Headers.Add(new ResponseHeaderAssert { Name = "Content-Type", AssertMode = "=", Value = "application/json; charset=UTF-8" });
+			case1.Response.Headers.Add(new ResponseHeaderAssert { Name = "Content-Type", AssertMode = "=", Value = "application/json; charset=utf-8" });
 			case1.Response.Headers.Add(new ResponseHeaderAssert { Name = "Cache-Control", AssertMode = "include", Value = "max-age=600" });
 
 			case1.Response.Body = new List<ResponseBodyAssert>();
@@ -48,6 +51,47 @@ CategoryID=1";
 			case1.Response.Body.Add(new ResponseBodyAssert { Name = "Text", AssertMode = "include", Value = "font-size: 12px;" });
 
 			ClownFish.Base.Xml.XmlHelper.XmlSerializeToFile(list, "testcase111111.xml");
+		}
+
+
+		static void Create_ServerOption_Config()
+		{
+			if( File.Exists("ServerOption.config") )
+				return;
+
+			ServerOption option = new ServerOption();
+			option.HttpListenerOptions = new HttpListenerOption[] {
+				new HttpListenerOption {
+				Protocol = "http",
+				//Ip = "*",
+				Port = 50456
+			}};
+
+
+			option.Modules = new string[] { "ClownFish.HttpServer.DemoServices.DemoHttpModule, ClownFish.HttpServer.DemoServices" };
+			option.Handlers = new string[] { "ClownFish.HttpServer.Handlers.StaticFileHandlerFactory, ClownFish.HttpServer" };
+
+			option.Website = new WebsiteOption();
+			option.Website.LocalPath = "..\\Website";
+			option.Website.StaticFiles = new StaticFileOption[] {
+				new StaticFileOption { Ext=".html", Cache=3600 * 24 * 365, Mine="text/html" },
+				new StaticFileOption { Ext=".html", Cache=3600 * 24 * 365 },
+				new StaticFileOption { Ext=".js", Cache=3600 * 24 * 365 },
+				new StaticFileOption { Ext=".css", Cache=3600 * 24 * 365 },
+				new StaticFileOption { Ext=".png", Cache=3600 * 24 * 365 },
+				new StaticFileOption { Ext=".jpg", Cache=3600 * 24 * 365 },
+				new StaticFileOption { Ext=".gif", Cache=3600 * 24 * 365 },
+
+				new StaticFileOption { Ext=".eot" },
+				new StaticFileOption { Ext=".svg" },
+				new StaticFileOption { Ext=".ttf" },
+				new StaticFileOption { Ext=".woff" },
+				new StaticFileOption { Ext=".woff2" },
+				new StaticFileOption { Ext=".map" }
+			};
+
+			ClownFish.Base.Xml.XmlHelper.XmlSerializeToFile(option, "ServerOption.config");
+			
 		}
 	}
 }

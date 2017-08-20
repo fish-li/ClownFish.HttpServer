@@ -41,6 +41,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -59,8 +60,8 @@
     <Compile Include="Authentication\GenericPrincipal.cs" />
     <Compile Include="Authentication\IUser.cs" />
     <Compile Include="Common\AssemblyLoader.cs" />
-    <Compile Include="Common\DictionaryExtensions.cs" />
     <Compile Include="Authentication\AuthenticationHelper.cs" />
+    <Compile Include="Config\ServerOptionValidator.cs" />
     <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
     <Compile Include="Routing\RouteHelper.cs" />
     <Compile Include="Routing\RouteAttribute.cs" />
@@ -68,14 +69,13 @@
     <Compile Include="InvalidCodeException.cs" />
     <Compile Include="Routing\RouteMatchExistException.cs" />
     <Compile Include="Routing\RoutingObject.cs" />
+    <Compile Include="Config\ServerOption.cs" />
     <Compile Include="Web\HttpApplicationEndRequestException.cs" />
     <Compile Include="Web\HttpApplicationFactory.cs" />
     <Compile Include="Web\HttpHandlerFactory.cs" />
     <Compile Include="Routing\RouteUrlAttribute.cs" />
     <Compile Include="Handlers\Http404Handler.cs" />
     <Compile Include="Result\ResultConvert.cs" />
-    <Compile Include="ServerOptions.cs" />
-    <Compile Include="Common\TypeExtensions.cs" />
     <Compile Include="Web\HttpModule.cs" />
     <Compile Include="Web\HttpApplication.cs" />
     <Compile Include="Web\IHttpHandler.cs" />

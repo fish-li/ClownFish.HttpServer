@@ -396,6 +396,20 @@
             <param name="pageInfo"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Data.CommandExtensions">
+            <summary>
+            一些与命令相关的扩展工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Data.CommandExtensions.SetCommand``1(``0,System.Action{System.Data.Common.DbCommand})">
+            <summary>
+            设置当前要执行的命令对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="command"></param>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Data.DataLoaderHelper">
             <summary>
             用于数据加载相关的扩展工具类，供框架内部使用！

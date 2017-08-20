@@ -125,16 +125,8 @@ namespace ClownFish.HttpServer.WinHostTest
 		private void btnStart_Click(object sender, EventArgs e)
 		{
 			if( _host == null) {
-				ServerOptions options = ServerOptions.Create()
-				// 设置监听端口
-				.AddListenerAddress("http", "*", 50456)
-				// 注册HttpModule
-				.RegisterModule(typeof(DemoHttpModule))
-				// 设置网站根目录
-				.SetWebsitePath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\Website"));
-
 				_host = new ServerHost();
-				_host.Run(options);
+				_host.Run();  // 使用默认的配置文件启动监听服务
 			}
 			else {
 				_host.Start();

@@ -111,6 +111,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Log.Configuration.LogConfig.GetCurrent">
+            <summary>
+            获取当前正在使用的配置对象
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Log.Configuration.PerformanceConfig">
             <summary>
             配置日志的配置信息
@@ -643,6 +649,48 @@
             <param name="t2">结束时间</param>
             <returns>查询结果</returns>
         </member>
+        <member name="T:ClownFish.Log.Serializer.JsonWriter">
+            <summary>
+            将日志记录到JSON文件的写入器
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.Init(ClownFish.Log.Configuration.WriterSection)">
+            <summary>
+            初始化
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.Write``1(``0)">
+            <summary>
+            写入单条日志信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="info"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.Write``1(System.Collections.Generic.List{``0})">
+            <summary>
+            批量写入日志信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.Get``1(System.Guid)">
+            <summary>
+            根据日志ID获取单条日志信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="guid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.GetList``1(System.DateTime,System.DateTime)">
+            <summary>
+            根据指定的一段时间获取对应的日志记录
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t1"></param>
+            <param name="t2"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Log.Serializer.MailWriter">
             <summary>
             将日志以邮件形式发送的写入器
@@ -887,6 +935,29 @@
             通过实现 System.Web.IHttpHandler 接口的自定义 HttpHandler 启用 HTTP Web 请求的处理。
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="M:ClownFish.Log.Web.LogFileViewHandler.GetFiles(System.IO.DirectoryInfo)">
+            <summary>
+            获取目录下的文件清单，
+            重写这个方法可以实现文件过滤效果
+            </summary>
+            <param name="dir"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Web.LogFileViewHandler.GetDirectories(System.IO.DirectoryInfo)">
+            <summary>
+            获取目录下的子目录清单，
+            重写这个方法可以实现文件过滤效果
+            </summary>
+            <param name="dir"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Web.LogFileViewHandler.GetLogRootDirectory">
+            <summary>
+            获取要显示的日志根目录，
+            重写这个方法可修改默认的根目录（FileWriter指定的目录）。
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>
