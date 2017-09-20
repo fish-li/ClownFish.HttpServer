@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClownFish.Base;
 using ClownFish.Base.Xml;
 using ClownFish.HttpTest;
 using System.Management;
@@ -50,21 +51,26 @@ namespace ClownFish.HttpServer.WinHostTest
 			_syncContext.Post(x => LogReqeust((string)x), e.Message);
 		}
 
-		private void LogReqeust(string url)
-		{
-			if( chkLogRequest.Checked == false )
-				return;
+        private void LogReqeust(string message)
+        {
+            if( chkLogRequest.Checked == false )
+                return;
 
 
-			if( this.listboxUrlLog.Items.Count > 1000 ) {
-				listboxUrlLog.BeginUpdate();
-				for( int i = 0; i < 800; i++ )
-					listboxUrlLog.Items.RemoveAt(0);
-				listboxUrlLog.EndUpdate();
-			}
+            if( this.listboxUrlLog.Items.Count > 1000 ) {
+                listboxUrlLog.BeginUpdate();
+                for( int i = 0; i < 800; i++ )
+                    listboxUrlLog.Items.RemoveAt(0);
+                listboxUrlLog.EndUpdate();
+            }
 
-			listboxUrlLog.Items.Add(url);
-		}
+            string[] lines = message.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            listboxUrlLog.BeginUpdate();
+            foreach( string line in lines )
+                listboxUrlLog.Items.Add(line);
+            listboxUrlLog.EndUpdate();
+        }
 
 
 		private static string GetComputerName()
@@ -270,7 +276,7 @@ namespace ClownFish.HttpServer.WinHostTest
 				_testIsPassed = false;
 
 			_message.AppendLine("=========================================================");
-			_message.AppendLine(test.Request);
+			_message.AppendLine(test.Request.Value.Replace("\n", "\r\n"));
 			_message.AppendLine();
 
 			if( isPassed ) {

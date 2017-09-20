@@ -271,7 +271,7 @@ namespace ClownFish.HttpServer.Web
 					_postData = string.Empty;
 
 				else {
-					using( StreamReader reader = new StreamReader(_request.InputStream, Encoding.UTF8) ) {
+					using( StreamReader reader = new StreamReader(_request.InputStream, Encoding.UTF8, true, 1024, true) ) {
 						_postData = reader.ReadToEnd();
 					}
 				}

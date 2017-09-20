@@ -49,6 +49,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
     </Reference>
+    <Reference Include="ClownFish.Log">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Log.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\lib\Newtonsoft.Json.8.0.2\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

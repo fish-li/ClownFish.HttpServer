@@ -42,6 +42,10 @@
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ClownFish.Log">
+      <HintPath>..\..\lib\ClownFish.net\ClownFish.Log.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />

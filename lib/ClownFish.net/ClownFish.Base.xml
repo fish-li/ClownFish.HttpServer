@@ -313,6 +313,14 @@
             <param name="filePath"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.HashHelper.FastHash(System.String,System.Int32)">
+            <summary>
+            快速计算文件哈希值（只计算文件开头部分）
+            </summary>
+            <param name="filePath">要计算哈希值的文件路径</param>
+            <param name="headerLength">读取开头多长的部分，默认值：2M</param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.LazyObject`1">
             <summary>
             表示需要延迟创建的对象包装类

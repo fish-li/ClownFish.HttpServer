@@ -94,7 +94,10 @@ ccccccccccccccccccccccccc
     <RequestTest Category="DemoService" Title="">
         <Request>
             <![CDATA[
-GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Add.aspx?a=2&b=3 HTTP/1.1
+POST http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Add.aspx HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+a=2&b=3
 ]]>
         </Request>
         <Response StatusCode="404">
@@ -192,7 +195,10 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Sha1/fishli.aspx 
     <RequestTest Category="DemoController" Title="">
         <Request>
             <![CDATA[
-GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Add.aspx?a=2&b=3 HTTP/1.1
+GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Add.aspx HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
+
+a=2&b=3
 ]]>
         </Request>
         <Response StatusCode="404">
@@ -319,6 +325,7 @@ GET http://localhost:50456/static/JavaScript1.js HTTP/1.1
         <Request>
             <![CDATA[
 POST http://localhost:50456/api/xmlcommand/query/GetCustomerById.aspx HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 CustomerID=1
 ]]>
@@ -335,6 +342,7 @@ CustomerID=1
         <Request>
             <![CDATA[
 POST http://localhost:50456/api/xmlcommand/execute/ChangeProductQuantity.aspx HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 ProductID=1&Quantity=53
 ]]>
@@ -352,6 +360,7 @@ ProductID=1&Quantity=53
             <![CDATA[
 POST http://localhost:50456/api/xmlcommand/query/GetProductByCategoryId.aspx HTTP/1.1
 X-Gzip-Respond: 1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 CategoryID=1&PageIndex=2&PageSize=5&TotalRecords=0
 ]]>
@@ -370,6 +379,7 @@ CategoryID=1&PageIndex=2&PageSize=5&TotalRecords=0
             <![CDATA[
 POST http://localhost:50456/api/xmlcommand/page-2-5/GetProductListByCategoryId.aspx HTTP/1.1
 X-Gzip-Respond: 1
+Content-Type: application/x-www-form-urlencoded; charset=UTF-8
 
 CategoryID=1
 ]]>
