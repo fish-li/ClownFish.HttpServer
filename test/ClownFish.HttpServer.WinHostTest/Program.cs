@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClownFish.HttpServer.Config;
+using ClownFish.HttpServer.Firewall;
 using ClownFish.HttpTest;
 
 namespace ClownFish.HttpServer.WinHostTest
@@ -19,8 +20,11 @@ namespace ClownFish.HttpServer.WinHostTest
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			//Create_Testcase_Xml();
-			Create_ServerOption_Config();
+
+            SetFirewall();
+
+            //Create_Testcase_Xml();
+            Create_ServerOption_Config();
 			Application.Run(new Form1());
 		}
 
@@ -93,5 +97,12 @@ CategoryID=1";
 			ClownFish.Base.Xml.XmlHelper.XmlSerializeToFile(option, "ServerOption.config");
 			
 		}
-	}
+
+
+        static void SetFirewall()
+        {
+            FirewallHelper.AddToFwAuthorized(Application.ExecutablePath);
+        }
+
+    }
 }

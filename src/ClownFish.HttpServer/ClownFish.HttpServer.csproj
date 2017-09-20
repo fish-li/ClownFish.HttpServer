@@ -40,6 +40,7 @@
       <HintPath>..\..\lib\ClownFish.net\ClownFish.Base.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="CustomMarshalers" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -70,6 +71,8 @@
     <Compile Include="Routing\RouteMatchExistException.cs" />
     <Compile Include="Routing\RoutingObject.cs" />
     <Compile Include="Config\ServerOption.cs" />
+    <Compile Include="Firewall\FirewallHelper.cs" />
+    <Compile Include="Firewall\NetFwTypeLib.cs" />
     <Compile Include="Web\HttpApplicationEndRequestException.cs" />
     <Compile Include="Web\HttpApplicationFactory.cs" />
     <Compile Include="Web\HttpHandlerFactory.cs" />
@@ -103,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Authentication\身份认证实现方式.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
