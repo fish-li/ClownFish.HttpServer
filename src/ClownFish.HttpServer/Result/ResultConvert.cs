@@ -34,7 +34,10 @@ namespace ClownFish.HttpServer.Result
 			if( t == typeof(DateTime) )
 				return ConvertDateTime(value);
 
-			if( t.IsPrimitive || t.IsCommonValueType() )
+            if( t == typeof(byte[]) )
+                return ConvertByteArray(value);
+
+            if( t.IsPrimitive || t.IsCommonValueType() )
 				return ConvertValue(value);
 
 			return ConvertObject(value, context);
@@ -50,12 +53,23 @@ namespace ClownFish.HttpServer.Result
 			return new TextResult(value);
 		}
 
-		/// <summary>
-		/// 将一个DateTime转换成IActionResult实例（默认采用TextResult类型）
+
+        /// <summary>
+		/// 将一个对象转换成IActionResult实例（默认采用BinaryResult类型）
 		/// </summary>
 		/// <param name="value"></param>
 		/// <returns></returns>
-		protected virtual IActionResult ConvertDateTime(object value)
+		protected virtual IActionResult ConvertByteArray(object value)
+        {
+            return new BinaryResult((byte[])value);
+        }
+
+        /// <summary>
+        /// 将一个DateTime转换成IActionResult实例（默认采用TextResult类型）
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected virtual IActionResult ConvertDateTime(object value)
 		{
 			DateTime time = (DateTime)value;
 			return new TextResult(time.ToTimeString());

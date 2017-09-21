@@ -34,5 +34,9 @@ namespace ClownFish.HttpServer.Web
 		public static readonly string Html = "text/html";
 
 
-	}
+        /// <summary>
+		/// 表示以二进制形式响应
+		/// </summary>
+		public static readonly string Bin = "application/octet-stream";
+    }
 }
