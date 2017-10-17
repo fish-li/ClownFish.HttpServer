@@ -85,8 +85,7 @@ namespace ClownFish.HttpServer.Firewall
                 if( existObject != null )
                     return;
             }
-            catch( Exception ex ) { // 如果指定的端口不在防火墙列表中，调用 Item 方法时会抛出异常，所以这里就吃掉异常
-                string s = ex.Message;
+            catch { // 如果指定的端口不在防火墙列表中，调用 Item 方法时会抛出异常，所以这里就吃掉异常
             }
 
 
