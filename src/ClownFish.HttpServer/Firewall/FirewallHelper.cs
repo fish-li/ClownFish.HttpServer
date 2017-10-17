@@ -89,7 +89,7 @@ namespace ClownFish.HttpServer.Firewall
             }
 
 
-            //创建一个认证程序类的实例
+            //创建一个开放端口类的实例
             INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(
                 Type.GetTypeFromProgID("HNetCfg.FwOpenPort"));
             
