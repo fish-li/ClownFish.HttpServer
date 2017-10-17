@@ -102,6 +102,8 @@ CategoryID=1";
         static void SetFirewall()
         {
             FirewallHelper.AddToFwAuthorized(Application.ExecutablePath);
+
+            FirewallHelper.AddToOpenPort(50457, "50457-测试规则");
         }
 
     }
