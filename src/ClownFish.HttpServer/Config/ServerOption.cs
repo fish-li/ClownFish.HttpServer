@@ -88,10 +88,18 @@ namespace ClownFish.HttpServer.Config
 		/// </summary>
 		[XmlElement("localPath")]
 		public string LocalPath { get; set; }
-		/// <summary>
-		/// 静态文件参数
-		/// </summary>
-		[XmlArray("staticFile")]
+
+        /// <summary>
+        /// 静态文件的默认缓存时间。
+        /// 如果配置值小于等于零，则表示缓存时间为一年。
+        /// </summary>
+        [DefaultValue(0)]
+        public int CacheDuration { get; set; }
+
+        /// <summary>
+        /// 静态文件参数
+        /// </summary>
+        [XmlArray("staticFile")]
 		[XmlArrayItem("option")]
 		public StaticFileOption[] StaticFiles { get; set; }
 	}

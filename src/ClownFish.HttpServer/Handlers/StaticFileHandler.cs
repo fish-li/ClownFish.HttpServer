@@ -103,8 +103,8 @@ namespace ClownFish.HttpServer.Handlers
 				_context.Response.AppendHeader("ETag", _fileinfo.LastWriteTime.Ticks.ToString());
 			}
 			else {
-				// 不缓存，这里使用ASP.NET默认行为
-				_context.Response.AppendHeader("Cache-Control", "private");
+                //参考链接：https://www.coderxing.com/http-cache-control.html
+                _context.Response.AppendHeader("Cache-Control", "no-store, max-age=0");
 			}
 
 			// 设置响应内容标头

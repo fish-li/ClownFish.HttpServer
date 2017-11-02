@@ -77,10 +77,11 @@ CategoryID=1";
 
 			option.Website = new WebsiteOption();
 			option.Website.LocalPath = "..\\Website";
-			option.Website.StaticFiles = new StaticFileOption[] {
-				new StaticFileOption { Ext=".html", Cache=3600 * 24 * 365, Mine="text/html" },
-				new StaticFileOption { Ext=".html", Cache=3600 * 24 * 365 },
-				new StaticFileOption { Ext=".js", Cache=3600 * 24 * 365 },
+            option.Website.CacheDuration = 3600 * 24 * 365;
+            option.Website.StaticFiles = new StaticFileOption[] {
+				new StaticFileOption { Ext=".htm", Mine="text/html" },     // 隐式使用默认值
+				new StaticFileOption { Ext=".html", Cache=0 },              // 显示使用默认值
+				new StaticFileOption { Ext=".js", Cache=3600000 },          // 指定固定值
 				new StaticFileOption { Ext=".css", Cache=3600 * 24 * 365 },
 				new StaticFileOption { Ext=".png", Cache=3600 * 24 * 365 },
 				new StaticFileOption { Ext=".jpg", Cache=3600 * 24 * 365 },

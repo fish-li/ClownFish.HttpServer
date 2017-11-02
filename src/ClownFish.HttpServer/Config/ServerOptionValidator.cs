@@ -96,19 +96,23 @@ namespace ClownFish.HttpServer.Config
 			}
 
 
-			if( option.Website != null )
-				option.Website.LocalPath = Path.GetFullPath(option.Website.LocalPath);
+            if( option.Website != null ) {
+                option.Website.LocalPath = Path.GetFullPath(option.Website.LocalPath);
+
+                if( option.Website.CacheDuration <= 0 )
+                    option.Website.CacheDuration = 3600 * 24 * 365;      // 默认缓存1年
 
 
-			if( option.Website != null && option.Website.StaticFiles != null ) { 
-				foreach(var f in option.Website.StaticFiles ) {
-					if( f.Cache == 0 )
-						f.Cache = 3600 * 24 * 365;      // 默认缓存1年
+                if( option.Website.StaticFiles != null ) {
+                    foreach( var f in option.Website.StaticFiles ) {
+                        if( f.Cache == 0 )
+                            f.Cache = option.Website.CacheDuration;      // 取默认缓存值
 
-					if( string.IsNullOrEmpty(f.Mine) )
-						f.Mine = StaticFileHandler.GetMimeType(f.Ext);
-				}
-			}
+                        if( string.IsNullOrEmpty(f.Mine) )
+                            f.Mine = StaticFileHandler.GetMimeType(f.Ext);
+                    }
+                }
+            }
 
 			if( option.Modules != null ) {
 				option.ModuleTypes = (from s in option.Modules
