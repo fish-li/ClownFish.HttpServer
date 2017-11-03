@@ -102,9 +102,9 @@ CategoryID=1";
 
         static void SetFirewall()
         {
-            FirewallHelper.AddToFwAuthorized(Application.ExecutablePath);
+            FirewallHelper.AllowApplication(Application.ExecutablePath);
 
-            FirewallHelper.AddToOpenPort(50457, "50457-测试规则");
+            FirewallHelper.AllowTcpPort(50457, "50457-测试规则");
         }
 
     }

@@ -17,7 +17,7 @@ namespace NetFwTypeLib
         /// 添加一个应用程序完整路径到Windows防火墙的“受信”列表中
         /// </summary>
         /// <param name="path"></param>
-        public static void AddToFwAuthorized(string path)
+        public static void AllowApplication(string path)
         {
             if( string.IsNullOrEmpty(path) )
                 throw new ArgumentNullException(nameof(path));
@@ -58,7 +58,7 @@ namespace NetFwTypeLib
         /// </summary>
         /// <param name="port">需要例外的TCP端口号</param>
         /// <param name="displayName">防火墙规则列表中的显示名称</param>
-        public static void AddToOpenPort(int port, string displayName)
+        public static void AllowTcpPort(int port, string displayName)
         {
             if( port <= 0 )
                 throw new ArgumentOutOfRangeException("无效的TCP端口号：" + port.ToString());
