@@ -105,7 +105,7 @@ CategoryID=1";
             FirewallHelper.AllowApplication(Application.ExecutablePath);
 
             FirewallHelper.AllowTcpPort(50457, "50457-测试规则");
-            FirewallHelper.AllowTcpPort(50458, "50458-测试规则");
+            FirewallHelper.AllowUdpPort(50458, "50458-测试规则");
         }
 
     }
