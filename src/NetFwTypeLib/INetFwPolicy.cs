@@ -20,6 +20,6 @@ namespace NetFwTypeLib
 		[DispId(2)]
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		[return: MarshalAs(UnmanagedType.Interface)]
-		INetFwProfile GetProfileByType([In] NET_FW_PROFILE_TYPE_ profileType);
+		INetFwProfile GetProfileByType([In] NET_FW_PROFILE_TYPE profileType);
 	}
 }

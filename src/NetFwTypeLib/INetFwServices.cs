@@ -20,7 +20,7 @@ namespace NetFwTypeLib
 		[DispId(2)]
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		[return: MarshalAs(UnmanagedType.Interface)]
-		INetFwService Item([In] NET_FW_SERVICE_TYPE_ svcType);
+		INetFwService Item([In] NET_FW_SERVICE_TYPE svcType);
 
 		[DispId(-4), TypeLibFunc(1)]
 		[MethodImpl(MethodImplOptions.InternalCall)]

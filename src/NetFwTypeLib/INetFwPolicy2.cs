@@ -92,7 +92,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(12)]
-		NET_FW_ACTION_ DefaultInboundAction
+		NET_FW_ACTION DefaultInboundAction
 		{
 			[DispId(12)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -103,7 +103,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(13)]
-		NET_FW_ACTION_ DefaultOutboundAction
+		NET_FW_ACTION DefaultOutboundAction
 		{
 			[DispId(13)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -122,7 +122,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(15)]
-		NET_FW_MODIFY_STATE_ LocalPolicyModifyState
+		NET_FW_MODIFY_STATE LocalPolicyModifyState
 		{
 			[DispId(15)]
 			[MethodImpl(MethodImplOptions.InternalCall)]

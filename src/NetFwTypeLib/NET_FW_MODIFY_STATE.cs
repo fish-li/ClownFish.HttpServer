@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_MODIFY_STATE_
+	public enum NET_FW_MODIFY_STATE
 	{
 		NET_FW_MODIFY_STATE_OK,
 		NET_FW_MODIFY_STATE_GP_OVERRIDE,

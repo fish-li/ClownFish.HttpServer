@@ -18,7 +18,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(2)]
-		NET_FW_SERVICE_TYPE_ Type
+		NET_FW_SERVICE_TYPE Type
 		{
 			[DispId(2)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -34,7 +34,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(4)]
-		NET_FW_IP_VERSION_ IpVersion
+		NET_FW_IP_VERSION IpVersion
 		{
 			[DispId(4)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -45,7 +45,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(5)]
-		NET_FW_SCOPE_ Scope
+		NET_FW_SCOPE Scope
 		{
 			[DispId(5)]
 			[MethodImpl(MethodImplOptions.InternalCall)]

@@ -23,12 +23,12 @@ namespace NetFwTypeLib
 
 		[DispId(3)]
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		void Remove([In] int portNumber, [In] NET_FW_IP_PROTOCOL_ ipProtocol);
+		void Remove([In] int portNumber, [In] NET_FW_IP_PROTOCOL ipProtocol);
 
 		[DispId(4)]
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		[return: MarshalAs(UnmanagedType.Interface)]
-		INetFwOpenPort Item([In] int portNumber, [In] NET_FW_IP_PROTOCOL_ ipProtocol);
+		INetFwOpenPort Item([In] int portNumber, [In] NET_FW_IP_PROTOCOL ipProtocol);
 
 		[DispId(-4), TypeLibFunc(1)]
 		[MethodImpl(MethodImplOptions.InternalCall)]

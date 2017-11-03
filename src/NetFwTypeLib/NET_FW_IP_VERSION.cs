@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_IP_VERSION_
+	public enum NET_FW_IP_VERSION
 	{
 		NET_FW_IP_VERSION_V4,
 		NET_FW_IP_VERSION_V6,

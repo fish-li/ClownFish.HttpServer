@@ -137,7 +137,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(11)]
-		NET_FW_RULE_DIRECTION_ Direction
+		NET_FW_RULE_DIRECTION Direction
 		{
 			[DispId(11)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -220,7 +220,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(18)]
-		NET_FW_ACTION_ Action
+		NET_FW_ACTION Action
 		{
 			[DispId(18)]
 			[MethodImpl(MethodImplOptions.InternalCall)]

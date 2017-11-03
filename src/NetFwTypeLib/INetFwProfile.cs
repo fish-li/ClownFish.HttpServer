@@ -9,7 +9,7 @@ namespace NetFwTypeLib
 	public interface INetFwProfile
 	{
 		[DispId(1)]
-		NET_FW_PROFILE_TYPE_ Type
+		NET_FW_PROFILE_TYPE Type
 		{
 			[DispId(1)]
 			[MethodImpl(MethodImplOptions.InternalCall)]

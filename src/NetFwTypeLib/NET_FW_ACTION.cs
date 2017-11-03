@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_ACTION_
+	public enum NET_FW_ACTION
 	{
 		NET_FW_ACTION_BLOCK,
 		NET_FW_ACTION_ALLOW,

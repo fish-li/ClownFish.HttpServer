@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_SCOPE_
+	public enum NET_FW_SCOPE
 	{
 		NET_FW_SCOPE_ALL,
 		NET_FW_SCOPE_LOCAL_SUBNET,

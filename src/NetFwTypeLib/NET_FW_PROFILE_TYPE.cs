@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_PROFILE_TYPE_
+	public enum NET_FW_PROFILE_TYPE
 	{
 		NET_FW_PROFILE_DOMAIN,
 		NET_FW_PROFILE_STANDARD,

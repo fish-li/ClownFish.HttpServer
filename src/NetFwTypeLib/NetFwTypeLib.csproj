@@ -58,15 +58,15 @@
     <Compile Include="INetFwService.cs" />
     <Compile Include="INetFwServiceRestriction.cs" />
     <Compile Include="INetFwServices.cs" />
-    <Compile Include="NET_FW_ACTION_.cs" />
-    <Compile Include="NET_FW_IP_PROTOCOL_.cs" />
-    <Compile Include="NET_FW_IP_VERSION_.cs" />
-    <Compile Include="NET_FW_MODIFY_STATE_.cs" />
-    <Compile Include="NET_FW_PROFILE_TYPE2_.cs" />
-    <Compile Include="NET_FW_PROFILE_TYPE_.cs" />
-    <Compile Include="NET_FW_RULE_DIRECTION_.cs" />
-    <Compile Include="NET_FW_SCOPE_.cs" />
-    <Compile Include="NET_FW_SERVICE_TYPE_.cs" />
+    <Compile Include="NET_FW_ACTION.cs" />
+    <Compile Include="NET_FW_IP_PROTOCOL.cs" />
+    <Compile Include="NET_FW_IP_VERSION.cs" />
+    <Compile Include="NET_FW_MODIFY_STATE.cs" />
+    <Compile Include="NET_FW_PROFILE_TYPE2.cs" />
+    <Compile Include="NET_FW_PROFILE_TYPE.cs" />
+    <Compile Include="NET_FW_RULE_DIRECTION.cs" />
+    <Compile Include="NET_FW_SCOPE.cs" />
+    <Compile Include="NET_FW_SERVICE_TYPE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

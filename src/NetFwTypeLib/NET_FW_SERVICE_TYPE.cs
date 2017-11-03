@@ -2,7 +2,7 @@ using System;
 
 namespace NetFwTypeLib
 {
-	public enum NET_FW_SERVICE_TYPE_
+	public enum NET_FW_SERVICE_TYPE
 	{
 		NET_FW_SERVICE_FILE_AND_PRINT,
 		NET_FW_SERVICE_UPNP,

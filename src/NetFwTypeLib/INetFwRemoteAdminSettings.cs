@@ -9,7 +9,7 @@ namespace NetFwTypeLib
 	public interface INetFwRemoteAdminSettings
 	{
 		[DispId(1)]
-		NET_FW_IP_VERSION_ IpVersion
+		NET_FW_IP_VERSION IpVersion
 		{
 			[DispId(1)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
@@ -20,7 +20,7 @@ namespace NetFwTypeLib
 		}
 
 		[DispId(2)]
-		NET_FW_SCOPE_ Scope
+		NET_FW_SCOPE Scope
 		{
 			[DispId(2)]
 			[MethodImpl(MethodImplOptions.InternalCall)]
