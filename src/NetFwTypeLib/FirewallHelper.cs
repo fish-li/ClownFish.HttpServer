@@ -12,6 +12,10 @@ namespace NetFwTypeLib
     /// </summary>
     public sealed class FirewallHelper
     {
+        // 参考链接：
+        // https://msdn.microsoft.com/en-us/library/windows/desktop/aa366418(v=vs.85).aspx
+        // https://stackoverflow.com/questions/15409790/adding-an-application-firewall-rule-to-both-private-and-public-networks-via-win7
+        // bing: hnetcfg.fwpolicy2 c#
 
         /// <summary>
         /// 添加一个应用程序完整路径到Windows防火墙的“受信”列表中
