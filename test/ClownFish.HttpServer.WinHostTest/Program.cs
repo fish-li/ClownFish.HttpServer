@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClownFish.HttpServer.Config;
-using ClownFish.HttpServer.Firewall;
 using ClownFish.HttpTest;
+using NetFwTypeLib;
 
 namespace ClownFish.HttpServer.WinHostTest
 {

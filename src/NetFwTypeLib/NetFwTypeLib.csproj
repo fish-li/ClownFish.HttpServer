@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{2904C236-0058-4AC7-8399-F9FB62CC53A8}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <AssemblyName>NetFwTypeLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>NetFwTypeLib</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="FirewallHelper.cs" />
+    <Compile Include="INetFwAuthorizedApplication.cs" />
+    <Compile Include="INetFwAuthorizedApplications.cs" />
+    <Compile Include="INetFwIcmpSettings.cs" />
+    <Compile Include="INetFwMgr.cs" />
+    <Compile Include="INetFwOpenPort.cs" />
+    <Compile Include="INetFwOpenPorts.cs" />
+    <Compile Include="INetFwPolicy.cs" />
+    <Compile Include="INetFwPolicy2.cs" />
+    <Compile Include="INetFwProduct.cs" />
+    <Compile Include="INetFwProducts.cs" />
+    <Compile Include="INetFwProfile.cs" />
+    <Compile Include="INetFwRemoteAdminSettings.cs" />
+    <Compile Include="INetFwRule.cs" />
+    <Compile Include="INetFwRule2.cs" />
+    <Compile Include="INetFwRule3.cs" />
+    <Compile Include="INetFwRules.cs" />
+    <Compile Include="INetFwService.cs" />
+    <Compile Include="INetFwServiceRestriction.cs" />
+    <Compile Include="INetFwServices.cs" />
+    <Compile Include="NET_FW_ACTION_.cs" />
+    <Compile Include="NET_FW_IP_PROTOCOL_.cs" />
+    <Compile Include="NET_FW_IP_VERSION_.cs" />
+    <Compile Include="NET_FW_MODIFY_STATE_.cs" />
+    <Compile Include="NET_FW_PROFILE_TYPE2_.cs" />
+    <Compile Include="NET_FW_PROFILE_TYPE_.cs" />
+    <Compile Include="NET_FW_RULE_DIRECTION_.cs" />
+    <Compile Include="NET_FW_SCOPE_.cs" />
+    <Compile Include="NET_FW_SERVICE_TYPE_.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
