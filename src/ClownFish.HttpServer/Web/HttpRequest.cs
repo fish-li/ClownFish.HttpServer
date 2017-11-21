@@ -136,11 +136,12 @@ namespace ClownFish.HttpServer.Web
             int p = _rawUrl.IndexOf('?');
             if( p < 0 ) { // 没有查询字符串参数
                 _queryString = new NameValueCollection();
-                _path = _rawUrl;
+                _path = System.Web.HttpUtility.UrlDecode(_rawUrl);
                 _query = string.Empty;
             }
             else {
                 _path = _rawUrl.Substring(0, p);
+                _path = System.Web.HttpUtility.UrlDecode(_path);
 
                 if( p == _rawUrl.Length - 1 ) {   // 问号是最后个字符，没有意义，忽略
                     _query = string.Empty;

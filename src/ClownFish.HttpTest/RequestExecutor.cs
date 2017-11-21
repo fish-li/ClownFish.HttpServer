@@ -56,11 +56,20 @@ namespace ClownFish.HttpTest
 			catch( WebException webException ) {
 				HttpWebResponse response = (webException.Response as HttpWebResponse);
 
-				this.Result.StatusCode = (int)response.StatusCode;
-				this.Result.Headers = response.Headers.CloneObject();
+                // 如果服务端处理超时，这里的 response = null
+                // 此时的 webException.Status = Timeout，webException.Message = "操作超时"
+                if( response == null ) {
+                    this.Result.StatusCode = (int)HttpStatusCode.GatewayTimeout;
+                    this.Result.Headers = new WebHeaderCollection();
+                    this.Result.ResponseText = webException.Message;
+                }
+                else {
+                    this.Result.StatusCode = (int)response.StatusCode;
+                    this.Result.Headers = response.Headers.CloneObject();
 
-				RemoteWebException remoteException = new RemoteWebException(webException);
-				this.Result.ResponseText = remoteException.ResponseText;
+                    RemoteWebException remoteException = new RemoteWebException(webException);
+                    this.Result.ResponseText = remoteException.ResponseText;
+                }
 			}
 			catch( Exception ex ) {
 				this.ErrorMessage = ex.Message;

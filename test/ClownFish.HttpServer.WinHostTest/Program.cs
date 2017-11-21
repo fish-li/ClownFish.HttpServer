@@ -87,8 +87,12 @@ CategoryID=1";
 				new StaticFileOption { Ext=".jpg", Cache=3600 * 24 * 365 },
 				new StaticFileOption { Ext=".gif", Cache=3600 * 24 * 365 },
 
-				new StaticFileOption { Ext=".eot" },
-				new StaticFileOption { Ext=".svg" },
+				new StaticFileOption { Ext=".txt" },
+                new StaticFileOption { Ext=".log" },
+                new StaticFileOption { Ext=".xml" },
+
+                new StaticFileOption { Ext=".eot" },
+                new StaticFileOption { Ext=".svg" },
 				new StaticFileOption { Ext=".ttf" },
 				new StaticFileOption { Ext=".woff" },
 				new StaticFileOption { Ext=".woff2" },

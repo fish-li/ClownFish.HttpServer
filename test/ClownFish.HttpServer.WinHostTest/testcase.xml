@@ -320,6 +320,23 @@ GET http://localhost:50456/static/JavaScript1.js HTTP/1.1
     </RequestTest>
 
 
+    <RequestTest Category="Website" Title="">
+        <Request>
+            <![CDATA[
+GET http://localhost:50456/static/%e6%b5%8b%e8%af%95%e4%b8%ad%e6%96%87%e6%b1%89%e5%ad%97.txt HTTP/1.1
+]]>
+        </Request>
+        <Response StatusCode="200">
+            <Headers>
+                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+            </Headers>
+            <Body>
+                <check name="Text" check="=" value="测试中文汉字在URL中是否能显示正常。" />
+            </Body>
+        </Response>
+    </RequestTest>
+
+
 
     <RequestTest Category="XmlCommamnd" Title="">
         <Request>
