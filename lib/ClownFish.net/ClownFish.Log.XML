@@ -194,6 +194,26 @@
             参数值
             </summary>
         </member>
+        <member name="T:ClownFish.Log.ExceptionExtensions">
+            <summary>
+            异常的日志记录工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionExtensions.SaveToLog(System.Exception,System.Boolean)">
+            <summary>
+            将一个异常对象通过 ClownFish.Log 记录下来，
+            如果还需要记录HTTP请求或者SQL执行信息，请先调用ExceptionInfo.Create()
+            </summary>
+            <param name="ex">Exception实例</param>
+            <param name="syncWrite">是否采用同步方式写入日志</param>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionExtensions.SaveToLog(ClownFish.Log.Model.ExceptionInfo,System.Boolean)">
+            <summary>
+            与ClownFish.Log.LogHelper.Write()等效的扩展方法
+            </summary>
+            <param name="ex">ExceptionInfo实例</param>
+            <param name="syncWrite">是否采用同步方式写入日志</param>
+        </member>
         <member name="T:ClownFish.Log.LogFilter">
             <summary>
             指定在记录日志时使用的类型过滤器
@@ -277,6 +297,32 @@
             <typeparam name="T">日志信息的类型参数</typeparam>
             <param name="info">要写入的日志信息</param>
         </member>
+        <member name="T:ClownFish.Log.MessageLoger">
+            <summary>
+            一个简单的流式消息日志记录实现类，所有写入将会以同步方式写入文件。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.MessageLoger.#ctor(System.String,System.Boolean)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="logFilePath">日志的保存文件路径</param>
+            <param name="supportConcurrent">是否支持多线程的并发调用</param>
+        </member>
+        <member name="M:ClownFish.Log.MessageLoger.Write(System.String)">
+            <summary>
+            写入一条消息到日志文件
+            </summary>
+            <param name="message">消息文本</param>
+        </member>
+        <member name="M:ClownFish.Log.MessageLoger.Write(System.String,System.String)">
+            <summary>
+            写入一条消息到日志文件。
+            说明：为了防止程序突然崩溃，写入消息时，不做任何缓冲处理，且每次写入时打开文件
+            </summary>
+            <param name="category">消息类别，默认：INFO</param>
+            <param name="message">消息文本</param>
+        </member>
         <member name="T:ClownFish.Log.Model.BaseInfo">
             <summary>
             日志信息的数据结构基类
@@ -342,6 +388,71 @@
             记录调试信息的数据结构
             </summary>
         </member>
+        <member name="T:ClownFish.Log.Model.EnvironmentInfo">
+            <summary>
+            描述机器环境信息的数据类型
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.ComputerName">
+            <summary>
+            机器名称
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.Mac">
+            <summary>
+            MAC地址
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.UserName">
+            <summary>
+            当前用户名
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.WinVersion">
+            <summary>
+            Windows版本
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.IeVersion">
+            <summary>
+            IE版本
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.EnvironmentInfo.CPU">
+            <summary>
+            CPU架构，32位还是64位
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetCurrent">
+            <summary>
+            获取当前机器环境信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetComputerName">
+            <summary>
+            获取计算机名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetMacAddress">
+            <summary>
+            获取网卡MAC地址
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Model.EnvironmentInfo.IsWin64">
+            <summary>
+            判断操作系统是否为64位Windows
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetIeVersion">
+            <summary>
+            获取IE版本
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Log.Model.ExceptionInfo">
             <summary>
             异常消息的持久化数据结构
@@ -375,6 +486,11 @@
         <member name="P:ClownFish.Log.Model.ExceptionInfo.Addition">
             <summary>
             附加信息
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.ExceptionInfo.Environment">
+            <summary>
+            机器环境信息
             </summary>
         </member>
         <member name="M:ClownFish.Log.Model.ExceptionInfo.Create(System.Exception,System.Web.HttpContext,System.Data.Common.DbCommand)">
@@ -444,6 +560,16 @@
         <member name="M:ClownFish.Log.Model.HttpInfo.SetHttpInfo(System.Web.HttpContext)">
             <summary>
             设置请求信息
+            </summary>
+        </member>
+        <member name="T:ClownFish.Log.Model.HttpRequestData">
+            <summary>
+            记录某次HTTP调用的报文信息
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.HttpRequestData.HttpInfo">
+            <summary>
+            HttpInfo实例
             </summary>
         </member>
         <member name="T:ClownFish.Log.Model.NameValue">
@@ -541,6 +667,45 @@
             <param name="command"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Log.ExceptionLogModule">
+            <summary>
+            一个简单的仅仅记录异常日志的HttpModule
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionLogModule.Dispose">
+            <summary>
+            Dispose
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionLogModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Init
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionLogModule.App_Error(System.Object,System.EventArgs)">
+            <summary>
+            Error事件处理方法
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="T:ClownFish.Log.HttpLogModule">
+            <summary>
+            一个简单的记录HTTP请求数据的IHttpModule
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.HttpLogModule.Dispose">
+            <summary>
+            Dispose
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.HttpLogModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Init
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="T:ClownFish.Log.PerformanceModule">
             <summary>
             性能日志Moudle，可直接在 web.config 中配置
@@ -565,6 +730,18 @@
             实现IHttpModule的Init接口
             </summary>
         </member>
+        <member name="T:ClownFish.Log.Serializer.DirectoryHelper">
+            <summary>
+            日志目录的辅助工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.DirectoryHelper.InitDirectory(System.String)">
+            <summary>
+            初始化文件的保存目录
+            </summary>
+            <param name="dirName">配置文件中的目录名（不包含路径）</param>
+            <returns>返回完整的日志根目录</returns>
+        </member>
         <member name="T:ClownFish.Log.Serializer.FileWriter">
             <summary>
             将日志记录到文件的写入器
@@ -575,6 +752,12 @@
             初始化
             </summary>
             <param name="config"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.FileWriter.GetRootDirectory">
+            <summary>
+            获取日志的根目录
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Log.Serializer.FileWriter.Write``1(``0)">
             <summary>
@@ -659,6 +842,12 @@
             初始化
             </summary>
             <param name="config"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.GetRootDirectory">
+            <summary>
+            获取日志的根目录
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Log.Serializer.JsonWriter.Write``1(``0)">
             <summary>

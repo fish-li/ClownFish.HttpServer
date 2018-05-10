@@ -71,6 +71,20 @@
             <param name="b2"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.ByteExtensions.ToBase64(System.Byte[])">
+            <summary>
+            将byte[]做BASE64编码，Convert.ToBase64String(bytes);
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.ByteExtensions.ToHexString(System.Byte[])">
+            <summary>
+            将byte[]按十六进制转换成字符串，BitConverter.ToString(bytes).Replace("-", "");
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.CryptoHelper">
             <summary>
             “对称加密算法”的封装工具类
@@ -231,6 +245,30 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
+        <member name="T:ClownFish.Base.ExceptionExtensions">
+            <summary>
+            封装一些与异常有关的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.ExceptionExtensions.GetMessage(System.Exception)">
+            <summary>
+            获取异常的错误原因，相当于 ex.GetBaseException().Message，
+            如果是AggregateException，会将所有内部异常的原因全部拼接在一起。
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.GuidHelper">
+            <summary>
+            Guid扩展方法类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.GuidHelper.NewSeqGuid">
+            <summary>
+            生成SQLSERVER能识别的有序GUID
+            </summary>
+            <returns>新生成的有序guid</returns>
+        </member>
         <member name="T:ClownFish.Base.GzipHelper">
             <summary>
             GZIP压缩相关的工具方法
@@ -279,6 +317,22 @@
         <member name="M:ClownFish.Base.HashHelper.Sha1(System.String,System.Text.Encoding)">
             <summary>
             计算字符串的 SHA1 签名
+            </summary>
+            <param name="text"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.HashHelper.Sha256(System.String,System.Text.Encoding)">
+            <summary>
+            计算字符串的 SHA256 签名
+            </summary>
+            <param name="text"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.HashHelper.Sha512(System.String,System.Text.Encoding)">
+            <summary>
+            计算字符串的 SHA512 签名
             </summary>
             <param name="text"></param>
             <param name="encoding"></param>
@@ -368,10 +422,86 @@
             键值
             </summary>
         </member>
+        <member name="M:ClownFish.Base.NameValue.#ctor">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.NameValue.#ctor(System.String,System.String)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
         <member name="M:ClownFish.Base.NameValue.ToString">
             <summary>
             ToString
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.Retry">
+            <summary>
+            用于执行重试任务的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.Retry.Create(System.Int32,System.Int32)">
+            <summary>
+            创建RetryOption实例
+            </summary>
+            <param name="count"></param>
+            <param name="milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="P:ClownFish.Base.Retry.Count">
+            <summary>
+            重试次数
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.Retry.Milliseconds">
+            <summary>
+            二次重试之间的间隔毫秒。
+            如果不指定，默认 1 秒。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.Retry.Filter``1">
+            <summary>
+            设置仅重试哪些类型的异常。
+            允许多次调用（以OR方式处理）。
+            </summary>
+            <typeparam name="TException"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.Retry.Filter``1(System.Func{``0,System.Boolean})">
+            <summary>
+            设置仅重试哪些类型的异常，并允许根据特殊的异常再进一步判断。
+            允许多次调用（以OR方式处理）。
+            </summary>
+            <typeparam name="TException"></typeparam>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.Retry.OnException(System.Action{System.Exception,System.Int32})">
+            <summary>
+            当异常发生并需要重试时执行的回调委托
+            </summary>
+            <param name="callback"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.Retry.Run``1(System.Func{``0})">
+            <summary>
+            执行重试任务
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.Retry.RunAsync``1(System.Func{System.Threading.Tasks.Task{``0}})">
+            <summary>
+            执行重试任务
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="func"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.RsaHelper">
@@ -436,6 +566,14 @@
         <member name="M:ClownFish.Base.StringExtensions.EqualsIgnoreCase(System.String,System.String)">
             <summary>
             判断二个字符串是否相等，忽略大小写的比较方式。
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.StringExtensions.Is(System.String,System.String)">
+            <summary>
+            判断二个字符串是否相等，忽略大小写的比较方式。等同于 EqualsIgnoreCase方法。
             </summary>
             <param name="a"></param>
             <param name="b"></param>
@@ -515,6 +653,20 @@
             <param name="keepLength"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Base.TempFilesUtils">
+            <summary>
+            用于处理临时文件的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.TempFilesUtils.DeleteOldFiles(System.String,System.TimeSpan,System.Boolean)">
+            <summary>
+            删除过早的临时文件
+            </summary>
+            <param name="path">包含临时文件的目录，删除时会查找所有子目录</param>
+            <param name="timeAgo">指定一个时间间隔，超过这个时间间隔前的文件将被删除</param>
+            <param name="topDirectoryOnly">是否只清除指定目录，不包含它的子目录</param>
+            <returns>过程中所有遇到的异常</returns>
+        </member>
         <member name="T:ClownFish.Base.TestHelper">
             <summary>
             辅助测试的工具类
@@ -588,6 +740,39 @@
             <param name="method"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Base.ZipHelper">
+            <summary>
+            提供一些操作ZIP文件的工具方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.ZipHelper.ExtractFiles(System.String,System.String)">
+            <summary>
+            将ZIP文件解压缩到指定的目录
+            </summary>
+            <param name="zipPath">需要解压缩的ZIP文件</param>
+            <param name="extractPath">要释放的目录</param>
+        </member>
+        <member name="M:ClownFish.Base.ZipHelper.Read(System.String)">
+            <summary>
+            读取ZIP到内存字典中
+            </summary>
+            <param name="zipPath">需要读取的ZIP文件</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.ZipHelper.Compress(System.String,System.String)">
+            <summary>
+            将指定的目录打包成ZIP文件
+            </summary>
+            <param name="path"></param>
+            <param name="zipPath"></param>
+        </member>
+        <member name="M:ClownFish.Base.ZipHelper.Compress(System.Collections.Generic.List{System.Tuple{System.String,System.Byte[]}},System.String)">
+            <summary>
+            根据指定的包内文件名及对应的文件内容打包成ZIP文件
+            </summary>
+            <param name="files"></param>
+            <param name="zipPath"></param>
+        </member>
         <member name="T:ClownFish.Base.Files.CacheResult`1">
             <summary>
             缓存结果项的包装类
@@ -598,6 +783,12 @@
             <summary>
             缓存结果项
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.Files.CacheResult`1.TryGetResult">
+            <summary>
+            直接获取结果，不判断有没有异常，如果有异常则返回类型的默认值。
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Base.Files.FileDependencyManager`1">
             <summary>
@@ -610,6 +801,12 @@
             <summary>
             缓存结果
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.Files.FileDependencyManager`1.TryGetResult">
+            <summary>
+            直接获取结果，不判断有没有异常，如果有异常则返回类型的默认值。
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Base.Files.FileDependencyManager`1.#ctor(System.Func{System.String[],`0},System.String[])">
             <summary>
@@ -765,6 +962,12 @@
             构造方法
             </summary>
         </member>
+        <member name="M:ClownFish.Base.Http.HttpHeaderCollection.op_Implicit(System.Collections.Generic.Dictionary{System.String,System.String})~ClownFish.Base.Http.HttpHeaderCollection">
+            <summary>
+            将一个字典转换成HttpHeaderCollection实例
+            </summary>
+            <param name="dictionary"></param>
+        </member>
         <member name="P:ClownFish.Base.Http.HttpHeaderCollection.Item(System.String)">
             <summary>
             索引器，根据名称访问集合
@@ -866,6 +1069,13 @@
             <param name="json">JSON字符串</param>
             <param name="destType">反序列的对象类型参数</param>
             <returns>反序列化得到的结果</returns>
+        </member>
+        <member name="M:ClownFish.Base.JsonExtensions.ToDumpJson(System.Object)">
+            <summary>
+            将对象序列化成缩进结构的JSON，便于日志记录
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Base.Json.SetDefaultJsonSerializerSettingArgs">
             <summary>
@@ -1410,6 +1620,42 @@
             定义HttpClient的扩展方法的工具类
             </summary>
         </member>
+        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
+            <summary>
+            封装HttpOption的Send扩展方法发送HTTP请求，并提供失败重试功能。
+            如果遇到WebException异常，就转换成RemoteWebException异常
+            </summary>
+            <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
+            <summary>
+            封装HttpOption的Send扩展方法发送HTTP请求，并提供失败重试功能。
+            如果遇到WebException异常，就转换成RemoteWebException异常
+            </summary>
+            <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult``1(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
+            <summary>
+            封装HttpOption的Send扩展方法发送HTTP请求，并提供失败重试功能。
+            如果遇到WebException异常，就转换成RemoteWebException异常
+            </summary>
+            <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync``1(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
+            <summary>
+            封装HttpOption的Send扩展方法发送HTTP请求，并提供失败重试功能。
+            如果遇到WebException异常，就转换成RemoteWebException异常
+            </summary>
+            <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <returns></returns>
+        </member>
         <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult(ClownFish.Base.WebClient.HttpOption)">
             <summary>
             封装HttpOption的Send扩展方法发送HTTP请求，
@@ -1473,13 +1719,6 @@
             <typeparam name="T">返回值的类型参数</typeparam>
             <param name="option">HttpOption的实例，用于描述请求参数</param>
             <returns>返回服务端的调用结果，并转换成指定的类型</returns>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetQueryString(System.Object)">
-            <summary>
-            生成查询字符串参数
-            </summary>
-            <param name="data"></param>
-            <returns></returns>
         </member>
         <member name="T:ClownFish.Base.WebClient.FormDataCollection">
             <summary>
@@ -1676,7 +1915,7 @@
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.Headers">
             <summary>
-            请求头列表
+            请求头集合
             </summary>
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.Data">
@@ -1694,12 +1933,8 @@
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.ContentType">
             <summary>
-            框架自动计算，不需要调用者指定
-            </summary>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.HttpOption.IsMustQueryString">
-            <summary>
-            根据Method属性，返回是不是必须以查询字符串形式提交数据
+            框架内部使用。
+            如果需要指定请求数据格式，请设置 Format 属性。
             </summary>
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.UserAgent">
@@ -1750,6 +1985,32 @@
             <summary>
             检查传入的属性是否存在冲突的设置
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.HttpOption.IsMustQueryString">
+            <summary>
+            根据Method属性，返回是不是必须以查询字符串形式提交数据
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.HttpOption.GetRequestUrl">
+            <summary>
+            获取实际的请求址。
+            如果是GET请求，将会包含提交数据。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.HttpOption.GetPostData">
+            <summary>
+            获取需要提交的数据。
+            如果已指定要提交的数据，但是是GET请求，那么也认为是没有提交数据。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.HttpOption.GetQueryString(System.Object)">
+            <summary>
+            生成查询字符串参数
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.HttpOption.FromRawText(System.String)">
             <summary>

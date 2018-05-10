@@ -4,6 +4,23 @@
         <name>ClownFish.Web</name>
     </assembly>
     <members>
+        <member name="T:ClownFish.Web.BinaryResult">
+            <summary>
+            表示一个二进制的Action执行结果
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BinaryResult.#ctor(System.Byte[])">
+            <summary>
+            构造函数
+            </summary>
+            <param name="buffer">文件内容的字节数组</param>
+        </member>
+        <member name="M:ClownFish.Web.BinaryResult.Ouput(System.Web.HttpContext)">
+            <summary>
+            实现IActionResult接口，执行输出
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:ClownFish.Web.FileDownloadResult">
             <summary>
             文件下载的执行结果
@@ -111,7 +128,7 @@
         </member>
         <member name="T:ClownFish.Web.StreamResult">
             <summary>
-            包含流的Action执行结果，通常用于实现文件下载。
+            表示一个二进制的Action执行结果，可用于实现文件下载。
             </summary>
         </member>
         <member name="F:ClownFish.Web.StreamResult.DefaultContentType">
@@ -931,6 +948,37 @@
             <param name="headerName">请求头的名称</param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Web.BaseController.OnLoad">
+            <summary>
+            当实例被创建后调用，可用于一些成员的初始化操作
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.OnUnload">
+            <summary>
+            实例在释放前调用，可用于释放资源的操作
+            </summary>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.BeforeExecuteAction(System.Reflection.MethodInfo,System.Object[])">
+            <summary>
+            执行Action前调用
+            </summary>
+            <param name="method"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.AfterExecuteAction(System.Reflection.MethodInfo,System.Object)">
+            <summary>
+            执行Action后调用
+            </summary>
+            <param name="method"></param>
+            <param name="result"></param>
+        </member>
+        <member name="M:ClownFish.Web.BaseController.OnException(System.Reflection.MethodInfo,System.Exception)">
+            <summary>
+            执行Action遇到异常时调用
+            </summary>
+            <param name="method"></param>
+            <param name="ex"></param>
+        </member>
         <member name="T:ClownFish.Web.MvcRouteHandler">
             <summary>
             实现 ASP.NET Routing IRouteHandler的路由处理器，可供UrlRoutingModule使用
@@ -995,6 +1043,11 @@
         <member name="F:ClownFish.Web.Proxy.ProxyTransferHandler.TargetUrlKeyName">
             <summary>
             用于【外部模块】给 ProxyTransferHandler 传递目标网址
+            </summary>
+        </member>
+        <member name="P:ClownFish.Web.Proxy.ProxyTransferHandler.OriginalUrl">
+            <summary>
+            原始的请求地址
             </summary>
         </member>
         <member name="M:ClownFish.Web.Proxy.ProxyTransferHandler.GetTransferAddress(System.Web.HttpContext)">
@@ -1082,6 +1135,13 @@
         <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.GetProxySiteAddress(System.Web.HttpApplication)">
             <summary>
             获取代理目标的站点地址
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Web.Proxy.ReverseProxyModule.GetProxySiteAddressFromCookie(System.Web.HttpApplication)">
+            <summary>
+            尝试从Cookie中获取代理目标的站点地址
             </summary>
             <param name="app"></param>
             <returns></returns>
