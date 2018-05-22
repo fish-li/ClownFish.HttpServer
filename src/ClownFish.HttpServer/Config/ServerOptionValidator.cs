@@ -70,7 +70,7 @@ namespace ClownFish.HttpServer.Config
 					throw new ConfigurationErrorsException("配置项 website/localPath 不能为空。");
 
 				if( System.IO.Directory.Exists(option.Website.LocalPath) == false)
-					throw new ConfigurationErrorsException("配置项 modules/type 的取值无效，找不到指定的目录。");
+					throw new ConfigurationErrorsException("配置项 website/localPath 的取值无效，找不到指定的目录。");
 
 				if( option.Website.StaticFiles != null ) {
 					foreach(var f in option.Website.StaticFiles ) {

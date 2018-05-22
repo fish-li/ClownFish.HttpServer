@@ -112,7 +112,7 @@ namespace ClownFish.HttpServer
 			
 
 			// 加载当前目录下的所有程序集
-			AssemblyLoader.GetBinAssemblyReferences(AppDomain.CurrentDomain.BaseDirectory);
+			AssemblyLoader.LoadAssemblies(AppDomain.CurrentDomain.BaseDirectory);
 
 			// 加载所有路由规则
 			RoutingManager.Instance.LoadRoutes();

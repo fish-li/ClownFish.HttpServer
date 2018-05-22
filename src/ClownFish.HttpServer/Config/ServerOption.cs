@@ -75,7 +75,16 @@ namespace ClownFish.HttpServer.Config
 		{
 			return $"{Protocol}://{Ip}:{Port}/";
 		}
-	}
+
+        /// <summary>
+        /// 显式成URL格式
+        /// </summary>
+        /// <returns></returns>
+        public string ToUrl()
+        {
+            return $"{Protocol}://{Ip ?? "localhost"}:{Port}/";
+        }
+    }
 
 	/// <summary>
 	/// 站点参数

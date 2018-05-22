@@ -245,19 +245,6 @@
             <param name="key"></param>
             <param name="value"></param>
         </member>
-        <member name="T:ClownFish.Base.ExceptionExtensions">
-            <summary>
-            封装一些与异常有关的扩展方法
-            </summary>
-        </member>
-        <member name="M:ClownFish.Base.ExceptionExtensions.GetMessage(System.Exception)">
-            <summary>
-            获取异常的错误原因，相当于 ex.GetBaseException().Message，
-            如果是AggregateException，会将所有内部异常的原因全部拼接在一起。
-            </summary>
-            <param name="ex"></param>
-            <returns></returns>
-        </member>
         <member name="T:ClownFish.Base.GuidHelper">
             <summary>
             Guid扩展方法类
@@ -373,6 +360,36 @@
             </summary>
             <param name="filePath">要计算哈希值的文件路径</param>
             <param name="headerLength">读取开头多长的部分，默认值：2M</param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.HttpExtensions">
+            <summary>
+            包含一些处理ASP.NET对象的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.HttpExtensions.ReadInputStream(System.Web.HttpRequest)">
+            <summary>
+            读取输入的流
+            </summary>
+            <param name="request">HttpRequest</param>
+            <returns>输入的流</returns>
+        </member>
+        <member name="F:ClownFish.Base.HttpExtensions.RequestIdFlag">
+            <summary>
+            一个标记字符串，用于访问 HttpContext.Items 集合
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.HttpExtensions.SetRequestId(System.Web.HttpContext)">
+            <summary>
+            为每个请求设置 RequestID，此方法允许重复调用，仅当没有指定RequestID时有效。
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:ClownFish.Base.HttpExtensions.GetRequestId(System.Web.HttpContext)">
+            <summary>
+            获取当前请求的 RequestID，如果请求没有指定RequestID，则返回 null
+            </summary>
+            <param name="context"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.LazyObject`1">
@@ -502,6 +519,99 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.RetryFile">
+            <summary>
+            提供一些与 System.IO.File 相同签名且功能相同的工具方法，
+            差别在于：当出现IOException时，这个类中的方法支持重试功能。
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.Exists(System.String)">
+            <summary>
+            等同于：System.IO.File.Exists()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.Delete(System.String)">
+            <summary>
+            等同于：System.IO.File.Delete()，
+            但是会在删除文件前检查文件是否存在。
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.ReadAllText(System.String,System.Text.Encoding)">
+            <summary>
+            等同于：System.IO.File.ReadAllText()
+            </summary>
+            <param name="filePath"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.ReadAllBytes(System.String)">
+            <summary>
+            等同于：System.IO.File.ReadAllBytes()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.WriteAllText(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            等同于：System.IO.File.WriteAllText()
+            </summary>
+            <param name="filePath"></param>
+            <param name="text"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.WriteAllBytes(System.String,System.Byte[])">
+            <summary>
+            等同于：System.IO.File.WriteAllBytes()
+            </summary>
+            <param name="filePath"></param>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.AppendAllText(System.String,System.String,System.Text.Encoding)">
+            <summary>
+            等同于：System.IO.File.AppendAllText()
+            </summary>
+            <param name="filePath"></param>
+            <param name="text"></param>
+            <param name="encoding"></param>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.GetLastWriteTime(System.String)">
+            <summary>
+            等同于：System.IO.File.GetLastWriteTime()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.GetLastWriteTimeUtc(System.String)">
+            <summary>
+            等同于：System.IO.File.GetLastWriteTimeUtc()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.OpenRead(System.String)">
+            <summary>
+            等同于：System.IO.File.OpenRead()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.OpenWrite(System.String)">
+            <summary>
+            等同于：System.IO.File.OpenWrite()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.OpenCreate(System.String)">
+            <summary>
+            等同于：new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            </summary>
+            <param name="filePath"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.RsaHelper">
@@ -653,6 +763,22 @@
             <param name="keepLength"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.StringExtensions.TryToUInt(System.String,System.Int32)">
+            <summary>
+            尝试将一个字符串转成【正整数】，如果失败就返回默认值
+            </summary>
+            <param name="text"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.StringExtensions.TryToBool(System.String,System.Boolean)">
+            <summary>
+            尝试将一个字符串转成【布尔值】，如果失败就返回默认值
+            </summary>
+            <param name="text"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.TempFilesUtils">
             <summary>
             用于处理临时文件的工具类
@@ -738,6 +864,35 @@
             检查是不是Task&lt;T&gt;方法，如果是，则返回类型参数T，否则返回 null
             </summary>
             <param name="method"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.UrlExtensions">
+            <summary>
+            提供一些与URL有关的扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.UrlExtensions.UrlEncode(System.String)">
+            <summary>
+            等同于：System.Web.HttpUtility.UrlEncode(text)
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.UrlExtensions.ConcatQueryStringArgs(System.String,System.String,System.String)">
+            <summary>
+            拼接URL字符串
+            </summary>
+            <param name="url"></param>
+            <param name="name"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.UrlExtensions.ConcatQueryStringArgs(System.String,System.Collections.Generic.IEnumerable{ClownFish.Base.NameValue})">
+            <summary>
+            拼接URL字符串
+            </summary>
+            <param name="url"></param>
+            <param name="list"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.ZipHelper">
@@ -1032,6 +1187,11 @@
             <summary>
             自动根据请求头去响应，用于服务端响应。
             客户端发起请求时，需要指定 Request.Headers["X-Result-Format"]，否则按文本输出
+            </summary>
+        </member>
+        <member name="T:ClownFish.Base.Internals.InternalBridge">
+            <summary>
+            为实现框架内部解耦的辅助类
             </summary>
         </member>
         <member name="T:ClownFish.Base.JsonExtensions">
@@ -1990,6 +2150,13 @@
             <summary>
             根据Method属性，返回是不是必须以查询字符串形式提交数据
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.HttpOption.RequestHasBody(System.String)">
+            <summary>
+            根据一个请求的提交方法，判断是否包含请求体
+            </summary>
+            <param name="method"></param>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.HttpOption.GetRequestUrl">
             <summary>

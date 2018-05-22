@@ -85,16 +85,6 @@
             定时刷新间隔
             </summary>
         </member>
-        <member name="P:ClownFish.Log.Configuration.LogConfig.Writers">
-            <summary>
-            所有Writer的配置集合
-            </summary>
-        </member>
-        <member name="P:ClownFish.Log.Configuration.LogConfig.Types">
-            <summary>
-            所有要写入的数据类型集合
-            </summary>
-        </member>
         <member name="P:ClownFish.Log.Configuration.LogConfig.Performance">
             <summary>
             性能日志的配置信息
@@ -103,6 +93,24 @@
         <member name="P:ClownFish.Log.Configuration.LogConfig.ExceptionWriter">
             <summary>
             写日志失败时，异常消息的写入器
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Configuration.LogConfig.LogEnvironmentInfo">
+            <summary>
+            异常日志中是否包含环境信息。
+            老版本的异常日志是不包含环境信息的。
+            使用建议：如果环境可控，例如Web站点，可以不开启；
+            如果是给客户私有部署，环境各不相同，当出现异常时想参考客户运行环境，那么可以开启此参数。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Configuration.LogConfig.Writers">
+            <summary>
+            所有Writer的配置集合
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Configuration.LogConfig.Types">
+            <summary>
+            所有要写入的数据类型集合
             </summary>
         </member>
         <member name="M:ClownFish.Log.Configuration.LogConfig.ReadConfigFile">
@@ -193,26 +201,6 @@
             <summary>
             参数值
             </summary>
-        </member>
-        <member name="T:ClownFish.Log.ExceptionExtensions">
-            <summary>
-            异常的日志记录工具类
-            </summary>
-        </member>
-        <member name="M:ClownFish.Log.ExceptionExtensions.SaveToLog(System.Exception,System.Boolean)">
-            <summary>
-            将一个异常对象通过 ClownFish.Log 记录下来，
-            如果还需要记录HTTP请求或者SQL执行信息，请先调用ExceptionInfo.Create()
-            </summary>
-            <param name="ex">Exception实例</param>
-            <param name="syncWrite">是否采用同步方式写入日志</param>
-        </member>
-        <member name="M:ClownFish.Log.ExceptionExtensions.SaveToLog(ClownFish.Log.Model.ExceptionInfo,System.Boolean)">
-            <summary>
-            与ClownFish.Log.LogHelper.Write()等效的扩展方法
-            </summary>
-            <param name="ex">ExceptionInfo实例</param>
-            <param name="syncWrite">是否采用同步方式写入日志</param>
         </member>
         <member name="T:ClownFish.Log.LogFilter">
             <summary>
@@ -309,12 +297,6 @@
             <param name="logFilePath">日志的保存文件路径</param>
             <param name="supportConcurrent">是否支持多线程的并发调用</param>
         </member>
-        <member name="M:ClownFish.Log.MessageLoger.Write(System.String)">
-            <summary>
-            写入一条消息到日志文件
-            </summary>
-            <param name="message">消息文本</param>
-        </member>
         <member name="M:ClownFish.Log.MessageLoger.Write(System.String,System.String)">
             <summary>
             写入一条消息到日志文件。
@@ -322,6 +304,14 @@
             </summary>
             <param name="category">消息类别，默认：INFO</param>
             <param name="message">消息文本</param>
+        </member>
+        <member name="M:ClownFish.Log.MessageLoger.GetLine(System.String,System.String)">
+            <summary>
+            根据指定参数计算要写入文件的消息行文本
+            </summary>
+            <param name="category"></param>
+            <param name="message"></param>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Log.Model.BaseInfo">
             <summary>
@@ -524,6 +514,11 @@
             请求头信息
             </summary>
         </member>
+        <member name="P:ClownFish.Log.Model.HttpInfo.RequestId">
+            <summary>
+            为每个请求分配的唯一ID
+            </summary>
+        </member>
         <member name="P:ClownFish.Log.Model.HttpInfo.Url">
             <summary>
             页面地址
@@ -551,12 +546,6 @@
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="F:ClownFish.Log.Model.HttpInfo.IgnoreHttpsRequestBody">
-            <summary>
-            一个特定的字符串，指示在日志记录时，不记录请求体内容。
-            如果不希望记录某个请求体的内容，可以设置 context.Items[IgnoreHttpsRequestBody] = "yes";
-            </summary>
-        </member>
         <member name="M:ClownFish.Log.Model.HttpInfo.SetHttpInfo(System.Web.HttpContext)">
             <summary>
             设置请求信息
@@ -570,21 +559,6 @@
         <member name="P:ClownFish.Log.Model.HttpRequestData.HttpInfo">
             <summary>
             HttpInfo实例
-            </summary>
-        </member>
-        <member name="T:ClownFish.Log.Model.NameValue">
-            <summary>
-            Name / Value 值对
-            </summary>
-        </member>
-        <member name="P:ClownFish.Log.Model.NameValue.Name">
-            <summary>
-            Name 值
-            </summary>
-        </member>
-        <member name="P:ClownFish.Log.Model.NameValue.Value">
-            <summary>
-            Value 值
             </summary>
         </member>
         <member name="T:ClownFish.Log.Model.PerformanceInfo">
@@ -667,6 +641,17 @@
             <param name="command"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Log.Model.WarningInfo">
+            <summary>
+            表示一条警告消息
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Model.WarningInfo.#ctor(System.String)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="message"></param>
+        </member>
         <member name="T:ClownFish.Log.ExceptionLogModule">
             <summary>
             一个简单的仅仅记录异常日志的HttpModule
@@ -682,6 +667,13 @@
             Init
             </summary>
             <param name="app"></param>
+        </member>
+        <member name="M:ClownFish.Log.ExceptionLogModule.IsNeedLog(System.Exception)">
+            <summary>
+            决定某个异常是否需要写入异常日志，
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Log.ExceptionLogModule.App_Error(System.Object,System.EventArgs)">
             <summary>
@@ -789,6 +781,81 @@
             <param name="t1"></param>
             <param name="t2"></param>
             <returns></returns>
+        </member>
+        <member name="T:ClownFish.Log.Serializer.HttpWriter">
+            <summary>
+            将日志记录以HTTP形式发送到Web服务器
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriter.Init(ClownFish.Log.Configuration.WriterSection)">
+            <summary>
+            初始化
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriter.Write``1(``0)">
+            <summary>
+            写入单条日志信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="info"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriter.Write``1(System.Collections.Generic.List{``0})">
+            <summary>
+            批量写入日志信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriter.Get``1(System.Guid)">
+            <summary>
+            不支持的方法
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="guid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriter.GetList``1(System.DateTime,System.DateTime)">
+            <summary>
+            不支持的方法
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="t1"></param>
+            <param name="t2"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue">
+            <summary>
+            一个简单的，线程安全的，消息队列，用于缓存将要发送到服务端的消息
+            </summary>
+        </member>
+        <member name="F:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.s_maxQueueLength">
+            <summary>
+            队列中允许的最大长度，如果超过这个长度，队列就不接收消息。避免占用大量内存而导致OOM
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.Enqueue(System.Object)">
+            <summary>
+            将消息压到消息队列
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.Dequeue">
+            <summary>
+            从消息队列取出一条消息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.AddMessage(System.Object)">
+            <summary>
+            添加一条消息到待发送队列
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.Start">
+            <summary>
+            启动后台发送线程
+            </summary>
         </member>
         <member name="T:ClownFish.Log.Serializer.ILogWriter">
             <summary>
@@ -1096,13 +1163,6 @@
             如果重试失败，就忽略记录操作
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:ClownFish.Log.SomeExtenstions.ReadInputStream(System.Web.HttpRequest)">
-            <summary>
-            读取输入的流
-            </summary>
-            <param name="request">HttpRequest</param>
-            <returns>输入的流</returns>
         </member>
         <member name="T:ClownFish.Log.Web.LogFileViewHandler">
             <summary>
