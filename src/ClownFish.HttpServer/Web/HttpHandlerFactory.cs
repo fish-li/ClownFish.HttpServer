@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -50,14 +51,32 @@ namespace ClownFish.HttpServer.Web
 			return null;
 		}
 
-		/// <summary>
-		/// 尝试从注册的IHttpHandlerFactory实例中返回一个有效的IHttpHandler实例，
-		/// 如果所有的IHttpHandlerFactory实例都不能返回，则返回 null
-		/// </summary>
-		/// <param name="context"></param>
-		/// <param name="beforeRouting">是否在路由匹配之前执行</param>
-		/// <returns></returns>
-		protected virtual IHttpHandler CreateHandlerByFactory(HttpContext context, bool beforeRouting)
+
+        /// <summary>
+        /// 检查是不是访问根目录 /
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual IHttpHandler CreateDefaultHandler(HttpContext context)
+        {
+            if( context.Request.Path == "/" ) {
+                string defaultFile = Path.Combine(context.Request.WebsitePath, "default.html");
+                if( File.Exists(defaultFile) ) {
+                    context.Request.Path = "/default.html";
+                    return new StaticFileHandler();
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 尝试从注册的IHttpHandlerFactory实例中返回一个有效的IHttpHandler实例，
+        /// 如果所有的IHttpHandlerFactory实例都不能返回，则返回 null
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="beforeRouting">是否在路由匹配之前执行</param>
+        /// <returns></returns>
+        protected virtual IHttpHandler CreateHandlerByFactory(HttpContext context, bool beforeRouting)
 		{
 			foreach( var factory in _factoryList ) {
 				if( beforeRouting != factory.IsBeforeRouting )
@@ -104,7 +123,9 @@ namespace ClownFish.HttpServer.Web
 		{
 			IHttpHandler handler = CreateOptionsHandler(context)
 
-									?? CreateHandlerByFactory(context, true)
+                                    ?? CreateDefaultHandler(context)
+
+                                    ?? CreateHandlerByFactory(context, true)
 
 									?? CreateHandlerByRouting(context)
 

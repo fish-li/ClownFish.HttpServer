@@ -71,6 +71,7 @@
     <Compile Include="Config\ServerOptionValidator.cs" />
     <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
     <Compile Include="Result\BinaryResult.cs" />
+    <Compile Include="Result\HtmlResult.cs" />
     <Compile Include="Routing\RouteHelper.cs" />
     <Compile Include="Routing\RouteAttribute.cs" />
     <Compile Include="Handlers\ErrorHandler.cs" />
