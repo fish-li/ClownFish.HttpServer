@@ -1786,7 +1786,7 @@
             如果遇到WebException异常，就转换成RemoteWebException异常
             </summary>
             <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
-            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL则不启用重试</param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
@@ -1795,7 +1795,7 @@
             如果遇到WebException异常，就转换成RemoteWebException异常
             </summary>
             <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
-            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL则不启用重试</param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult``1(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
@@ -1804,7 +1804,7 @@
             如果遇到WebException异常，就转换成RemoteWebException异常
             </summary>
             <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
-            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL则不启用重试</param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync``1(ClownFish.Base.WebClient.HttpOption,ClownFish.Base.Retry)">
@@ -1813,41 +1813,7 @@
             如果遇到WebException异常，就转换成RemoteWebException异常
             </summary>
             <param name="option">HttpOption实例，用于包含HTTP请求的发送参数</param>
-            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL将采用默认重试规则</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult(ClownFish.Base.WebClient.HttpOption)">
-            <summary>
-            封装HttpOption的Send扩展方法发送HTTP请求，
-            如果遇到WebException异常，就转换成RemoteWebException异常
-            </summary>
-            <param name="option"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync(ClownFish.Base.WebClient.HttpOption)">
-            <summary>
-            封装HttpOption的SendAsync扩展方法发送HTTP请求，
-            如果遇到WebException异常，就转换成RemoteWebException异常
-            </summary>
-            <param name="option"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResult``1(ClownFish.Base.WebClient.HttpOption)">
-            <summary>
-            封装HttpOption的Send扩展方法发送HTTP请求，
-            如果遇到WebException异常，就转换成RemoteWebException异常
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="option"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.WebClient.ClientExtensions.GetResultAsync``1(ClownFish.Base.WebClient.HttpOption)">
-            <summary>
-            封装HttpOption的SendAsync扩展方法发送HTTP请求，
-            如果遇到WebException异常，就转换成RemoteWebException异常
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="option"></param>
+            <param name="retry">提供一个Retry实例，用于指示如何执行重试。如果此参数为NULL则不启用重试。</param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.ClientExtensions.Send(ClownFish.Base.WebClient.HttpOption)">

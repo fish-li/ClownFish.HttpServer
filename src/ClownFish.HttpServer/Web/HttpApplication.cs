@@ -81,8 +81,7 @@ namespace ClownFish.HttpServer.Web
 		/// <summary>
 		/// 处理HTTP请求（入口方法）
 		/// </summary>
-		/// <param name="xxx"></param>
-		internal void ProcessRequest(object xxx)
+		internal async Task ProcessRequest(/* object xxx */)
 		{
 			try {
 				// 设置基本的响应头
@@ -93,7 +92,7 @@ namespace ClownFish.HttpServer.Web
                 // 验证请求
 				_httpModule.Execute_AuthenticateRequest();  // event
 				_httpModule.Execute_PostAuthenticateRequest();  // event
-                				
+                
 
 				// 查找能处理当前请求的HttpHandler
 				_httpModule.Execute_PreMapRequestHandle();  // event
@@ -110,23 +109,21 @@ namespace ClownFish.HttpServer.Web
                 _httpModule.Execute_PreRequestHandlerExecute(); // event
                 BeforeProcessRequest();
 
-                // 处理请求
-                if( this.Context.HttpHandler is IHttpHandler2 ) {
-					// 只执行Action方法
-					IHttpHandler2 handler2 = this.Context.HttpHandler as IHttpHandler2;
-                    IActionResult result = handler2.ProcessRequest2(this.Context);
-					_httpModule.Execute_PostRequestHandlerExecute();    // event
-                                        
+                //this.Response.AppendHeader("x-DEBUG-BeforeProcessRequest", System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
 
-					// 输出结果
-                    if( result != null )
-					    result.Ouput(this.Context);
-				}
-				else {
-					// 老的IHttpHandler，整个过程合并在一起
-					this.Context.HttpHandler.ProcessRequest(this.Context);
-				}				
-			}
+                // 处理请求
+                IActionResult result = await ExecuteHandler();
+
+                //this.Response.AppendHeader("x-DEBUG-AfterProcessRequest", System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
+                
+                _httpModule.Execute_PostRequestHandlerExecute();    // event
+
+                // 输出结果
+                if( result != null )
+                    result.Ouput(this.Context);
+
+                // 后面的事件暂且不实现
+            }
 			catch( HttpApplicationEndRequestException ) { /* 这里就是一个标记异常，所以直接吃掉 */ }
 
             catch( System.Web.HttpException httpException ) {   // 允许代码中抛出异常，中止请求
@@ -155,6 +152,25 @@ namespace ClownFish.HttpServer.Web
 				FinallyReqest();
 			}
 		}
+
+        private async Task<IActionResult> ExecuteHandler()
+        {
+            if( this.Context.HttpHandler is ITaskHttpHandler ) {
+                // 只执行Action方法
+                ITaskHttpHandler handler2 = this.Context.HttpHandler as ITaskHttpHandler;
+                return await handler2.ProcessRequestAsync(this.Context);
+            }
+            else if( this.Context.HttpHandler is IHttpHandler2 ) {
+                // 只执行Action方法
+                IHttpHandler2 handler2 = this.Context.HttpHandler as IHttpHandler2;
+                return handler2.ProcessRequest2(this.Context);
+            }
+            else {
+                // 老的IHttpHandler，整个过程合并在一起
+                this.Context.HttpHandler.ProcessRequest(this.Context);
+                return null;
+            }
+        }
 
 		private void BeforeProcessRequest()
 		{

@@ -227,9 +227,12 @@ namespace ClownFish.HttpServer
 
 			HttpApplication app = HttpApplication.GetInstance(httpContext);
 
+            Task.Run(app.ProcessRequest);
+            
 
 			// 进入线程池排除队
-			ThreadPool.QueueUserWorkItem(app.ProcessRequest, null);
+			//ThreadPool.QueueUserWorkItem(app.ProcessRequest, null);
+
 
 			// 模拟后台线程崩溃
 			//throw new NotImplementedException("xxxxxxxxxxx模拟后台线程崩溃xxxxxxxxxx");
