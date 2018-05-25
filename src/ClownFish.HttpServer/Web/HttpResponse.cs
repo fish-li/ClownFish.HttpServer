@@ -167,6 +167,14 @@ namespace ClownFish.HttpServer.Web
             _response.AppendHeader(name, value);
         }
 
+        /// <summary>
+        /// 将客户端重定向到指定的 URL
+        /// </summary>
+        /// <param name="url"></param>
+        public virtual void Redirect(string url)
+        {
+            _response.Redirect(url);
+        }
 
         /// <summary>
         /// 结束本次请求
