@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using ClownFish.Base;
 using ClownFish.Base.TypeExtend;
-using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Config;
 using ClownFish.HttpServer.Handlers;
 using ClownFish.HttpServer.Routing;
@@ -25,6 +24,12 @@ namespace ClownFish.HttpServer
         private ServerOption _option;
         private Thread _workThread;
 
+        /// <summary>
+        /// 站点的运行参数
+        /// </summary>
+        public ServerOption Option {
+            get { return _option; }
+        }
 
         /// <summary>
         /// 获取一个值，指示 HttpListener 是否已启动。
