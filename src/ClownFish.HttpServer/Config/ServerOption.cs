@@ -82,7 +82,9 @@ namespace ClownFish.HttpServer.Config
         /// <returns></returns>
         public string ToUrl()
         {
-            return $"{Protocol}://{Ip ?? "localhost"}:{Port}/";
+            string host = (this.Ip ?? "");
+            host = host == "*" ? "localhost" : host;
+            return $"{Protocol}://{host}:{Port}/";
         }
     }
 
