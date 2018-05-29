@@ -4,6 +4,27 @@
         <name>ClownFish.Base</name>
     </assembly>
     <members>
+        <member name="T:ClownFish.Base.AppSettingsHelper">
+            <summary>
+            读取AppSettings的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.AppSettingsHelper.ReadInt(System.String,System.Int32)">
+            <summary>
+            从 AppSettings 中获取一个整数
+            </summary>
+            <param name="name"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.AppSettingsHelper.ReadUInt(System.String,System.Int32)">
+            <summary>
+            从 AppSettings 中获取一个【正整数】
+            </summary>
+            <param name="name"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.Base64Extensions">
             <summary>
             BASE64编码的工具类
@@ -244,6 +265,25 @@
             <param name="table"></param>
             <param name="key"></param>
             <param name="value"></param>
+        </member>
+        <member name="M:ClownFish.Base.EncodingExtensions.GetOrDefault(System.Text.Encoding)">
+            <summary>
+            如果参数为NULL，则返回默认值，否则返回本身
+            </summary>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.ExceptionExtensions">
+            <summary>
+            封装了Exception的一些扩展方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.ExceptionExtensions.GetErrorMessage(System.Exception)">
+            <summary>
+            获取异常有价值的错误描述
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Base.GuidHelper">
             <summary>
@@ -777,6 +817,14 @@
             </summary>
             <param name="text"></param>
             <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.StringExtensions.Merge(System.String[],System.String)">
+            <summary>
+            将字符串数组合并成单一的字符串
+            </summary>
+            <param name="stringAray"></param>
+            <param name="separator"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.TempFilesUtils">

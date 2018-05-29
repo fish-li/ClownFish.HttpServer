@@ -498,9 +498,14 @@
             SQL脚本，用于获取某个数据表的列定义描述
             </summary>
         </member>
+        <member name="F:ClownFish.Data.SqlClient.MsSqlHelper.ScriptGetTableClustered">
+            <summary>
+            SQL脚本，用于获取某个数据表的 聚集索引 字段
+            </summary>
+        </member>
         <member name="F:ClownFish.Data.SqlClient.MsSqlHelper.ScriptGetTablePrimaryKey">
             <summary>
-            SQL脚本，用于获取某个数据表的主键字段
+            SQL脚本，用于获取某个数据表的 主键 字段
             </summary>
         </member>
         <member name="F:ClownFish.Data.SqlClient.MsSqlHelper.ScriptGetProcedureSQL">
