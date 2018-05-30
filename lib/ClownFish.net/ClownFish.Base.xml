@@ -598,7 +598,7 @@
         </member>
         <member name="M:ClownFish.Base.RetryFile.WriteAllText(System.String,System.String,System.Text.Encoding)">
             <summary>
-            等同于：System.IO.File.WriteAllText()
+            等同于：System.IO.File.WriteAllText()，且当目录不存在时自动创建。
             </summary>
             <param name="filePath"></param>
             <param name="text"></param>
@@ -606,14 +606,14 @@
         </member>
         <member name="M:ClownFish.Base.RetryFile.WriteAllBytes(System.String,System.Byte[])">
             <summary>
-            等同于：System.IO.File.WriteAllBytes()
+            等同于：System.IO.File.WriteAllBytes()，且当目录不存在时自动创建。
             </summary>
             <param name="filePath"></param>
             <param name="buffer"></param>
         </member>
         <member name="M:ClownFish.Base.RetryFile.AppendAllText(System.String,System.String,System.Text.Encoding)">
             <summary>
-            等同于：System.IO.File.AppendAllText()
+            等同于：System.IO.File.AppendAllText()，且当目录不存在时自动创建。
             </summary>
             <param name="filePath"></param>
             <param name="text"></param>
@@ -642,14 +642,14 @@
         </member>
         <member name="M:ClownFish.Base.RetryFile.OpenWrite(System.String)">
             <summary>
-            等同于：System.IO.File.OpenWrite()
+            等同于：System.IO.File.OpenWrite()，且当目录不存在时自动创建。
             </summary>
             <param name="filePath"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.RetryFile.OpenCreate(System.String)">
             <summary>
-            等同于：new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+            等同于：new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None); ，且当目录不存在时自动创建。
             </summary>
             <param name="filePath"></param>
             <returns></returns>
