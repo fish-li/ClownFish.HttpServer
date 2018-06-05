@@ -646,11 +646,12 @@
             表示一条警告消息
             </summary>
         </member>
-        <member name="M:ClownFish.Log.Model.WarningInfo.#ctor(System.String)">
+        <member name="M:ClownFish.Log.Model.WarningInfo.Create(System.String)">
             <summary>
-            构造方法
+            根据消息构造WarningInfo实例
             </summary>
             <param name="message"></param>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Log.ExceptionLogModule">
             <summary>

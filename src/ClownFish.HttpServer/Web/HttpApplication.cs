@@ -126,11 +126,11 @@ namespace ClownFish.HttpServer.Web
             }
 			catch( HttpApplicationEndRequestException ) { /* 这里就是一个标记异常，所以直接吃掉 */ }
 
-            catch( System.Web.HttpException httpException ) {   // 允许代码中抛出异常，中止请求
-                this.Response.StatusCode = httpException.GetHttpCode();
-                this.Response.ContentType = ResponseContentType.Text;
-                this.Response.Write(httpException.Message);
-            }
+            //catch( System.Web.HttpException httpException ) {   // 允许代码中抛出异常，中止请求
+            //    this.Response.StatusCode = httpException.GetHttpCode();
+            //    this.Response.ContentType = ResponseContentType.Text;
+            //    this.Response.Write(httpException.Message);
+            //}
 			catch( Exception ex ) {
 				this.Context.LastException = ex;
 

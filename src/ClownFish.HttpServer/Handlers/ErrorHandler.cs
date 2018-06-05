@@ -28,12 +28,19 @@ namespace ClownFish.HttpServer.Handlers
 			context.Response.Headers.Clear();
 			context.Response.SetBasicHeaders();
 
-			context.Response.StatusCode = 500;
-			context.Response.ContentType = ResponseContentType.Text;
-
-
-			// 将错误消息写入响应流
-			context.Response.Write(this.Exception.ToString());
+            System.Web.HttpException httpException = this.Exception as System.Web.HttpException;
+            if( httpException != null ) {
+                context.Response.StatusCode = httpException.GetHttpCode();
+                context.Response.ContentType = ResponseContentType.Text;
+                context.Response.Write(httpException.Message);
+            }
+            else {
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = ResponseContentType.Text;
+                
+                // 将错误消息写入响应流
+                context.Response.Write(this.Exception.ToString());
+            }
 		}
 
 
