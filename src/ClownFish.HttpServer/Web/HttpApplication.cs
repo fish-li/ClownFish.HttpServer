@@ -104,6 +104,8 @@ namespace ClownFish.HttpServer.Web
                 _httpModule.Execute_AuthorizeRequest(); // event
                 _httpModule.Execute_PostAuthorizeRequest(); // event
 
+                // 执行 HttpHandler 的初始化
+                InitHttpHandler();
 
                 // 执行HttpHandler前的准备工作
                 _httpModule.Execute_PreRequestHandlerExecute(); // event
@@ -152,6 +154,15 @@ namespace ClownFish.HttpServer.Web
 				FinallyReqest();
 			}
 		}
+
+
+        private void InitHttpHandler()
+        {
+            IHttpHandlerInitializer handler = this.Context.HttpHandler as IHttpHandlerInitializer;
+            if( handler != null ) {
+                handler.Init(this.Context);
+            }
+        }
 
         private async Task<IActionResult> ExecuteHandler()
         {

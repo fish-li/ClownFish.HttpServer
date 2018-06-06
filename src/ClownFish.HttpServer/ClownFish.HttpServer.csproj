@@ -97,6 +97,7 @@
     <Compile Include="ServerHost.cs" />
     <Compile Include="Common\ParameterResolver.cs" />
     <Compile Include="Web\IHttpHandlerFactory.cs" />
+    <Compile Include="Web\IHttpHandlerInitializer.cs" />
     <Compile Include="Web\IRequireHttpContext.cs" />
     <Compile Include="Web\RequestDataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

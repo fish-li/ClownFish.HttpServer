@@ -16,7 +16,7 @@ namespace ClownFish.HttpServer.Web
 	/// <summary>
 	/// 实现IHttpHandler接口，用于执行某个服务方法
 	/// </summary>
-	public sealed class ServiceHandler : ITaskHttpHandler, IDisposable
+	public sealed class ServiceHandler : ITaskHttpHandler, IHttpHandlerInitializer, IDisposable
     {
 		private readonly Type _serviceType;
 		private readonly MethodInfo _method;
@@ -173,6 +173,18 @@ namespace ClownFish.HttpServer.Web
                 }
 
                 _instance = null;
+            }
+        }
+
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="context"></param>
+        public void Init(HttpContext context)
+        {
+            IHttpHandlerInitializer handler = _instance as IHttpHandlerInitializer;
+            if( handler != null ) {
+                handler.Init(context);
             }
         }
     }
