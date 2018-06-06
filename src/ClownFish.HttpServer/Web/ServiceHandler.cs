@@ -16,13 +16,31 @@ namespace ClownFish.HttpServer.Web
 	/// <summary>
 	/// 实现IHttpHandler接口，用于执行某个服务方法
 	/// </summary>
-	public sealed class ServiceHandler : ITaskHttpHandler
+	public sealed class ServiceHandler : ITaskHttpHandler, IDisposable
     {
 		private readonly Type _serviceType;
 		private readonly MethodInfo _method;
+        private object _instance;
 
         private readonly bool _hasReturn;
         private readonly bool _isTaskMethod;
+
+
+        /// <summary>
+        /// 获取将要执行的 controller/service 类型
+        /// </summary>
+        public Type ServiceType => _serviceType;
+        /// <summary>
+        /// 获取将要执行的Action方法
+        /// </summary>
+        public MethodInfo ActionMethod => _method;
+
+        /// <summary>
+        /// 获取实际要执行的 controller/service 实例
+        /// </summary>
+        public object Instance => _instance;
+
+
 
 		internal ServiceHandler(Type serviceType, MethodInfo method)
 		{
@@ -35,7 +53,11 @@ namespace ClownFish.HttpServer.Web
                 _hasReturn = _method.GetTaskMethodResultType() != null;
             else
                 _hasReturn = _method.HasReturn();
+
+            // 创建类型实例
+            _instance = _serviceType.FastNew();
         }
+
 
 
 		/// <summary>
@@ -55,10 +77,7 @@ namespace ClownFish.HttpServer.Web
 		/// <returns></returns>
 		public async Task<IActionResult> ProcessRequestAsync(HttpContext context)
 		{
-            // 创建类型实例
-            object instance = _serviceType.FastNew();
-
-            IRequireHttpContext xx = instance as IRequireHttpContext;
+            IRequireHttpContext xx = _instance as IRequireHttpContext;
             if( xx != null )
                 xx.HttpContext = context;
 
@@ -72,7 +91,7 @@ namespace ClownFish.HttpServer.Web
 
             if( _isTaskMethod ) {
                 if( _hasReturn ) {
-                    Task task = (Task)_method.FastInvoke(instance, parameters);
+                    Task task = (Task)_method.FastInvoke(_instance, parameters);
                     await task;
 
                     // 从 Task<T> 中获取返回值
@@ -80,14 +99,14 @@ namespace ClownFish.HttpServer.Web
                     result = property.FastGetValue(task);
                 }
                 else {
-                    await (Task)_method.FastInvoke(instance, parameters);
+                    await (Task)_method.FastInvoke(_instance, parameters);
                 }
             }
             else {
                 if( _hasReturn )
-                    result = _method.FastInvoke(instance, parameters);
+                    result = _method.FastInvoke(_instance, parameters);
                 else
-                    _method.FastInvoke(instance, parameters);
+                    _method.FastInvoke(_instance, parameters);
             }
 
 
@@ -124,7 +143,37 @@ namespace ClownFish.HttpServer.Web
                             "很抱歉，您没有合适的权限访问该资源：" + context.Request.RawUrl);
         }
 
+        /// <summary>
+        /// 从将要执行的方法或者类型查找特定的标记
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T FindAttribute<T>() where T: Attribute
+        {
+            T attr = _method.GetMyAttribute<T>();
 
+            if( attr == null )
+                attr = _serviceType.GetMyAttribute<T>();
 
+            if( attr == null )
+                return null;
+
+            return attr;
+        }
+
+        /// <summary>
+        /// Dispose()
+        /// </summary>
+        public void Dispose()
+        {
+            if( _instance != null ) {
+                IDisposable disposable = _instance as IDisposable;
+                if(  disposable != null ) {
+                    disposable.Dispose();
+                }
+
+                _instance = null;
+            }
+        }
     }
 }

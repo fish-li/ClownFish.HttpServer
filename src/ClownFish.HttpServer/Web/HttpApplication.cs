@@ -194,6 +194,19 @@ namespace ClownFish.HttpServer.Web
 
 		private void FinallyReqest()
 		{
+            if( this.Context.HttpHandler != null ) {
+                IDisposable disposable = this.Context.HttpHandler as IDisposable;
+
+                if( disposable != null ) {
+                    try {
+                        disposable.Dispose();
+                    }
+                    catch { // 这里如果出现异常，就直接吃掉
+                    }
+                }
+            }
+
+
 			// 关闭连接，释放相关资源
 			this.Dispose();
 
