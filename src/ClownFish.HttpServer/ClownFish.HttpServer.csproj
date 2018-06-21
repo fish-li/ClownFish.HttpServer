@@ -69,6 +69,7 @@
     <Compile Include="Common\AssemblyLoader.cs" />
     <Compile Include="Authentication\AuthenticationHelper.cs" />
     <Compile Include="Config\ServerOptionValidator.cs" />
+    <Compile Include="Handlers\DirectoryBrowseHandlerFactory.cs" />
     <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
     <Compile Include="Result\BinaryResult.cs" />
     <Compile Include="Result\HtmlResult.cs" />
@@ -117,7 +118,9 @@
   <ItemGroup>
     <None Include="Authentication\身份认证实现方式.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Handlers\FileListTemplate.html" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
