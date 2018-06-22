@@ -4,6 +4,124 @@
         <name>ClownFish.Base</name>
     </assembly>
     <members>
+        <member name="T:ClownFish.Base.AesHelper">
+            <summary>
+            对AES算法封装的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.AesHelper.Encrypt(System.String,System.String)">
+            <summary>
+            使用AES算法加密字符串
+            </summary>
+            <param name="text"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.AesHelper.Encrypt(System.Byte[],System.String)">
+            <summary>
+            使用AES算法加密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.AesHelper.Decrypt(System.String,System.String)">
+            <summary>
+            使用AES算法解密一个以Base64编码的加密字符串
+            </summary>
+            <param name="base64"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.AesHelper.Decrypt(System.Byte[],System.String)">
+            <summary>
+            使用AES算法解密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.CryptoHelper">
+            <summary>
+            “对称加密算法”的封装工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.CryptoHelper.Encrypt(System.String,System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            加密字符串
+            </summary>
+            <param name="text">等待加密的文本</param>
+            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
+            <returns>返回Base64编码的结果</returns>
+        </member>
+        <member name="M:ClownFish.Base.CryptoHelper.Encrypt(System.Byte[],System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            加密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.CryptoHelper.Decrypt(System.String,System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            解密一个以Base64编码的加密字符串
+            </summary>
+            <param name="base64">等待解密的BASE64文本</param>
+            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.CryptoHelper.Decrypt(System.Byte[],System.Security.Cryptography.SymmetricAlgorithm)">
+            <summary>
+            解密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.CryptoHelper.SetKeyIV(System.Security.Cryptography.SymmetricAlgorithm,System.String)">
+            <summary>
+            根据指定的密码，设置“加密算法”的KEY和IV
+            </summary>
+            <param name="sa">“对称加密算法”实例</param>
+            <param name="password">加密或解密的密码</param>
+        </member>
+        <member name="T:ClownFish.Base.TripleDESHelper">
+            <summary>
+            对TripleDES封装的工具类（建议使用 AES 代替 TripleDES）
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.TripleDESHelper.Encrypt(System.String,System.String)">
+            <summary>
+            使用TripleDES加密字符串
+            </summary>
+            <param name="text"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TripleDESHelper.Encrypt(System.Byte[],System.String)">
+            <summary>
+            使用TripleDES加密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TripleDESHelper.Decrypt(System.String,System.String)">
+            <summary>
+            使用TripleDES解密一个以Base64编码的加密字符串
+            </summary>
+            <param name="base64"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.TripleDESHelper.Decrypt(System.Byte[],System.String)">
+            <summary>
+            使用TripleDES解密字节数组
+            </summary>
+            <param name="input"></param>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.AppSettingsHelper">
             <summary>
             读取AppSettings的工具类
@@ -104,124 +222,6 @@
             将byte[]按十六进制转换成字符串，BitConverter.ToString(bytes).Replace("-", "");
             </summary>
             <param name="bytes"></param>
-            <returns></returns>
-        </member>
-        <member name="T:ClownFish.Base.CryptoHelper">
-            <summary>
-            “对称加密算法”的封装工具类
-            </summary>
-        </member>
-        <member name="M:ClownFish.Base.CryptoHelper.Encrypt(System.String,System.Security.Cryptography.SymmetricAlgorithm)">
-            <summary>
-            加密字符串
-            </summary>
-            <param name="text">等待加密的文本</param>
-            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
-            <returns>返回Base64编码的结果</returns>
-        </member>
-        <member name="M:ClownFish.Base.CryptoHelper.Encrypt(System.Byte[],System.Security.Cryptography.SymmetricAlgorithm)">
-            <summary>
-            加密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.CryptoHelper.Decrypt(System.String,System.Security.Cryptography.SymmetricAlgorithm)">
-            <summary>
-            解密一个以Base64编码的加密字符串
-            </summary>
-            <param name="base64">等待解密的BASE64文本</param>
-            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.CryptoHelper.Decrypt(System.Byte[],System.Security.Cryptography.SymmetricAlgorithm)">
-            <summary>
-            解密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="sa">“对称加密算法”实例，要求已设置过KEY和IV</param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.CryptoHelper.SetKeyIV(System.Security.Cryptography.SymmetricAlgorithm,System.String)">
-            <summary>
-            根据指定的密码，设置“加密算法”的KEY和IV
-            </summary>
-            <param name="sa">“对称加密算法”实例</param>
-            <param name="password">加密或解密的密码</param>
-        </member>
-        <member name="T:ClownFish.Base.TripleDESHelper">
-            <summary>
-            对TripleDES封装的工具类
-            </summary>
-        </member>
-        <member name="M:ClownFish.Base.TripleDESHelper.Encrypt(System.String,System.String)">
-            <summary>
-            使用TripleDES加密字符串
-            </summary>
-            <param name="text"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.TripleDESHelper.Encrypt(System.Byte[],System.String)">
-            <summary>
-            使用TripleDES加密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.TripleDESHelper.Decrypt(System.String,System.String)">
-            <summary>
-            使用TripleDES解密一个以Base64编码的加密字符串
-            </summary>
-            <param name="base64"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.TripleDESHelper.Decrypt(System.Byte[],System.String)">
-            <summary>
-            使用TripleDES解密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="T:ClownFish.Base.AesHelper">
-            <summary>
-            对AES算法封装的工具类
-            </summary>
-        </member>
-        <member name="M:ClownFish.Base.AesHelper.Encrypt(System.String,System.String)">
-            <summary>
-            使用AES算法加密字符串
-            </summary>
-            <param name="text"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.AesHelper.Encrypt(System.Byte[],System.String)">
-            <summary>
-            使用AES算法加密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.AesHelper.Decrypt(System.String,System.String)">
-            <summary>
-            使用AES算法解密一个以Base64编码的加密字符串
-            </summary>
-            <param name="base64"></param>
-            <param name="password"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.AesHelper.Decrypt(System.Byte[],System.String)">
-            <summary>
-            使用AES算法解密字节数组
-            </summary>
-            <param name="input"></param>
-            <param name="password"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.DataTimeExtensions">
@@ -334,13 +334,6 @@
             封装常用的HASH算法
             </summary>
         </member>
-        <member name="M:ClownFish.Base.HashHelper.Sha1(System.String)">
-            <summary>
-            计算字符串的 SHA1 签名
-            </summary>
-            <param name="text"></param>
-            <returns></returns>
-        </member>
         <member name="M:ClownFish.Base.HashHelper.Sha1(System.String,System.Text.Encoding)">
             <summary>
             计算字符串的 SHA1 签名
@@ -370,13 +363,6 @@
             计算文件的SHA1值
             </summary>
             <param name="filePath"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Base.HashHelper.Md5(System.String)">
-            <summary>
-            计算字符串的 MD5 签名
-            </summary>
-            <param name="text"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.HashHelper.Md5(System.String,System.Text.Encoding)">
@@ -698,6 +684,13 @@
             <param name="destFileName"></param>
             <param name="overwrite"></param>
         </member>
+        <member name="M:ClownFish.Base.RetryFile.Move(System.String,System.String)">
+            <summary>
+            等同于：System.IO.File.Move()，且当目录不存在时自动创建。
+            </summary>
+            <param name="sourceFileName"></param>
+            <param name="destFileName"></param>
+        </member>
         <member name="T:ClownFish.Base.RsaHelper">
             <summary>
             RSA算法（签名/验证签名/加密/解密）的封装工具类
@@ -709,6 +702,14 @@
             </summary>
             <param name="data"></param>
             <param name="certName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RsaHelper.Sign(System.Byte[],System.Security.Cryptography.X509Certificates.X509Certificate2)">
+            <summary>
+            用指定的证书对数据做签名
+            </summary>
+            <param name="data"></param>
+            <param name="cert"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.RsaHelper.Verify(System.Byte[],System.String,System.String)">
@@ -734,6 +735,15 @@
             根据证书名查找X509证书，优先查找LocalMachine存储区域，如果失败则再查找CurrentUser
             </summary>
             <param name="certName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RsaHelper.FindCertificate(System.String,System.Security.Cryptography.X509Certificates.StoreName,System.Security.Cryptography.X509Certificates.StoreLocation)">
+            <summary>
+            根据指定的证书名称和位置，查找证书。
+            </summary>
+            <param name="certName"></param>
+            <param name="storeName"></param>
+            <param name="storeLocation"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Base.RsaHelper.Encrypt(System.Byte[],System.String)">

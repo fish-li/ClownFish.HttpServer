@@ -9,6 +9,7 @@ using ClownFish.Base;
 using ClownFish.Base.TypeExtend;
 using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Handlers;
+using ClownFish.HttpServer.Utils;
 using ClownFish.HttpServer.Web;
 
 namespace ClownFish.HttpServer.Config
@@ -30,7 +31,7 @@ namespace ClownFish.HttpServer.Config
 					throw new ConfigurationErrorsException("配置项 httpListener/protocol 不能为空。");
 
 
-				if( a.Port <= 0)
+				if( a.Port < 0)
 					throw new ConfigurationErrorsException("配置项 httpListener/port 的取值无效。");
 			}
 
@@ -90,9 +91,15 @@ namespace ClownFish.HttpServer.Config
 				throw new ArgumentNullException(nameof(option));
 
 			if( option.HttpListenerOptions != null ) {
-				foreach( var a in option.HttpListenerOptions )
-					if( string.IsNullOrEmpty(a.Ip) )
-						a.Ip = "*";
+                foreach( var a in option.HttpListenerOptions ) {
+                    if( string.IsNullOrEmpty(a.Ip) )
+                        a.Ip = "*";
+
+                    // 端口号为 0 表示使用动态端口
+                    if( a.Port == 0 )
+                        // 这里不检查返回值，因为不太可能把端口全部用完
+                        a.Port = NetHelper.GetFreeTcpPort(5000, 50000);
+                }
 			}
 
 

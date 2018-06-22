@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClownFish.HttpServer
+namespace ClownFish.HttpServer.Common
 {
     /// <summary>
     /// 程序集加载工具类

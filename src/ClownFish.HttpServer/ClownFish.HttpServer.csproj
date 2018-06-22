@@ -82,6 +82,7 @@
     <Compile Include="Routing\RouteMatchExistException.cs" />
     <Compile Include="Routing\RoutingObject.cs" />
     <Compile Include="Config\ServerOption.cs" />
+    <Compile Include="Utils\NetHelper.cs" />
     <Compile Include="Utils\NetHttpInfo.cs" />
     <Compile Include="Web\HttpApplicationEndRequestException.cs" />
     <Compile Include="Web\HttpApplicationFactory.cs" />

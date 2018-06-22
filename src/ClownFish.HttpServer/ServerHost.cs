@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ClownFish.Base;
 using ClownFish.Base.TypeExtend;
+using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Config;
 using ClownFish.HttpServer.Handlers;
 using ClownFish.HttpServer.Routing;
