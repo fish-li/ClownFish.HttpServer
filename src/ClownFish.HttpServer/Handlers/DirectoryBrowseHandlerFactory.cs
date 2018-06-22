@@ -66,7 +66,7 @@ namespace ClownFish.HttpServer.Handlers
         private IHttpHandler GetDirectoryHandler(HttpContext context, string path)
         {
             string subPath = context.Request.Path.TrimEnd('/'); // 这个路径如果包含特殊字符，其实是已经做过 UrlDecode 了
-            string rawPath = context.Request.RawUrl;            // 这个路径如果包含特殊字符，不会做 UrlDecode
+            string rawPath = context.Request.RawUrl.TrimEnd('/');   // 这个路径如果包含特殊字符，不会做 UrlDecode
 
 
             int index = 1;
@@ -78,6 +78,9 @@ namespace ClownFish.HttpServer.Handlers
 
             // 遍历目录下的子目录
             foreach( var d in dir.GetDirectories() ) {
+                if( d.Attributes.HasFlag(FileAttributes.Hidden) )
+                    continue;
+
                 string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(d.Name);
                 string time = d.LastWriteTime.ToTimeString();
                 html.AppendFormat(rowFormat, index++, link, d.Name, time, "[文件夹]");
@@ -85,6 +88,9 @@ namespace ClownFish.HttpServer.Handlers
 
             // 遍历目录下的文件
             foreach( var f in dir.GetFiles() ) {
+                if( f.Attributes.HasFlag(FileAttributes.Hidden) )
+                    continue;
+
                 string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(f.Name);
                 string time = f.LastWriteTime.ToTimeString();
                 html.AppendFormat(rowFormat2, index++, link, f.Name, time, f.Length.ToString());
