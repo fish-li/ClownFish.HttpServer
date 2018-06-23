@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Base;
+using ClownFish.HttpServer.Config;
+using ClownFish.HttpServer.Result;
+using ClownFish.HttpServer.Utils;
 using ClownFish.HttpServer.Web;
 
 namespace ClownFish.HttpServer.Handlers
@@ -14,15 +17,25 @@ namespace ClownFish.HttpServer.Handlers
     /// </summary>
     public sealed class DirectoryBrowseHandlerFactory : IHttpHandlerFactory
     {
-        private static readonly string s_template;
+        private static string s_template;
 
-        static DirectoryBrowseHandlerFactory()
+        private static void ServerHostInit(ServerOption option)
         {
+            if( option.Website?.DirectoryBrowse?.DefaultFile?.Length > 0 ) {
+                string[] files = option.Website.DirectoryBrowse.DefaultFile.SplitTrim(';');
+
+                if( files?.Length > 0 && PathHelper.GetExtension(files[0])?.Length > 1 ) {
+                    option.InternalOptions.DefaultFiles = files;
+                }
+            }
+
+
             Stream stream = typeof(DirectoryBrowseHandlerFactory).Assembly.GetManifestResourceStream("ClownFish.HttpServer.Handlers.FileListTemplate.html");
             using( StreamReader reader = new StreamReader(stream, Encoding.UTF8) ) {
                 s_template = reader.ReadToEnd();
             }
         }
+
 
         /// <summary>
 		/// 是否在路由匹配之前执行，当前类型固定返回false
@@ -68,8 +81,23 @@ namespace ClownFish.HttpServer.Handlers
             string subPath = context.Request.Path.TrimEnd('/'); // 这个路径如果包含特殊字符，其实是已经做过 UrlDecode 了
             string rawPath = context.Request.RawUrl.TrimEnd('/');   // 这个路径如果包含特殊字符，不会做 UrlDecode
 
+            if(context.ServerOption.InternalOptions.DefaultFiles  != null ) {
+                foreach(string file in context.ServerOption.InternalOptions.DefaultFiles ) {
+                    string testFile = Path.Combine(path, file);
+                    if( File.Exists(testFile) ) {
+                        //string redireUrl = rawPath + "/" + System.Web.HttpUtility.UrlEncode(file);
+                        //return new RedirectHttpHandler(redireUrl);
+
+
+                        context.Request.Path = subPath + "/" + file;
+                        return new StaticFileHandler();
+                    }
+                }
+            }
+
 
             int index = 1;
+            
             string rowFormat = "<tr><td>{0}</td><td><a href=\"{1}\" >{2}</a></td><td>{3}</td><td class=\"filesize\">{4}</td></tr>\r\n";
             string rowFormat2 = "<tr><td>{0}</td><td><a href=\"{1}\" target=\"_blank\">{2}</a></td><td>{3}</td><td class=\"filesize\">{4}</td></tr>\r\n";
 
@@ -81,7 +109,7 @@ namespace ClownFish.HttpServer.Handlers
                 if( d.Attributes.HasFlag(FileAttributes.Hidden) )
                     continue;
 
-                string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(d.Name);
+                string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(d.Name) + "/";
                 string time = d.LastWriteTime.ToTimeString();
                 html.AppendFormat(rowFormat, index++, link, d.Name, time, "[文件夹]");
             }
@@ -93,7 +121,7 @@ namespace ClownFish.HttpServer.Handlers
 
                 string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(f.Name);
                 string time = f.LastWriteTime.ToTimeString();
-                html.AppendFormat(rowFormat2, index++, link, f.Name, time, f.Length.ToString());
+                html.AppendFormat(rowFormat2, index++, link, f.Name, time, f.Length.ToString("N0"));
             }
 
 
@@ -120,5 +148,22 @@ namespace ClownFish.HttpServer.Handlers
                 context.Response.Write(_html);
             }
         }
+
+
+        //internal class RedirectHttpHandler : IHttpHandler
+        //{
+        //    private string _url;
+
+        //    public RedirectHttpHandler(string url)
+        //    {
+        //        _url = url;
+        //    }
+
+        //    public void ProcessRequest(HttpContext context)
+        //    {
+        //        IActionResult result = new RedirectResult(_url);
+        //        result.Ouput(context);
+        //    }
+        //}
     }
 }

@@ -84,6 +84,7 @@
     <Compile Include="Config\ServerOption.cs" />
     <Compile Include="Utils\NetHelper.cs" />
     <Compile Include="Utils\NetHttpInfo.cs" />
+    <Compile Include="Utils\PathHelper.cs" />
     <Compile Include="Web\HttpApplicationEndRequestException.cs" />
     <Compile Include="Web\HttpApplicationFactory.cs" />
     <Compile Include="Web\HttpHandlerFactory.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,7 +71,7 @@ namespace ClownFish.HttpServer
 				throw new ArgumentNullException(nameof(configPath));
 
 			if( File.Exists(configPath) == false )
-				throw new FileNotFoundException("指定的配置文件不存在：" + configPath);
+				throw new FileNotFoundException("没有找到配置文件：" + configPath);
 
 
 			ServerOption option = ClownFish.Base.Xml.XmlHelper.XmlDeserializeFromFile<ServerOption>(configPath);
@@ -97,25 +98,22 @@ namespace ClownFish.HttpServer
 			ServerOptionValidator validator = new ServerOptionValidator();
 			validator.Validate(option);
 			validator.SetDefaultValues(option);
-
+            
 
 			// 注册HttpHandlerFactory
 			foreach( Type handlerType in option.HandlerTypes ) {
 				var factory = Activator.CreateInstance(handlerType) as IHttpHandlerFactory;
 				HttpHandlerFactory.GetInstance().RegisterFactory(factory);
-			}
+                ExecuuteServerHostInit(option, handlerType);
+            }
 
 
-			// 注册HttpModule
-			foreach( Type moduleType in option.ModuleTypes )
-				ExtenderManager.RegisterSubscriber(moduleType);
-
-			if( option.Website != null ) {
-				StaticFileHandlerFactory.Init(option);
-				StaticFileHandler.Init(option);
-			}
-
-			
+            // 注册HttpModule
+            foreach( Type moduleType in option.ModuleTypes ) {
+                ExtenderManager.RegisterSubscriber(moduleType);
+                ExecuuteServerHostInit(option, moduleType);
+            }
+            	
 
 			// 加载当前目录下的所有程序集
 			AssemblyLoader.LoadAssemblies(AppDomain.CurrentDomain.BaseDirectory);
@@ -136,7 +134,22 @@ namespace ClownFish.HttpServer
 		}
 
 
-		private HttpListener CreaetetHttpListener()
+        private void ExecuuteServerHostInit(ServerOption option, Type type)
+        {
+            if( option.InternalOptions == null )
+                option.InternalOptions = new InternalOptions();
+
+            MethodInfo method = type.GetMethod("ServerHostInit",
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic, null,
+                    new Type[] { typeof(ServerOption) }, null);
+
+            if( method != null )
+                method.Invoke(null, new object[] { option });
+
+        }
+
+
+        private HttpListener CreaetetHttpListener()
 		{
 			if( HttpListener.IsSupported == false )
 				throw new NotSupportedException("当前操作系统版本太低，不支持HttpListener");
@@ -226,6 +239,7 @@ namespace ClownFish.HttpServer
 		private void ProcessRequest(HttpListenerContext context)
 		{
 			HttpContext httpContext = new HttpContext(context);
+            httpContext.ServerOption = _option;
 
 			if( _option.Website != null )
 				httpContext.Request.WebsitePath = _option.Website.LocalPath;

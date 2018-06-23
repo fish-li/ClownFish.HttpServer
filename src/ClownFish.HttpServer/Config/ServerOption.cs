@@ -42,7 +42,13 @@ namespace ClownFish.HttpServer.Config
 		/// </summary>
 		[XmlElement("website")]
 		public WebsiteOption Website { get; set; }
-	}
+
+        /// <summary>
+        /// 根据ServerOption转变的一些内部参数，主要是为了提升性能的一些缓存数据
+        /// </summary>
+        [NonSerialized]
+        internal InternalOptions InternalOptions;   // { get; set; }
+    }
 
 	/// <summary>
 	/// HTTP监听参数
@@ -82,9 +88,17 @@ namespace ClownFish.HttpServer.Config
         /// <returns></returns>
         public string ToUrl()
         {
-            string host = (this.Ip ?? "");
-            host = host == "*" ? "localhost" : host;
-            return $"{Protocol}://{host}:{Port}/";
+            if( this.Ip == "*" ) {
+                string host = System.Net.Dns.GetHostName();
+                return $"{Protocol}://{host}:{Port}/";
+
+                //if( string.IsNullOrEmpty(host) == false )
+                //    return $"{Protocol}://{host}:{Port}/";
+                //else
+                //    return $"{Protocol}://localhost:{Port}/";
+            }
+            else
+                return $"{Protocol}://{Ip}:{Port}/";
         }
     }
 
@@ -113,7 +127,14 @@ namespace ClownFish.HttpServer.Config
         [XmlArray("staticFile")]
 		[XmlArrayItem("option")]
 		public StaticFileOption[] StaticFiles { get; set; }
-	}
+
+        /// <summary>
+        /// 目录浏览相关参数
+        /// </summary>
+        [XmlElement("directoryBrowse")]
+        public DirectoryBrowseOption DirectoryBrowse { get; set; }
+
+    }
 
 	/// <summary>
 	/// 静态文件参数
@@ -142,5 +163,29 @@ namespace ClownFish.HttpServer.Config
 		public string Mine { get; set; }
 	}
 
-	
+    /// <summary>
+    /// 目录浏览相关参数
+    /// </summary>
+    [Serializable]
+    public sealed class DirectoryBrowseOption
+    {
+        /// <summary>
+        /// 默认文件名，例如：index.html，
+        /// 如果有多个文件名，用分号分开。
+        /// </summary>
+        [XmlElement("defaultFile")]
+        public string DefaultFile { get; set; }
+    }
+
+
+    /// <summary>
+    /// 根据ServerOption转变的一些内部参数，主要是为了提升性能的一些缓存数据
+    /// </summary>
+    internal class InternalOptions
+    {
+        public Dictionary<string, int> StaticFileExtNames { get; set; }
+
+
+        public string[] DefaultFiles { get; set; }
+    }
 }

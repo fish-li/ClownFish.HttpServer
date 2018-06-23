@@ -7,6 +7,7 @@ using System.Net;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using ClownFish.HttpServer.Config;
 
 namespace ClownFish.HttpServer.Web
 {
@@ -55,6 +56,11 @@ namespace ClownFish.HttpServer.Web
 		/// 用于响应当前请求的HttpHandler实例
 		/// </summary>
 		public IHttpHandler HttpHandler { get; internal set; }
+
+        /// <summary>
+        /// 站点运行参数
+        /// </summary>
+        public ServerOption ServerOption { get; internal set; }
 
         /// <summary>
         /// 获取用于为客户端获取标识、身份验证信息和安全角色的对象

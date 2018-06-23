@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             font-family: Consolas, 'Courier New', '微软雅黑', '宋体';
-            font-size: 12px;
+            font-size: 14px;
             color: #808080;
         }
         body{
@@ -31,13 +31,16 @@
         tr{
             border-bottom: dotted 1px #808080;
         }
-        tr.head {
+        thead tr {
             border-top: dotted 1px #808080;
-            background-color: gainsboro;
-            font-weight: bold;
+            background-color: SkyBlue;
         }
-        tr:hover{
-            background-color: aliceblue;
+        thead tr td{
+            font-weight: bold;
+            color: #fff;
+        }
+        tbody tr:hover {
+            background-color: Azure;
         }
         td{
             padding: 5px;
@@ -51,12 +54,17 @@
     <h3><i>当前目录：</i>&nbsp;&nbsp; <!--{current-path}--></h3>
 
     <table style="width: 95%;">
-        <tr class="head"><td style="width: 35px;">#</td>
-        <td style="width: auto">文件名</td>
-        <td style="width: 150px">修改时间</td>
-        <td class="filesize" style="width: 130px;">文件大小（B）</td></tr>
-
-        <!--{data-row}-->
+        <thead>
+            <tr>
+                <td style="width: 35px;">#</td>
+                <td style="width: auto">文件名</td>
+                <td style="width: 150px">修改时间</td>
+                <td class="filesize" style="width: 130px;">文件大小（B）</td>
+            </tr>
+        </thead>
+        <tbody>
+            <!--{data-row}-->
+        </tbody>
     </table>
 
 </body>

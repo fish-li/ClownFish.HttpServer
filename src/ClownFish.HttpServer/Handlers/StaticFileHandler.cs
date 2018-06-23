@@ -11,8 +11,7 @@ using Microsoft.Win32;
 namespace ClownFish.HttpServer.Handlers
 {
     /// <summary>
-    /// 一个简单的静态文件处理器，用于响应静态文件并在输出时设置缓存响应头，
-    /// 注意：使用这个类型时，必须先重新实现FilePathMapper
+    /// 一个简单的静态文件处理器，用于响应静态文件并在输出时设置缓存响应头
     /// </summary>
     internal sealed class StaticFileHandler : IHttpHandler
     {
@@ -20,26 +19,24 @@ namespace ClownFish.HttpServer.Handlers
         private static readonly Hashtable s_mineTable 
 				= Hashtable.Synchronized(new Hashtable(10, StringComparer.OrdinalIgnoreCase));
 
-		private HttpContext _context;
-
-		private FileInfo _fileinfo;
-
-
-		internal static void Init(ServerOption option)
-		{
-			if( option.Website.StaticFiles != null && option.Website.StaticFiles.Length > 0 )
-				foreach( var x in option.Website.StaticFiles )
-					s_mineTable[x.Ext] = x;
-		}
-
-
-		/// <summary>
-		/// 处理请求，输出文件内容以及设置缓存响应头
-		/// </summary>
-		/// <param name="context"></param>
-		public void ProcessRequest(HttpContext context)
+        private static void ServerHostInit(ServerOption option)
         {
-			_context = context;
+            if( option.Website?.StaticFiles?.Length > 0 )
+                foreach( var x in option.Website.StaticFiles )
+                    s_mineTable[x.Ext] = x;
+        }
+        
+
+        private HttpContext _context;
+        private FileInfo _fileinfo;
+
+        /// <summary>
+        /// 处理请求，输出文件内容以及设置缓存响应头
+        /// </summary>
+        /// <param name="context"></param>
+        public void ProcessRequest(HttpContext context)
+        {
+            _context = context;
 
 			string filePath = context.Request.Path;
 			string physicalPath = Path.Combine(context.Request.WebsitePath, filePath.TrimStart('/'));
