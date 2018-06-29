@@ -33,24 +33,24 @@ namespace ClownFish.HttpServer.Handlers
 			}
 		}
 
-		/// <summary>
-		/// 判断当前请求是不是静态文件，如果是，则创建一个StaticFileHandler的实例，否则返回null
-		/// </summary>
-		/// <param name="context"></param>
-		/// <returns></returns>
-		public IHttpHandler CreateHandler(HttpContext context)
-		{
-			if( context.ServerOption.InternalOptions.StaticFileExtNames?.Count >0 )
-				return null;
+        /// <summary>
+        /// 判断当前请求是不是静态文件，如果是，则创建一个StaticFileHandler的实例，否则返回null
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public IHttpHandler CreateHandler(HttpContext context)
+        {
+            if( context.ServerOption.InternalOptions.StaticFileExtNames?.Count == 0 )
+                return null;
 
-			string path = context.Request.Path;
+            string path = context.Request.Path;
             string extName = PathHelper.GetExtension(path);
 
             if( context.ServerOption.InternalOptions.StaticFileExtNames.ContainsKey(extName) )
                 return new StaticFileHandler();
 
-			return null;
-		}
+            return null;
+        }
 
 
         
