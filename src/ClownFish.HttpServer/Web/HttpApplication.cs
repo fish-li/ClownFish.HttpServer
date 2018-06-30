@@ -115,6 +115,7 @@ namespace ClownFish.HttpServer.Web
 
                 // 处理请求
                 IActionResult result = await ExecuteHandler();
+                this.Context.ActionResult = result;
 
                 //this.Response.AppendHeader("x-DEBUG-AfterProcessRequest", System.Threading.Thread.CurrentThread.ManagedThreadId.ToString());
                 

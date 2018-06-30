@@ -73,6 +73,10 @@ namespace ClownFish.HttpServer.Web
         public bool SkipAuthorization { get; set; }
 
 
+        /// <summary>
+        /// 执行Action后得到的结果
+        /// </summary>
+        public object ActionResult { get; set; }
 
         /// <summary>
         /// 最近一次产生的异常对象

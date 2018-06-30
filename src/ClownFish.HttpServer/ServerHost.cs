@@ -98,20 +98,23 @@ namespace ClownFish.HttpServer
 			ServerOptionValidator validator = new ServerOptionValidator();
 			validator.Validate(option);
 			validator.SetDefaultValues(option);
-            
 
-			// 注册HttpHandlerFactory
-			foreach( Type handlerType in option.HandlerTypes ) {
-				var factory = Activator.CreateInstance(handlerType) as IHttpHandlerFactory;
-				HttpHandlerFactory.GetInstance().RegisterFactory(factory);
-                ExecuuteServerHostInit(option, handlerType);
+
+            if( option.HandlerTypes != null ) {
+                // 注册HttpHandlerFactory
+                foreach( Type handlerType in option.HandlerTypes ) {
+                    var factory = Activator.CreateInstance(handlerType) as IHttpHandlerFactory;
+                    HttpHandlerFactory.GetInstance().RegisterFactory(factory);
+                    ExecuuteServerHostInit(option, handlerType);
+                }
             }
 
-
-            // 注册HttpModule
-            foreach( Type moduleType in option.ModuleTypes ) {
-                ExtenderManager.RegisterSubscriber(moduleType);
-                ExecuuteServerHostInit(option, moduleType);
+            if( option.ModuleTypes != null ) {
+                // 注册HttpModule
+                foreach( Type moduleType in option.ModuleTypes ) {
+                    ExtenderManager.RegisterSubscriber(moduleType);
+                    ExecuuteServerHostInit(option, moduleType);
+                }
             }
             	
 
