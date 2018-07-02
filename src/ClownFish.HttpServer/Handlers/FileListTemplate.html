@@ -13,15 +13,13 @@
             color: #808080;
         }
         body{
-            padding: 10px;
-        }
-        h3{
-            font-size: 16px;
-            font-weight: bold;
-            padding-bottom: 20px;
+            padding: 0 10px 10px 10px;
         }
         a{
             text-decoration:none;
+        }
+        a:hover{
+            color: blue;
         }
         table{
             width: 95%;
@@ -48,10 +46,27 @@
         td.filesize{
             text-align: right;
         }
+        p.navigation{
+            font-weight: bold;
+            padding: 5px 2px;
+        }
+        p.navigation i, p.navigation span, p.navigation a {
+            display: block;
+            float: left;
+            padding: 3px 5px;
+        }
+        p.navigation a {
+            color: blue;
+        }
+        p.navigation a:hover{
+            background-color: deepskyblue;
+            color: white;
+        }
     </style>
 </head>
 <body>
-    <h3><i>当前目录：</i>&nbsp;&nbsp; <!--{current-path}--></h3>
+    <p class="navigation"><i>当前目录：</i> <!--{current-path}--></p>
+    <div style="clear: both;"></div>
 
     <table style="width: 95%;">
         <thead>

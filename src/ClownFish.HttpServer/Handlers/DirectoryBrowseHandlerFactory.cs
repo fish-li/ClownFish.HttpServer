@@ -54,19 +54,19 @@ namespace ClownFish.HttpServer.Handlers
         public IHttpHandler CreateHandler(HttpContext context)
         {
             string rootPath = context.Request.WebsitePath;
-            string current = Path.GetFullPath(Path.Combine(rootPath, context.Request.Path.TrimStart('/')));
+            string physicalPath = Path.GetFullPath(Path.Combine(rootPath, context.Request.Path.TrimStart('/')));
 
 
             // 安全检查，只允许查看指定站点下的文件
-            if( current.StartsWith(rootPath, StringComparison.OrdinalIgnoreCase) == false ) {
+            if( physicalPath.StartsWith(rootPath, StringComparison.OrdinalIgnoreCase) == false ) {
                 return new Http404Handler();
             }
 
-            if( File.Exists(current) ) {
+            if( File.Exists(physicalPath) ) {
                 return new StaticFileHandler();
             }
-            else if( Directory.Exists(current) ) {
-                return GetDirectoryHandler(context, current);
+            else if( Directory.Exists(physicalPath) ) {
+                return GetDirectoryHandler(context, physicalPath);
             }
             else {
                 return null;
@@ -74,22 +74,30 @@ namespace ClownFish.HttpServer.Handlers
 
         }
 
-
-
-        private IHttpHandler GetDirectoryHandler(HttpContext context, string path)
+        private string UrlEncode(string text)
         {
-            string subPath = context.Request.Path.TrimEnd('/'); // 这个路径如果包含特殊字符，其实是已经做过 UrlDecode 了
+            if( string.IsNullOrEmpty(text) )
+                return text;
+
+            return System.Web.HttpUtility.UrlEncode(text);
+        }
+
+
+        private IHttpHandler GetDirectoryHandler(HttpContext context, string physicalPath)
+        {
+            string curPath = context.Request.Path.TrimEnd('/');     // 这个路径如果包含特殊字符，得到的结果已被 UrlDecode
             string rawPath = context.Request.RawUrl.TrimEnd('/');   // 这个路径如果包含特殊字符，不会做 UrlDecode
 
+            // 检查目录下是否存在默认文档
             if(context.ServerOption.InternalOptions.DefaultFiles  != null ) {
                 foreach(string file in context.ServerOption.InternalOptions.DefaultFiles ) {
-                    string testFile = Path.Combine(path, file);
+                    string testFile = Path.Combine(physicalPath, file);
                     if( File.Exists(testFile) ) {
-                        //string redireUrl = rawPath + "/" + System.Web.HttpUtility.UrlEncode(file);
+                        //string redireUrl = rawPath + "/" + UrlEncode(file);
                         //return new RedirectHttpHandler(redireUrl);
 
-
-                        context.Request.Path = subPath + "/" + file;
+                        // 内部URL重写，并将请求交给 StaticFileHandler
+                        context.Request.Path = curPath + "/" + file;
                         return new StaticFileHandler();
                     }
                 }
@@ -102,14 +110,14 @@ namespace ClownFish.HttpServer.Handlers
             string rowFormat2 = "<tr><td>{0}</td><td><a href=\"{1}\" target=\"_blank\">{2}</a></td><td>{3}</td><td class=\"filesize\">{4}</td></tr>\r\n";
 
             StringBuilder html = new StringBuilder();
-            DirectoryInfo dir = new DirectoryInfo(path);
+            DirectoryInfo dir = new DirectoryInfo(physicalPath);
 
             // 遍历目录下的子目录
             foreach( var d in dir.GetDirectories() ) {
                 if( d.Attributes.HasFlag(FileAttributes.Hidden) )
                     continue;
 
-                string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(d.Name) + "/";
+                string link = rawPath + "/" + UrlEncode(d.Name) + "/";
                 string time = d.LastWriteTime.ToTimeString();
                 html.AppendFormat(rowFormat, index++, link, d.Name, time, "[文件夹]");
             }
@@ -119,18 +127,48 @@ namespace ClownFish.HttpServer.Handlers
                 if( f.Attributes.HasFlag(FileAttributes.Hidden) )
                     continue;
 
-                string link = rawPath + "/" + System.Web.HttpUtility.UrlEncode(f.Name);
+                string link = rawPath + "/" + UrlEncode(f.Name);
                 string time = f.LastWriteTime.ToTimeString();
                 html.AppendFormat(rowFormat2, index++, link, f.Name, time, f.Length.ToString("N0"));
             }
 
-
+            //string template = File.ReadAllText(@"D:\my-github\ClownFish.HttpServer\src\ClownFish.HttpServer\Handlers\FileListTemplate.html");
+            string navigationLink = GetNavigationLink(curPath);
             string result = s_template
-                        .Replace("<!--{current-path}-->", (subPath.Length > 0 ? subPath : "/"))
+                        .Replace("<!--{current-path}-->", navigationLink)
                         .Replace("<!--{data-row}-->", html.ToString());
 
 
             return new HtmlTextHttpHandler(result);
+        }
+
+
+        private string GetNavigationLink(string curPath)
+        {
+            string rootHtml = "<a href=\"/\">/</a>";
+
+            if( string.IsNullOrEmpty(curPath) )
+                return rootHtml;
+
+
+            string[] names = curPath.Trim('/').Split('/');
+            
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(rootHtml);
+
+            string path = string.Empty;
+
+            for( int i = 0; i < names.Length; i++ ) {
+
+                if( i > 0 )
+                    sb.AppendLine("<span>/</span>");
+
+                string x = names[i];
+                path = path + "/" + UrlEncode(x);
+                sb.AppendLine($"<a href=\"{path}\">{x}</a>");
+            }
+
+            return sb.ToString();
         }
 
         internal class HtmlTextHttpHandler : IHttpHandler
