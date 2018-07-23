@@ -85,6 +85,14 @@
             <param name="sa">“对称加密算法”实例</param>
             <param name="password">加密或解密的密码</param>
         </member>
+        <member name="M:ClownFish.Base.CryptoHelper.GetByteArray(System.Byte[],System.Int32)">
+            <summary>
+            从一个字节数组中获取指定的长度，如果长度不够就以循环的方式从头再读取
+            </summary>
+            <param name="src"></param>
+            <param name="destLen"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.TripleDESHelper">
             <summary>
             对TripleDES封装的工具类（建议使用 AES 代替 TripleDES）
@@ -492,8 +500,8 @@
             <summary>
             创建RetryOption实例
             </summary>
-            <param name="count"></param>
-            <param name="milliseconds"></param>
+            <param name="count">重试次数，0表示不重试</param>
+            <param name="milliseconds">重试的间隔时间，单位：毫秒</param>
             <returns></returns>
         </member>
         <member name="P:ClownFish.Base.Retry.Count">
@@ -526,7 +534,7 @@
         </member>
         <member name="M:ClownFish.Base.Retry.OnException(System.Action{System.Exception,System.Int32})">
             <summary>
-            当异常发生并需要重试时执行的回调委托
+            注册当异常发生时需要执行的回调委托
             </summary>
             <param name="callback"></param>
             <returns></returns>
@@ -669,6 +677,13 @@
             <param name="filePath"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.RetryFile.OpenAppend(System.String)">
+            <summary>
+            打开或者创建文件，后面以追加方式操作
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
         <member name="M:ClownFish.Base.RetryFile.Create(System.String)">
             <summary>
             等同于：File.Create() ，且当目录不存在时自动创建。
@@ -693,7 +708,8 @@
         </member>
         <member name="T:ClownFish.Base.RsaHelper">
             <summary>
-            RSA算法（签名/验证签名/加密/解密）的封装工具类
+            RSA算法（签名/验证签名/加密/解密）的封装工具类。
+            建议使用 X509Finder + X509Extensions 来代替这个类！
             </summary>
         </member>
         <member name="M:ClownFish.Base.RsaHelper.Sign(System.Byte[],System.String)">
@@ -995,6 +1011,91 @@
             </summary>
             <param name="url"></param>
             <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.X509Extensions">
+            <summary>
+            RSA算法（签名/验证签名/加密/解密）的封装工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.X509Extensions.Sign(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Byte[])">
+            <summary>
+            用X509证书对数据做签名
+            </summary>
+            <param name="cert"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Extensions.Verify(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Byte[],System.String)">
+            <summary>
+            用X509证书验证数据签名
+            </summary>
+            <param name="cert"></param>
+            <param name="data"></param>
+            <param name="signature"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Extensions.Encrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Byte[])">
+            <summary>
+            用X509证书加密数据。
+            注意：这个方法只能加密比较短的内容（一般是密钥）
+            </summary>
+            <param name="cert"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Extensions.Decrypt(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Byte[])">
+            <summary>
+            用X509证书解密数据
+            </summary>
+            <param name="cert"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.X509Finder">
+            <summary>
+            包含一些查找X509证书的工具方法
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.X509Finder.FindBySubject(System.String,System.Boolean)">
+            <summary>
+            根据证书主题查找X509证书，优先查找LocalMachine存储区域，如果失败则再查找CurrentUser
+            </summary>
+            <param name="subject">证书主题，例如： CN=name123，那么这个参数就是 name123</param>
+            <param name="ifNotFoundThrowException">如果没有找到证书是否需要抛出异常</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Finder.FindBySubject(System.String,System.Security.Cryptography.X509Certificates.StoreLocation,System.Security.Cryptography.X509Certificates.StoreName)">
+            <summary>
+            根据指定的证书主题和位置，查找证书。
+            </summary>
+            <param name="subject">证书主题，例如： CN=name123，那么这个参数就是 name123</param>
+            <param name="storeLocation"></param>
+            <param name="storeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Finder.FindByThumbprint(System.String,System.Boolean)">
+            <summary>
+            根据证书指纹查找X509证书，优先查找LocalMachine存储区域，如果失败则再查找CurrentUser
+            </summary>
+            <param name="thumbprint">证书指纹</param>
+            <param name="ifNotFoundThrowException">如果没有找到证书是否需要抛出异常</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Finder.FindByThumbprint(System.String,System.Security.Cryptography.X509Certificates.StoreLocation,System.Security.Cryptography.X509Certificates.StoreName)">
+            <summary>
+            根据指定的证书指纹和位置，查找证书。
+            </summary>
+            <param name="thumbprint">证书指纹</param>
+            <param name="storeLocation"></param>
+            <param name="storeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.X509Finder.LoadFromPublicKey(System.String)">
+            <summary>
+            从一个公钥字符串中加载X509证书
+            </summary>
+            <param name="publicKey"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Base.ZipHelper">
@@ -1786,6 +1887,19 @@
             </summary>
             <param name="extType"></param>
         </member>
+        <member name="M:ClownFish.Base.TypeExtend.ExtenderManager.RegisterExtendType(System.Type,System.Type)">
+            <summary>
+            注册扩展类型（继承类）
+            </summary>
+            <param name="extType">用于替换基类的继承类</param>
+            <param name="baseType">要被替换的基类</param>
+        </member>
+        <member name="M:ClownFish.Base.TypeExtend.ExtenderManager.RemoveExtendBaseType(System.Type)">
+            <summary>
+            移除某个基类的扩展类型的注册（应该仅用于单元测试）
+            </summary>
+            <param name="baseType"></param>
+        </member>
         <member name="F:ClownFish.Base.TypeExtend.ExtenderManager.s_eventDict">
             <summary>
             保存事件源与订阅类型的映射关系： Type / Type[]
@@ -2262,6 +2376,11 @@
             2、Response属性的页面编码不一致（ASP.NET 采用UTF-8，IIS采用GB2312），导致获取异常页面时乱码问题。
             </summary>
         </member>
+        <member name="P:ClownFish.Base.WebClient.RemoteWebException.Url">
+            <summary>
+            发生异常时的调用网址
+            </summary>
+        </member>
         <member name="P:ClownFish.Base.WebClient.RemoteWebException.ResponseText">
             <summary>
             服务端返回的响应内容（可能为空）
@@ -2271,6 +2390,13 @@
             <summary>
             异常的简单描述
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.RemoteWebException.#ctor(System.Net.WebException,System.String)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="ex"></param>
+            <param name="url"></param>
         </member>
         <member name="M:ClownFish.Base.WebClient.RemoteWebException.#ctor(System.Net.WebException)">
             <summary>

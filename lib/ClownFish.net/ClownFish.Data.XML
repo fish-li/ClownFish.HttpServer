@@ -206,6 +206,11 @@
             SQL执行时关联的命令对象。
             </summary>
         </member>
+        <member name="P:ClownFish.Data.DbExceuteException.ConnectionString">
+            <summary>
+            当前连接的连接字符串
+            </summary>
+        </member>
         <member name="M:ClownFish.Data.DbExceuteException.#ctor(System.Exception,System.Data.Common.DbCommand)">
             <summary>
             初始化 <see cref="T:ClownFish.Data.DbExceuteException"/>对象。
@@ -534,7 +539,7 @@
             </summary>
             <param name="connectionString">数据库连接字符串。</param>
             <param name="connectTimeout">连接的超时时间，单位：秒</param>
-            <returns></returns>
+            <returns>返回数据库的当前时间</returns>
         </member>
         <member name="M:ClownFish.Data.SqlClient.MsSqlHelper.CreateContext(System.String,System.String)">
             <summary>
@@ -549,6 +554,13 @@
             获取SQLSERVER版本号
             </summary>
             <param name="dbContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Data.SqlClient.MsSqlHelper.HideConnectionStringPassword(System.String)">
+            <summary>
+            隐藏连接字符串中的密码
+            </summary>
+            <param name="sqlConnectionString"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Data.SqlClient.MsSqlHelper.GetTableFields(ClownFish.Data.DbContext,System.String)">

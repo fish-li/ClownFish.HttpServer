@@ -70,6 +70,13 @@
             <param name="message"></param>
             <param name="innerException"></param>
         </member>
+        <member name="M:ClownFish.Log.Configuration.LogConfigException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
         <member name="T:ClownFish.Log.Configuration.LogConfig">
             <summary>
             日志的配置数据结构
@@ -290,12 +297,13 @@
             一个简单的流式消息日志记录实现类，所有写入将会以同步方式写入文件。
             </summary>
         </member>
-        <member name="M:ClownFish.Log.MessageLoger.#ctor(System.String,System.Boolean)">
+        <member name="M:ClownFish.Log.MessageLoger.#ctor(System.String,System.Boolean,System.Int64)">
             <summary>
             构造方法
             </summary>
             <param name="logFilePath">日志的保存文件路径</param>
             <param name="supportConcurrent">是否支持多线程的并发调用</param>
+            <param name="maxLength">文件的最大长度</param>
         </member>
         <member name="M:ClownFish.Log.MessageLoger.Write(System.String,System.String)">
             <summary>
@@ -614,6 +622,32 @@
             <param name="executeTime"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Log.Model.DbParam">
+            <summary>
+            表示一组用于HTTP传输的 【名称/值】 对。
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.DbParam.Name">
+            <summary>
+            参数名称
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.DbParam.DbType">
+            <summary>
+            参数类型
+            </summary>
+        </member>
+        <member name="P:ClownFish.Log.Model.DbParam.Value">
+            <summary>
+            参数值
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Model.DbParam.ToString">
+            <summary>
+            ToString
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Log.Model.SqlInfo">
             <summary>
             表示SQL执行相关的消息数据结构
@@ -740,6 +774,16 @@
             将日志记录到文件的写入器
             </summary>
         </member>
+        <member name="F:ClownFish.Log.Serializer.FileWriter.s_rootDirectory">
+            <summary>
+            日志文件的根目录
+            </summary>
+        </member>
+        <member name="F:ClownFish.Log.Serializer.FileWriter.s_maxLength">
+            <summary>
+            单个文件最大长度
+            </summary>
+        </member>
         <member name="M:ClownFish.Log.Serializer.FileWriter.Init(ClownFish.Log.Configuration.WriterSection)">
             <summary>
             初始化
@@ -750,6 +794,13 @@
             <summary>
             获取日志的根目录
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.FileWriter.GetFilePath(System.Type)">
+            <summary>
+            根据指定的类型，获取对应的日志文件全路径
+            </summary>
+            <param name="t"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Log.Serializer.FileWriter.Write``1(``0)">
@@ -765,6 +816,13 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="list"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.FileWriter.ObjectToText(System.Object)">
+            <summary>
+            将对象转成要保存的文本
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Log.Serializer.FileWriter.Get``1(System.Guid)">
             <summary>
@@ -783,9 +841,36 @@
             <param name="t2"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Log.Serializer.ObjectQueue">
+            <summary>
+            一个简单的线程安全的消息队列，主要特点是可以限制队列长度。
+            </summary>
+        </member>
+        <member name="F:ClownFish.Log.Serializer.ObjectQueue.s_maxQueueLength">
+            <summary>
+            队列中允许的最大长度，如果超过这个长度，队列就不接收消息。避免占用大量内存而导致OOM
+            </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.ObjectQueue.Enqueue(System.Object)">
+            <summary>
+            将消息压到消息队列
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.ObjectQueue.Dequeue">
+            <summary>
+            从消息队列取出一条消息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Log.Serializer.HttpWriter">
             <summary>
             将日志记录以HTTP形式发送到Web服务器
+            </summary>
+        </member>
+        <member name="F:ClownFish.Log.Serializer.HttpWriter.s_client">
+            <summary>
+            HttpWriterClient实例
             </summary>
         </member>
         <member name="M:ClownFish.Log.Serializer.HttpWriter.Init(ClownFish.Log.Configuration.WriterSection)">
@@ -825,26 +910,23 @@
             <param name="t2"></param>
             <returns></returns>
         </member>
-        <member name="T:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue">
+        <member name="T:ClownFish.Log.Serializer.HttpWriterClient">
             <summary>
-            一个简单的，线程安全的，消息队列，用于缓存将要发送到服务端的消息
+            发送日志数据的客户端
             </summary>
         </member>
-        <member name="F:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.s_maxQueueLength">
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.Init(ClownFish.Log.Configuration.WriterSection)">
             <summary>
-            队列中允许的最大长度，如果超过这个长度，队列就不接收消息。避免占用大量内存而导致OOM
+            初始化
             </summary>
+            <param name="config"></param>
         </member>
-        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.Enqueue(System.Object)">
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.ReadHttpArgs(ClownFish.Log.Configuration.WriterSection,System.String)">
             <summary>
-            将消息压到消息队列
+            读取指定前缀的配置参数
             </summary>
-            <param name="message"></param>
-        </member>
-        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.HttpMessageQueue.Dequeue">
-            <summary>
-            从消息队列取出一条消息
-            </summary>
+            <param name="config"></param>
+            <param name="flag"></param>
             <returns></returns>
         </member>
         <member name="M:ClownFish.Log.Serializer.HttpWriterClient.AddMessage(System.Object)">
@@ -853,10 +935,23 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.Start">
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.StartThread">
             <summary>
             启动后台发送线程
             </summary>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.SendData(System.Object)">
+            <summary>
+            发送HTTP请求
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.HttpWriterClient.CreateHttpOption(System.Object)">
+            <summary>
+            创建HttpOption实例
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Log.Serializer.ILogWriter">
             <summary>
@@ -905,47 +1000,18 @@
             将日志记录到JSON文件的写入器
             </summary>
         </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.Init(ClownFish.Log.Configuration.WriterSection)">
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.GetFilePath(System.Type)">
             <summary>
-            初始化
+            根据指定的类型，获取对应的日志文件全路径
             </summary>
-            <param name="config"></param>
-        </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.GetRootDirectory">
-            <summary>
-            获取日志的根目录
-            </summary>
+            <param name="t"></param>
             <returns></returns>
         </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.Write``1(``0)">
+        <member name="M:ClownFish.Log.Serializer.JsonWriter.ObjectToText(System.Object)">
             <summary>
-            写入单条日志信息
+            将对象转成要保存的文本
             </summary>
-            <typeparam name="T"></typeparam>
-            <param name="info"></param>
-        </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.Write``1(System.Collections.Generic.List{``0})">
-            <summary>
-            批量写入日志信息
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="list"></param>
-        </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.Get``1(System.Guid)">
-            <summary>
-            根据日志ID获取单条日志信息
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="guid"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Log.Serializer.JsonWriter.GetList``1(System.DateTime,System.DateTime)">
-            <summary>
-            根据指定的一段时间获取对应的日志记录
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="t1"></param>
-            <param name="t2"></param>
+            <param name="obj"></param>
             <returns></returns>
         </member>
         <member name="T:ClownFish.Log.Serializer.MailWriter">
@@ -965,6 +1031,14 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="info"></param>
+        </member>
+        <member name="M:ClownFish.Log.Serializer.MailWriter.SendEmail(System.String[],System.String,System.String)">
+            <summary>
+            发送邮件
+            </summary>
+            <param name="to"></param>
+            <param name="subject"></param>
+            <param name="body"></param>
         </member>
         <member name="M:ClownFish.Log.Serializer.MailWriter.Write``1(System.Collections.Generic.List{``0})">
             <summary>
