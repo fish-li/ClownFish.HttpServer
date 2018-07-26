@@ -313,6 +313,12 @@
             <param name="category">消息类别，默认：INFO</param>
             <param name="message">消息文本</param>
         </member>
+        <member name="M:ClownFish.Log.MessageLoger.WriteToFile(System.String)">
+            <summary>
+            将消息文本写入文件
+            </summary>
+            <param name="line"></param>
+        </member>
         <member name="M:ClownFish.Log.MessageLoger.GetLine(System.String,System.String)">
             <summary>
             根据指定参数计算要写入文件的消息行文本
