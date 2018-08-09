@@ -194,7 +194,7 @@ namespace ClownFish.HttpServer.Web
 		private void ProcessException(Exception ex)
 		{
 			try {
-				ErrorHandler errorHandler = new ErrorHandler();
+                ErrorHandler errorHandler = ObjectFactory.New<ErrorHandler>();
 				errorHandler.Exception = ex;
 				errorHandler.ProcessRequest(this.Context);
 			}

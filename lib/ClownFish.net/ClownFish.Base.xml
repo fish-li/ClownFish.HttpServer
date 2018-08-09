@@ -584,6 +584,15 @@
             <param name="searchOption"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.RetryDirectory.GetDirectories(System.String,System.String,System.IO.SearchOption)">
+            <summary>
+            等同于：System.IO.Directory.GetDirectories()
+            </summary>
+            <param name="path"></param>
+            <param name="searchPattern"></param>
+            <param name="searchOption"></param>
+            <returns></returns>
+        </member>
         <member name="M:ClownFish.Base.RetryDirectory.Exists(System.String)">
             <summary>
             等同于：System.IO.Directory.Exists()
@@ -614,6 +623,14 @@
         <member name="M:ClownFish.Base.RetryFile.ReadAllText(System.String,System.Text.Encoding)">
             <summary>
             等同于：System.IO.File.ReadAllText()
+            </summary>
+            <param name="filePath"></param>
+            <param name="encoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.ReadAllLines(System.String,System.Text.Encoding)">
+            <summary>
+            等同于：System.IO.File.ReadAllLines()
             </summary>
             <param name="filePath"></param>
             <param name="encoding"></param>
@@ -659,6 +676,27 @@
         <member name="M:ClownFish.Base.RetryFile.GetLastWriteTimeUtc(System.String)">
             <summary>
             等同于：System.IO.File.GetLastWriteTimeUtc()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.GetAttributes(System.String)">
+            <summary>
+            等同于：System.IO.File.GetAttributes()
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.IsHidden(System.String)">
+            <summary>
+            判断文件是否为隐藏文件
+            </summary>
+            <param name="filePath"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.RetryFile.ClearReadonly(System.String)">
+            <summary>
+            取消文件的只读设置
             </summary>
             <param name="filePath"></param>
             <returns></returns>
@@ -1130,6 +1168,13 @@
             </summary>
             <param name="files"></param>
             <param name="zipPath"></param>
+        </member>
+        <member name="M:ClownFish.Base.ZipHelper.Compress(System.Collections.Generic.List{System.Tuple{System.String,System.Object}},System.String)">
+            <summary>
+            根据指定的包内文件名及对应的文件清单打包成ZIP文件
+            </summary>
+            <param name="files">要打包的文件清单，可以为string（指示文件路径）或者byte[]（文件内容）</param>
+            <param name="zipPath">zip文件的保存路径</param>
         </member>
         <member name="T:ClownFish.Base.Files.CacheResult`1">
             <summary>
@@ -2383,7 +2428,12 @@
         </member>
         <member name="P:ClownFish.Base.WebClient.RemoteWebException.ResponseText">
             <summary>
-            服务端返回的响应内容（可能为空）
+            服务端返回的响应内容（可能为NULL）
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.WebClient.RemoteWebException.Headers">
+            <summary>
+            响应头集合（可能为NULL）
             </summary>
         </member>
         <member name="P:ClownFish.Base.WebClient.RemoteWebException.Message">
@@ -2404,12 +2454,11 @@
             </summary>
             <param name="ex"></param>
         </member>
-        <member name="M:ClownFish.Base.WebClient.RemoteWebException.TryReadResponseText(System.Net.WebException)">
+        <member name="M:ClownFish.Base.WebClient.RemoteWebException.ReadResponse(System.Net.WebException)">
             <summary>
-            尝试从WebException实例中读取服务端响应文本
+            尝试从WebException实例中读取服务端响应内容
             </summary>
             <param name="ex">WebException的实例</param>
-            <returns>异常的描述信息，通常是一段HTML代码</returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.RemoteWebException.GetHtmlTitle(System.String)">
             <summary>
