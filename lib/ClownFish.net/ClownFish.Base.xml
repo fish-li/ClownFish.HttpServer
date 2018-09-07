@@ -1310,6 +1310,76 @@
             相当于HttpContext.IsDebuggingEnabled，不过那个属性是实例的，因此使用不方便，所以就重新实现了一个静态的版本。
             </summary>
         </member>
+        <member name="T:ClownFish.Base.Http.RequestContentType">
+            <summary>
+            常用的请求内容类型
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.RequestContentType.Form">
+            <summary>
+            表示以FORM方式提交的数据格式
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.RequestContentType.Multipart">
+            <summary>
+            表示包含上传文件的提交格式
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.RequestContentType.Json">
+            <summary>
+            表示以JSON形式提交数据
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.RequestContentType.Xml">
+            <summary>
+            表示以XML形式提交数据
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.Http.RequestContentType.GetFormat(System.String)">
+            <summary>
+            根据 Content-Type 请求头字符串，转换成SerializeFormat枚举
+            </summary>
+            <param name="contentType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.Http.RequestContentType.GetByFormat(ClownFish.Base.Http.SerializeFormat)">
+            <summary>
+            根据SerializeFormat枚举转换成 Content-Type 请求头字符串，
+            对于无效的枚举，返回空字符串“”
+            </summary>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ClownFish.Base.Http.ResponseContentType">
+            <summary>
+            常用的响应内容类型
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.ResponseContentType.Text">
+            <summary>
+            表示以普通文本形式响应
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.ResponseContentType.Json">
+            <summary>
+            表示以JSON形式响应
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.ResponseContentType.Xml">
+            <summary>
+            表示以XML形式响应
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.ResponseContentType.Html">
+            <summary>
+            表示以HTML形式响应
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.ResponseContentType.Bin">
+            <summary>
+            表示以二进制形式响应
+            </summary>
+        </member>
         <member name="T:ClownFish.Base.Http.CustomDataAttribute">
             <summary>
             允许自定义特定数据类型的参数获取机制，用于在Action调用前获取Action参数值
@@ -1428,13 +1498,17 @@
         <member name="F:ClownFish.Base.Http.SerializeFormat.Form">
             <summary>
             采用 "application/x-www-form-urlencoded" 方式序列化
-            匹配标头："application/x-www-form-urlencoded"
             </summary>
         </member>
         <member name="F:ClownFish.Base.Http.SerializeFormat.Auto">
             <summary>
             自动根据请求头去响应，用于服务端响应。
             客户端发起请求时，需要指定 Request.Headers["X-Result-Format"]，否则按文本输出
+            </summary>
+        </member>
+        <member name="F:ClownFish.Base.Http.SerializeFormat.Unknown">
+            <summary>
+            未知的请求头（不是标准的请求头）
             </summary>
         </member>
         <member name="T:ClownFish.Base.Internals.InternalBridge">
@@ -2151,6 +2225,13 @@
             </summary>
             <param name="stream">Stream实例，用于写入</param>
             <param name="encoding">字符编码方式</param>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.FormDataCollection.GetQueryString(System.Object)">
+            <summary>
+            根据一个匿名对象的键值，生成URL查询字符串参数
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
         </member>
         <member name="M:ClownFish.Base.WebClient.FormDataCollection.Create(System.Object)">
             <summary>

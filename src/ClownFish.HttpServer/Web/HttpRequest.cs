@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using ClownFish.Base;
+using ClownFish.Base.Http;
 
 namespace ClownFish.HttpServer.Web
 {
@@ -250,7 +251,7 @@ namespace ClownFish.HttpServer.Web
 						_fromData = new NameValueCollection();
 
 					else if( string.IsNullOrEmpty(this.ContentType) ||
-							 this.ContentType.StartsWith("application/x-www-form-urlencoded") )
+							 this.ContentType.StartsWith(RequestContentType.Form) )
 						_fromData = System.Web.HttpUtility.ParseQueryString(postData);
 
 					else
@@ -288,27 +289,6 @@ namespace ClownFish.HttpServer.Web
 			get { return _request.ContentType; }
 		}
 
-
-
-		internal RequestDataType GetDataType()
-		{
-			string contentType = this.ContentType;
-
-			if( string.IsNullOrEmpty(contentType) )
-				return RequestDataType.NoSet;
-
-			if( contentType.IndexOfIgnoreCase("application/x-www-form-urlencoded") >= 0
-				|| contentType.IndexOfIgnoreCase("multipart/form-data") >= 0 )
-				return RequestDataType.Form;
-
-			if( contentType.IndexOfIgnoreCase("application/json") >= 0 )
-				return RequestDataType.Json;
-
-			if( contentType.IndexOfIgnoreCase("application/xml") >= 0 )
-				return RequestDataType.Xml;
-
-			return RequestDataType.Unknown;
-		}
                      
 
     }

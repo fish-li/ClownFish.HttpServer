@@ -102,9 +102,7 @@
     <Compile Include="Web\IHttpHandlerFactory.cs" />
     <Compile Include="Web\IHttpHandlerInitializer.cs" />
     <Compile Include="Web\IRequireHttpContext.cs" />
-    <Compile Include="Web\RequestDataType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Web\ResponseContentType.cs" />
     <Compile Include="Result\IActionResult.cs" />
     <Compile Include="Result\JsonResult.cs" />
     <Compile Include="Result\TextResult.cs" />

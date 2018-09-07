@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Base;
+using ClownFish.Base.Http;
 using ClownFish.Base.Reflection;
 using ClownFish.Base.TypeExtend;
 using ClownFish.HttpServer.Attributes;
@@ -102,18 +103,18 @@ namespace ClownFish.HttpServer.Common
 		/// <returns></returns>
 		public virtual object FromBodyDeserializeObject(ParameterInfo p, HttpRequest requst)
 		{
-			// 从请求流中反序列化对象中，要注意三点：
-			// 1、忽略参数的名称
-			// 2、直接使用参数类型，不做可空类型处理
-			// 3、仅支持 JSON, XML 的数据格式
+            // 从请求流中反序列化对象中，要注意三点：
+            // 1、忽略参数的名称
+            // 2、直接使用参数类型，不做可空类型处理
+            // 3、仅支持 JSON, XML 的数据格式
 
-			RequestDataType dataType = requst.GetDataType();
-			if( dataType == RequestDataType.Json ) {
+            SerializeFormat format = RequestContentType.GetFormat(requst.ContentType);
+            if( format == SerializeFormat.Json ) {
 				string text = requst.GetPostText();
 				return JsonExtensions.FromJson(text, p.ParameterType);
 			}
 
-			if( dataType == RequestDataType.Xml ) {
+			if( format == SerializeFormat.Xml ) {
 				string text = requst.GetPostText();
 				return XmlExtensions.FromXml(text, p.ParameterType);
 			}
