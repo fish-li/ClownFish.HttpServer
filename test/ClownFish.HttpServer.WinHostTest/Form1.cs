@@ -12,9 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ClownFish.Base;
 using ClownFish.Base.Xml;
-using ClownFish.HttpTest;
 using System.Management;
 
 namespace ClownFish.HttpServer.WinHostTest
@@ -24,7 +22,6 @@ namespace ClownFish.HttpServer.WinHostTest
 		private ServerHost _host;
 
 		private StringBuilder _message = new StringBuilder();
-		private bool _testIsPassed = true;
 
 		private SynchronizationContext _syncContext;
 
@@ -38,9 +35,6 @@ namespace ClownFish.HttpServer.WinHostTest
 			// 为了方便演示，固定二个参数
 			this.txtPort.Text = "50456";
 			this.txtRootPath.Text = "..\\Website";
-
-			this.LoadTestCases();
-			this.SelectAllTestNodes();
 
 			_syncContext = SynchronizationContext.Current;
 			DemoHttpModule.OnMessage += DemoHttpModule_OnMessage;
@@ -72,60 +66,6 @@ namespace ClownFish.HttpServer.WinHostTest
             listboxUrlLog.EndUpdate();
         }
 
-
-		private static string GetComputerName()
-		{
-			// 取计算机名
-			SelectQuery query = new SelectQuery("Win32_ComputerSystem");
-			using( ManagementObjectSearcher searcher = new ManagementObjectSearcher(query) ) {
-				foreach( ManagementObject mo in searcher.Get() ) {
-					if( (bool)mo["partofdomain"] )
-						return mo["DNSHostName"].ToString() + "." + mo["domain"].ToString();
-				}
-			}
-
-			return System.Environment.MachineName;
-		}
-
-		private void LoadTestCases()
-		{
-			string file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "testcase.xml");
-			if( File.Exists(file) == false )
-				return;
-
-			string fileContent = File.ReadAllText(file, Encoding.UTF8)
-						.Replace("http://localhost:",
-								$"http://{GetComputerName()}:");
-
-
-			List <RequestTest> list = XmlHelper.XmlDeserialize<List<RequestTest>>(fileContent);
-
-			List<string> groups = (from x in list
-								   group x by x.Category into g
-								   select g.Key
-								   ).ToList();
-
-			foreach(string g in groups ) {
-				TreeNode root = new TreeNode(g);
-
-				List<RequestTest> cases = (from x in list
-										   where x.Category == g
-										   select x
-										   ).ToList();
-
-				foreach( RequestTest c in cases ) {
-					TreeNode node = new TreeNode();
-					node.Tag = c;
-					HttpOption option = HttpOption.FromRawText(c.Request);
-					node.Text = option.Url;
-
-					root.Nodes.Add(node);
-				}
-
-				treeView1.Nodes.Add(root);
-			}
-
-		}
 
 
 		private void btnStart_Click(object sender, EventArgs e)
@@ -161,23 +101,6 @@ namespace ClownFish.HttpServer.WinHostTest
 				node.Checked = e.Node.Checked;
 		}
 
-		private void treeView1_KeyDown(object sender, KeyEventArgs e)
-		{
-			if( e.Control && e.KeyCode == Keys.A) {
-				foreach( TreeNode root in treeView1.Nodes ) {
-					root.Checked = root.Checked == false;
-				}
-			}
-		}
-
-
-		private void SelectAllTestNodes()
-		{
-			foreach( TreeNode root in treeView1.Nodes ) {
-				root.Checked = true;
-				root.Expand();
-			}
-		}
 
 		private void listboxUrlLog_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -195,106 +118,8 @@ namespace ClownFish.HttpServer.WinHostTest
 
 		
 
-		private void SendRequest(string request)
-		{
-			try {
-				_message.AppendLine("=========================================================");
-				_message.AppendLine(request);
-				_message.AppendLine();
-
-				HttpOption option = HttpOption.FromRawText(request);
-				string response = option.GetResult();
 
 
-				_message.AppendLine("### Response ###");
-				_message.AppendLine(response);
-				_message.AppendLine("\r\n\r\n");
-
-			}
-			catch (ClownFish.Base.WebClient.RemoteWebException webException) {
-				_message.AppendLine(webException.ResponseText);
-			}
-			catch (Exception ex) {
-				_message.AppendLine(ex.Message);
-			}
-		}
-
-		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			RunSelectedTest();
-		}
-
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.F5) {
-				RunSelectedTest();
-			}
-		}
-
-		private void RunSelectedTest()
-		{
-			if( _host == null ) {
-				MessageBox.Show("网站还没有启动。", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			_testIsPassed = true;
-			txtMessage.Text = string.Empty;
-			Application.DoEvents();
-
-
-			foreach( TreeNode root in treeView1.Nodes )
-				ExecuteNodeRequest(root);
-
-			txtMessage.Text = _message.ToString();
-			_message.Clear();
-
-			if( _testIsPassed == false )
-				this.txtMessage.BackColor = SystemColors.Info;
-			else
-				this.txtMessage.BackColor = SystemColors.Control;
-		}
-
-
-		private void ExecuteNodeRequest(TreeNode root)
-		{
-			if( root.Checked && root.Tag != null )
-				//SendRequest((root.Tag as RequestTest).Request);
-				ExecuteTest(root.Tag as RequestTest);
-
-			foreach( TreeNode node in root.Nodes )
-				ExecuteNodeRequest(node);
-		}
-
-
-		private void ExecuteTest(RequestTest test)
-		{
-			RequestExecutor executor = new RequestExecutor(test);
-			bool isPassed = executor.Execute();
-
-			if( isPassed == false )
-				_testIsPassed = false;
-
-			_message.AppendLine("=========================================================");
-			_message.AppendLine(test.Request.Value.Replace("\n", "\r\n"));
-			_message.AppendLine();
-
-			if( isPassed ) {
-				_message.AppendLine("### Response OK ###");
-				_message.AppendLine(executor.Result.ResponseText);
-			}
-			else {
-				_message.AppendLine("### Response ERROR ###");
-				_message.AppendLine($"### {executor.ErrorMessage} ###");
-
-				if( executor.Result.ResponseText != null )
-					_message.AppendLine(executor.Result.ResponseText);
-			}
-
-
-			_message.AppendLine("\r\n\r\n");
-
-		}
 
 		
 	}

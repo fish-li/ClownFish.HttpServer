@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClownFish.HttpServer.Config;
-using ClownFish.HttpTest;
 using NetFwTypeLib;
 
 namespace ClownFish.HttpServer.WinHostTest
@@ -29,34 +28,6 @@ namespace ClownFish.HttpServer.WinHostTest
 		}
 
 
-		static void Create_Testcase_Xml()
-		{
-			List<RequestTest> list = new List<RequestTest>();
-
-			RequestTest case1 = new RequestTest();
-			list.Add(case1);
-
-			case1.Category = "DemoService";
-			case1.Title = "xxxxxxxxxxxxxxxxxxx";
-			case1.Request = @"
-POST http://localhost:50456/api/xmlcommand/page-2-5/GetProductListByCategoryId.aspx HTTP/1.1
-X-Gzip-Respond: 1
-
-CategoryID=1";
-
-			case1.Response = new ResponseAssert();
-			case1.Response.StatusCode = 200;
-			case1.Response.Headers = new List<ResponseHeaderAssert>();
-			case1.Response.Headers.Add(new ResponseHeaderAssert { Name = "Content-Type", AssertMode = "=", Value = "application/json; charset=utf-8" });
-			case1.Response.Headers.Add(new ResponseHeaderAssert { Name = "Cache-Control", AssertMode = "include", Value = "max-age=600" });
-
-			case1.Response.Body = new List<ResponseBodyAssert>();
-			case1.Response.Body.Add(new ResponseBodyAssert { Name = "Length", AssertMode = "=", Value = "36" });
-			case1.Response.Body.Add(new ResponseBodyAssert { Name = "Text", AssertMode = "include", Value = "font-size: 12px;" });
-
-			ClownFish.Base.Xml.XmlHelper.XmlSerializeToFile(list, "testcase111111.xml");
-		}
-
 
 		static void Create_ServerOption_Config()
 		{
@@ -79,25 +50,28 @@ CategoryID=1";
 			option.Website.LocalPath = "..\\Website";
             option.Website.CacheDuration = 3600 * 24 * 365;
             option.Website.StaticFiles = new StaticFileOption[] {
-				new StaticFileOption { Ext=".htm", Mine="text/html" },     // 隐式使用默认值
-				new StaticFileOption { Ext=".html", Cache=0 },              // 显示使用默认值
-				new StaticFileOption { Ext=".js", Cache=3600000 },          // 指定固定值
-				new StaticFileOption { Ext=".css", Cache=3600 * 24 * 365 },
-				new StaticFileOption { Ext=".png", Cache=3600 * 24 * 365 },
-				new StaticFileOption { Ext=".jpg", Cache=3600 * 24 * 365 },
-				new StaticFileOption { Ext=".gif", Cache=3600 * 24 * 365 },
+                new StaticFileOption { Ext=".htm", Mine="text/html" },
+                new StaticFileOption { Ext=".html", Mine="text/html"},
 
-				new StaticFileOption { Ext=".txt" },
-                new StaticFileOption { Ext=".log" },
-                new StaticFileOption { Ext=".xml" },
+                new StaticFileOption { Ext=".xml", Mine="application/xml" },
+                new StaticFileOption { Ext=".js", Mine="application/javascript" },                
+                new StaticFileOption { Ext=".css", Mine="text/css", Cache=3600 * 24 * 365 },
+
+                new StaticFileOption { Ext=".png", Mine="image/png", Cache=3600 * 24 * 365 },
+                new StaticFileOption { Ext=".jpg", Mine="image/jpeg", Cache=3600 * 24 * 365 },
+                new StaticFileOption { Ext=".gif", Mine="image/gif", Cache=3600 * 24 * 365 },
+
+                new StaticFileOption { Ext=".txt", Mine="text/plain" },
+                new StaticFileOption { Ext=".log", Mine="text/plain" },
+                
 
                 new StaticFileOption { Ext=".eot" },
                 new StaticFileOption { Ext=".svg" },
-				new StaticFileOption { Ext=".ttf" },
-				new StaticFileOption { Ext=".woff" },
-				new StaticFileOption { Ext=".woff2" },
-				new StaticFileOption { Ext=".map" }
-			};
+                new StaticFileOption { Ext=".ttf" },
+                new StaticFileOption { Ext=".woff" },
+                new StaticFileOption { Ext=".woff2" },
+                new StaticFileOption { Ext=".map" }
+            };
 
 			ClownFish.Base.Xml.XmlHelper.XmlSerializeToFile(option, "ServerOption.config");
 			

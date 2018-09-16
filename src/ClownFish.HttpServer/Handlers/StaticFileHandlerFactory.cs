@@ -22,6 +22,8 @@ namespace ClownFish.HttpServer.Handlers
                                 = (from x in option.Website.StaticFiles
                                     select x.Ext
                                     ).ToDictionary(x => x, x => 1, StringComparer.OrdinalIgnoreCase);
+
+            StaticFileHandler.ServerHostInit(option);
         }
 
 		/// <summary>

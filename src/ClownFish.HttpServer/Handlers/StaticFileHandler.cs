@@ -19,7 +19,7 @@ namespace ClownFish.HttpServer.Handlers
         private static readonly Hashtable s_mineTable 
 				= Hashtable.Synchronized(new Hashtable(10, StringComparer.OrdinalIgnoreCase));
 
-        private static void ServerHostInit(ServerOption option)
+        public static void ServerHostInit(ServerOption option)
         {
             if( option.Website?.StaticFiles?.Length > 0 )
                 foreach( var x in option.Website.StaticFiles )

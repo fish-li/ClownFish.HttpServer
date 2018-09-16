@@ -1441,6 +1441,12 @@
             </summary>
             <param name="dictionary"></param>
         </member>
+        <member name="M:ClownFish.Base.Http.HttpHeaderCollection.create(System.Object)">
+            <summary>
+            将一个匿名对象转换成HttpHeaderCollection实例
+            </summary>
+            <param name="obj"></param>
+        </member>
         <member name="P:ClownFish.Base.Http.HttpHeaderCollection.Item(System.String)">
             <summary>
             索引器，根据名称访问集合
@@ -2383,7 +2389,15 @@
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.Headers">
             <summary>
-            请求头集合
+            请求头集合。
+            允许为当前属性指定一个 Dictionary《string, string》 类型的变量
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.WebClient.HttpOption.Header">
+            <summary>
+            这个属性只能赋值，等同于给 Headers 属性赋值。差别在于这二个属性的类型不一样。
+            建议：给当前属性指定一个 匿名对象。属性名做为请求头的 NAME，值做为VALUE。
+            说明：如果属性名中包含【下划线】，生成的请求头中将变成【中横线】 例如：prefix_name =》 "prefix-name"
             </summary>
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.Data">
@@ -2395,14 +2409,8 @@
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.Format">
             <summary>
-            数据的序列化方式。
+            数据的序列化方式。相当于指定 Content-Type 请求头。
             注意：不包含请求体的请求，不需要指定这个属性，例如：GET , HEAD
-            </summary>
-        </member>
-        <member name="P:ClownFish.Base.WebClient.HttpOption.ContentType">
-            <summary>
-            框架内部使用。
-            如果需要指定请求数据格式，请设置 Format 属性。
             </summary>
         </member>
         <member name="P:ClownFish.Base.WebClient.HttpOption.UserAgent">
@@ -2494,6 +2502,27 @@
             <param name="text"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Base.WebClient.HttpResult`1">
+            <summary>
+            表示一个HTTP的调用结果，包含响应头和响应内容
+            </summary>
+            <typeparam name="T">响应内容的类型参数</typeparam>
+        </member>
+        <member name="P:ClownFish.Base.WebClient.HttpResult`1.StatusCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.WebClient.HttpResult`1.Headers">
+            <summary>
+            从服务端返回响应头集合
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.WebClient.HttpResult`1.Result">
+            <summary>
+            响应体中的结果
+            </summary>
+        </member>
         <member name="T:ClownFish.Base.WebClient.RemoteWebException">
             <summary>
             在HTTP调用时发生的远程服务端异常。
@@ -2562,6 +2591,11 @@
             <param name="info"></param>
             <param name="context"></param>
         </member>
+        <member name="T:ClownFish.Base.WebClient.ResponseReader">
+            <summary>
+            读取HttpWebResponse的工具类
+            </summary>
+        </member>
         <member name="F:ClownFish.Base.WebClient.ResponseReader._response">
             <summary>
             HTTP响应对象
@@ -2586,6 +2620,19 @@
             <summary>
             是否是HTML页面的响应
             </summary>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.ResponseReader.#ctor(System.Net.HttpWebResponse)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="response"></param>
+        </member>
+        <member name="M:ClownFish.Base.WebClient.ResponseReader.Read``1">
+            <summary>
+            获取指定类型的结果
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
         </member>
         <member name="T:ClownFish.Base.Xml.XmlCdata">
             <summary>

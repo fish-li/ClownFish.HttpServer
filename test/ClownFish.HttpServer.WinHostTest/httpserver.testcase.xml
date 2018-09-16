@@ -8,13 +8,19 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/NewGuid.aspx 
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="36" />
-                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+                <assert name="Length" op="=" value="36" />
+                <assert name="Text" op="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
             </Body>
+            <Vars>
+                <!-- 定义二个变量，在后面的请求中可用 {name} 来引用 -->
+                <var name="x1" dest="body" value="*" />
+                <var name="x2" dest="header" value="Content-Type" />
+            </Vars>
         </Response>
+        
     </RequestTest>
 
     <RequestTest Category="DemoService" Title="">
@@ -25,11 +31,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Now.aspx HTTP
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="19" />
-                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+                <assert name="Length" op="=" value="19" />
+                <assert name="Text" op="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
             </Body>
         </Response>
     </RequestTest>
@@ -42,10 +48,10 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/Sha1.aspx?s=f
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="=" value="Sha1(fish-li) = EC28DFD34504F5E8D721381A11C355072D20FBD8" />
+                <assert name="Text" op="=" value="Sha1(fish-li) = EC28DFD34504F5E8D721381A11C355072D20FBD8" />
             </Body>
         </Response>
     </RequestTest>
@@ -58,10 +64,10 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ShowAgent.asp
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="ClownFish.net.HttpClient/" />
+                <assert name="Text" op="include" value="ClownFish.net.HttpClient/" />
             </Body>
         </Response>
     </RequestTest>
@@ -80,12 +86,12 @@ ccccccccccccccccccccccccc
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="aaaaaaa中文汉字aaaaaaaaaaaaaaaaaaa" />
-                <check name="Text" check="include" value="可以将 REM 语句单独放在一行，也可以将之放在另一语句后的行上。 " />
-                <check name="Text" check="include" value="ccccccccccccccccccccccccc" />
+                <assert name="Text" op="include" value="aaaaaaa中文汉字aaaaaaaaaaaaaaaaaaa" />
+                <assert name="Text" op="include" value="可以将 REM 语句单独放在一行，也可以将之放在另一语句后的行上。 " />
+                <assert name="Text" op="include" value="ccccccccccccccccccccccccc" />
             </Body>
         </Response>
     </RequestTest>
@@ -113,10 +119,10 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/ErrorTest.asp
         </Request>
         <Response StatusCode="500">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="ErrorTest_InvalidOperationException" />
+                <assert name="Text" op="include" value="ErrorTest_InvalidOperationException" />
             </Body>
         </Response>
     </RequestTest>
@@ -130,11 +136,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/NewGuid.aspx HTTP
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="36" />
-                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+                <assert name="Length" op="=" value="36" />
+                <assert name="Text" op="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
             </Body>
         </Response>
     </RequestTest>
@@ -148,11 +154,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="19" />
-                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+                <assert name="Length" op="=" value="19" />
+                <assert name="Text" op="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
             </Body>
         </Response>
     </RequestTest>
@@ -166,11 +172,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Now.aspx?sleepMil
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="19" />
-                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+                <assert name="Length" op="=" value="19" />
+                <assert name="Text" op="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
             </Body>
         </Response>
     </RequestTest>
@@ -183,10 +189,10 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-ccc/Sha1/fishli.aspx 
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="40" />
+                <assert name="Length" op="=" value="40" />
             </Body>
         </Response>
     </RequestTest>
@@ -217,10 +223,10 @@ Content-Type: application/json
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="=" value="a=53, b=fishli, id=123, name=abcd" />
+                <assert name="Text" op="=" value="a=53, b=fishli, id=123, name=abcd" />
             </Body>
         </Response>
     </RequestTest>
@@ -235,11 +241,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=NewGu
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="36" />
-                <check name="Text" check="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
+                <assert name="Length" op="=" value="36" />
+                <assert name="Text" op="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
             </Body>
         </Response>
     </RequestTest>
@@ -253,11 +259,11 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-url.aspx?action=GetTi
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Length" check="=" value="19" />
-                <check name="Text" check="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
+                <assert name="Length" op="=" value="19" />
+                <assert name="Text" op="regex" value="\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}" />
             </Body>
         </Response>
     </RequestTest>
@@ -272,15 +278,15 @@ GET http://localhost:50456/index.html HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/html; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/html; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="&lt;!DOCTYPE html&gt;" />
-                <check name="Text" check="include" value="&lt;title&gt;Hello ClownFish.HttpServer&lt;/title&gt;" />
-                <check name="Text" check="include" value="/static/Stylesheet1.css" />
-                <check name="Text" check="include" value="/static/JavaScript1.js" />
-                <check name="Text" check="include" value="&lt;h1&gt;Hello ClownFish.HttpServer !&lt;/h1&gt;" />
-                <check name="Text" check="include" value="&lt;p&gt;中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！&lt;/p&gt;" />
+                <assert name="Text" op="include" value="&lt;!DOCTYPE html&gt;" />
+                <assert name="Text" op="include" value="&lt;title&gt;Hello ClownFish.HttpServer&lt;/title&gt;" />
+                <assert name="Text" op="include" value="/static/Stylesheet1.css" />
+                <assert name="Text" op="include" value="/static/JavaScript1.js" />
+                <assert name="Text" op="include" value="&lt;h1&gt;Hello ClownFish.HttpServer !&lt;/h1&gt;" />
+                <assert name="Text" op="include" value="&lt;p&gt;中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！&lt;/p&gt;" />
             </Body>
         </Response>
     </RequestTest>
@@ -294,10 +300,10 @@ GET http://localhost:50456/static/Stylesheet1.css HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/css; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/css; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="font-size: 12px;" />
+                <assert name="Text" op="include" value="font-size: 12px;" />
             </Body>
         </Response>
     </RequestTest>
@@ -310,11 +316,11 @@ GET http://localhost:50456/static/JavaScript1.js HTTP/1.1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/javascript; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="application/javascript; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="include" value="// This is javascript file." />
-                <check name="Text" check="include" value="// 中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！" />
+                <assert name="Text" op="include" value="// This is javascript file." />
+                <assert name="Text" op="include" value="// 中文汉字，~！@#￥%（……*%&amp;￥……@￥！@#！" />
             </Body>
         </Response>
     </RequestTest>
@@ -328,10 +334,10 @@ GET http://localhost:50456/static/%e6%b5%8b%e8%af%95%e4%b8%ad%e6%96%87%e6%b1%89%
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="text/plain; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="text/plain; charset=utf-8" />
             </Headers>
             <Body>
-                <check name="Text" check="=" value="测试中文汉字在URL中是否能显示正常。" />
+                <assert name="Text" op="=" value="测试中文汉字在URL中是否能显示正常。" />
             </Body>
         </Response>
     </RequestTest>
@@ -349,7 +355,7 @@ CustomerID=1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="application/json; charset=utf-8" />
             </Headers>
         </Response>
     </RequestTest>
@@ -366,7 +372,7 @@ ProductID=1&Quantity=53
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
+                <assert name="Content-Type" op="=" value="application/json; charset=utf-8" />
             </Headers>
         </Response>
     </RequestTest>
@@ -384,8 +390,8 @@ CategoryID=1&PageIndex=2&PageSize=5&TotalRecords=0
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
-                <check name="Content-Encoding" check="=" value="gzip" />
+                <assert name="Content-Type" op="=" value="application/json; charset=utf-8" />
+                <assert name="Content-Encoding" op="=" value="gzip" />
             </Headers>
         </Response>
     </RequestTest>
@@ -403,8 +409,8 @@ CategoryID=1
         </Request>
         <Response StatusCode="200">
             <Headers>
-                <check name="Content-Type" check="=" value="application/json; charset=utf-8" />
-                <check name="Content-Encoding" check="=" value="gzip" />
+                <assert name="Content-Type" op="=" value="application/json; charset=utf-8" />
+                <assert name="Content-Encoding" op="=" value="gzip" />
             </Headers>
         </Response>
     </RequestTest>
