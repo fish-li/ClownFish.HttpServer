@@ -75,6 +75,8 @@
             // chkLogRequest
             // 
             this.chkLogRequest.AutoSize = true;
+            this.chkLogRequest.Checked = true;
+            this.chkLogRequest.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkLogRequest.Location = new System.Drawing.Point(102, 90);
             this.chkLogRequest.Name = "chkLogRequest";
             this.chkLogRequest.Size = new System.Drawing.Size(252, 16);

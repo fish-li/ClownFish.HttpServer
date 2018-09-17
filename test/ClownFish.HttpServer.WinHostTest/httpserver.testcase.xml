@@ -13,14 +13,13 @@ GET http://localhost:50456/hello/ClownFish-HttpServer/demo-service/NewGuid.aspx 
             <Body>
                 <assert name="Length" op="=" value="36" />
                 <assert name="Text" op="regex" value="\w{8}-\w{4}-\w{4}-\w{4}-\w{12}" />
-            </Body>
-            <Vars>
-                <!-- 定义二个变量，在后面的请求中可用 {name} 来引用 -->
-                <var name="x1" dest="body" value="*" />
-                <var name="x2" dest="header" value="Content-Type" />
-            </Vars>
+            </Body>            
         </Response>
-        
+        <Vars>
+            <!-- 定义二个变量，在后面的请求中可用 {name} 来引用 -->
+            <var name="x1" dest="body" value="*" />
+            <var name="x2" dest="header" value="Content-Type" />
+        </Vars>
     </RequestTest>
 
     <RequestTest Category="DemoService" Title="">
