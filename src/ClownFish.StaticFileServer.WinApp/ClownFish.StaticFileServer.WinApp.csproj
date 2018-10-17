@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\ClownFish.HttpServer\Properties\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="HttpServerLauncher.cs" />
     <Compile Include="MainForm1.cs">
       <SubType>Form</SubType>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -49,6 +50,24 @@ namespace ClownFish.HttpServer.Utils
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// 获取当前计算的机器名，优先获取完整名称
+        /// </summary>
+        /// <returns></returns>
+        public static string GetComputerName()
+        {
+            // 注意：这段代码需要在Windows XP及较新版本的操作系统中才能正常运行。
+            SelectQuery query = new SelectQuery("SELECT PartOfDomain, DNSHostName, Domain FROM  Win32_ComputerSystem");
+            using( ManagementObjectSearcher searcher = new ManagementObjectSearcher(query) ) {
+                foreach( ManagementObject mo in searcher.Get() ) {
+                    if( (bool)mo["PartOfDomain"] )
+                        return mo["DNSHostName"].ToString() + "." + mo["Domain"].ToString();
+                }
+            }
+
+            return System.Environment.MachineName;
         }
     }
 }
