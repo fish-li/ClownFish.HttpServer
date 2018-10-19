@@ -281,6 +281,35 @@
             <param name="encoding"></param>
             <returns></returns>
         </member>
+        <member name="T:ClownFish.Base.EnvironmentHelper">
+            <summary>
+            提供一些访问环境信息的工具类
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.EnvironmentHelper.GetComputerName">
+            <summary>
+            获取计算机名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.EnvironmentHelper.GetMacAddress">
+            <summary>
+            获取网卡MAC地址
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.EnvironmentHelper.IsWin64">
+            <summary>
+            判断操作系统是否为64位Windows
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClownFish.Base.EnvironmentHelper.GetIeVersion">
+            <summary>
+            获取IE版本
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.ExceptionExtensions">
             <summary>
             封装了Exception的一些扩展方法

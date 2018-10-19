@@ -433,30 +433,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetComputerName">
-            <summary>
-            获取计算机名称
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetMacAddress">
-            <summary>
-            获取网卡MAC地址
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Log.Model.EnvironmentInfo.IsWin64">
-            <summary>
-            判断操作系统是否为64位Windows
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:ClownFish.Log.Model.EnvironmentInfo.GetIeVersion">
-            <summary>
-            获取IE版本
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:ClownFish.Log.Model.ExceptionInfo">
             <summary>
             异常消息的持久化数据结构

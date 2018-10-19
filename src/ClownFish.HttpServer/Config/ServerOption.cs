@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using ClownFish.Base;
 using ClownFish.HttpServer.Utils;
 
 namespace ClownFish.HttpServer.Config
@@ -91,7 +92,7 @@ namespace ClownFish.HttpServer.Config
         {
             if( this.Ip == "*" ) {
                 //string host = System.Net.Dns.GetHostName();
-                string host = NetHelper.GetComputerName();
+                string host = EnvironmentHelper.GetComputerName();
                 return $"{Protocol}://{host}:{Port}/";
 
                 //if( string.IsNullOrEmpty(host) == false )
