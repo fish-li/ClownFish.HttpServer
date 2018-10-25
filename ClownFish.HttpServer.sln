@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClownFish.StaticFileServer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClownFish.StaticFileServer.WinApp", "src\ClownFish.StaticFileServer.WinApp\ClownFish.StaticFileServer.WinApp.csproj", "{335CF5A3-0902-4C51-BBC6-6EF63DADA63C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClownFish.RequestLogConsole", "test\ClownFish.RequestLogConsole\ClownFish.RequestLogConsole.csproj", "{6BF7700C-BCA6-407E-9671-6B80738C8890}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{335CF5A3-0902-4C51-BBC6-6EF63DADA63C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{335CF5A3-0902-4C51-BBC6-6EF63DADA63C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{335CF5A3-0902-4C51-BBC6-6EF63DADA63C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BF7700C-BCA6-407E-9671-6B80738C8890}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BF7700C-BCA6-407E-9671-6B80738C8890}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BF7700C-BCA6-407E-9671-6B80738C8890}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BF7700C-BCA6-407E-9671-6B80738C8890}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{2904C236-0058-4AC7-8399-F9FB62CC53A8} = {42C0A8EB-2A96-4273-9063-D637809B2F29}
 		{D3122F95-0F1F-4C63-A303-C7FAB6D79338} = {42C0A8EB-2A96-4273-9063-D637809B2F29}
 		{335CF5A3-0902-4C51-BBC6-6EF63DADA63C} = {42C0A8EB-2A96-4273-9063-D637809B2F29}
+		{6BF7700C-BCA6-407E-9671-6B80738C8890} = {E8CFB859-800C-4D12-8122-E38E87B7EB56}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B880AE25-494A-4866-993A-BD2286680152}
