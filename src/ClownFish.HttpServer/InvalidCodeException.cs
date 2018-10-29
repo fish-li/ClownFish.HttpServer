@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ClownFish.HttpServer
 {
-	/// <summary>
-	/// 表示错误的代码异常
-	/// </summary>
-	public sealed class InvalidCodeException : SystemException
+    /// <summary>
+    /// 表示错误的代码异常
+    /// </summary>
+    [Serializable]
+    public sealed class InvalidCodeException : SystemException
 	{
 
 		/// <summary>
@@ -20,6 +22,14 @@ namespace ClownFish.HttpServer
 		{
 
 		}
-	
-	}
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public InvalidCodeException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 }

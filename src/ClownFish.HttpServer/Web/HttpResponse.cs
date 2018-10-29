@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 
 namespace ClownFish.HttpServer.Web
 {
-	/// <summary>
-	/// 用于封装HttpListenerResponse对象的写操作，提供与HttpResponse类似的API
-	/// </summary>
-	public class HttpResponse : IDisposable
+    /// <summary>
+    /// 用于封装HttpListenerResponse对象的写操作，提供与HttpResponse类似的API
+    /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
+    public class HttpResponse : IDisposable
 	{
 		private HttpContext _context;
 		private HttpListenerResponse _response;
@@ -193,6 +194,7 @@ namespace ClownFish.HttpServer.Web
         /// <summary>
         /// 实现 IDispose 接口
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly")]
         public void Dispose()
 		{
 			try {
