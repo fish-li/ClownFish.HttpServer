@@ -62,9 +62,9 @@
       <Project>{bf0f48f6-eaee-46b9-8256-afb55b441eea}</Project>
       <Name>ClownFish.HttpServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NetFwTypeLib\NetFwTypeLib.csproj">
-      <Project>{2904c236-0058-4ac7-8399-f9fb62cc53a8}</Project>
-      <Name>NetFwTypeLib</Name>
+    <ProjectReference Include="..\ClownFish.KitLib\ClownFish.KitLib.csproj">
+      <Project>{53649fbb-b443-4274-a274-d66519a16ea2}</Project>
+      <Name>ClownFish.KitLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

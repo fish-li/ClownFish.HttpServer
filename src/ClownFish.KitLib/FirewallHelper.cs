@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NetFwTypeLib;
 
-namespace NetFwTypeLib
+namespace ClownFish.KitLib
 {
     /// <summary>
     /// Windows防火墙例外设置的辅助类
     /// </summary>
-    public sealed class FirewallHelper
+    public static class FirewallHelper
     {
         // 参考链接：
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa366418(v=vs.85).aspx

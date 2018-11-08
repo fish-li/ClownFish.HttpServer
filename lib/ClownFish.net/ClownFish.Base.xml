@@ -629,6 +629,13 @@
             <param name="path"></param>
             <returns></returns>
         </member>
+        <member name="M:ClownFish.Base.RetryDirectory.GetLastWriteTime(System.String)">
+            <summary>
+            等同于：System.IO.Directory.GetLastWriteTime()
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
         <member name="T:ClownFish.Base.RetryFile">
             <summary>
             提供一些与 System.IO.File 相同签名且功能相同的工具方法，
@@ -969,13 +976,46 @@
             用于处理临时文件的工具类
             </summary>
         </member>
+        <member name="P:ClownFish.Base.TempFilesUtils.Exceptions">
+            <summary>
+            删除过程中产生的异常
+            </summary>
+        </member>
+        <member name="P:ClownFish.Base.TempFilesUtils.Count">
+            <summary>
+            成功执行删除的次数
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.TempFilesUtils.DeleteFiles(System.String,System.TimeSpan,System.Boolean)">
+            <summary>
+            删除临时文件
+            </summary>
+            <param name="path">要执行删除的根目录</param>
+            <param name="timeAgo">一个时间间隔，表示需要删除多久前的文件</param>
+            <param name="topDirectoryOnly">是否只扫描指定的根目录（不包含子目录），如果需要扫描子目录，请指定为 false</param>
+        </member>
+        <member name="M:ClownFish.Base.TempFilesUtils.DeleteDirectories(System.String,System.TimeSpan)">
+            <summary>
+            目录空子目录
+            </summary>
+            <param name="path"></param>
+            <param name="timeAgo"></param>
+        </member>
         <member name="M:ClownFish.Base.TempFilesUtils.DeleteOldFiles(System.String,System.TimeSpan,System.Boolean)">
             <summary>
-            删除过早的临时文件
+            删除过旧的临时文件
             </summary>
             <param name="path">包含临时文件的目录，删除时会查找所有子目录</param>
             <param name="timeAgo">指定一个时间间隔，超过这个时间间隔前的文件将被删除</param>
             <param name="topDirectoryOnly">是否只清除指定目录，不包含它的子目录</param>
+            <returns>过程中所有遇到的异常</returns>
+        </member>
+        <member name="M:ClownFish.Base.TempFilesUtils.DeleteEmptyDirectories(System.String,System.TimeSpan)">
+            <summary>
+            删除过旧的空子目录
+            </summary>
+            <param name="path">包含临时文件的目录，删除时会查找所有子目录</param>
+            <param name="timeAgo">指定一个时间间隔，超过这个时间间隔前的文件将被删除</param>
             <returns>过程中所有遇到的异常</returns>
         </member>
         <member name="T:ClownFish.Base.TestHelper">

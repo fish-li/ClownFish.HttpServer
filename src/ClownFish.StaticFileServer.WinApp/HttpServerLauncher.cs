@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using ClownFish.Base.Xml;
 using ClownFish.HttpServer;
 using ClownFish.HttpServer.Config;
+using ClownFish.KitLib;
 
 namespace ClownFish.StaticFileServer.WinApp
 {
@@ -21,7 +22,7 @@ namespace ClownFish.StaticFileServer.WinApp
             string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
 
             // 将当前进程添加到防火墙的允许列表中
-            NetFwTypeLib.FirewallHelper.AllowApplication(exePath);
+            FirewallHelper.AllowApplication(exePath);
 
 
             // 强制指定【当前目录】，因为程序有可能是从计划任务中启动的，当前目录是Windows系统目录

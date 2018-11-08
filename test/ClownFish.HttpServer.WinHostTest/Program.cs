@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ClownFish.HttpServer.Config;
-using NetFwTypeLib;
+using ClownFish.KitLib;
 
 namespace ClownFish.HttpServer.WinHostTest
 {

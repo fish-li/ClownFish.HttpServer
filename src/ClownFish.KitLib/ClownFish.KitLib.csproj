@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{53649FBB-B443-4274-A274-D66519A16EA2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ClownFish.KitLib</RootNamespace>
+    <AssemblyName>ClownFish.KitLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\ClownFish.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DirectoryHelper.cs" />
+    <Compile Include="FirewallHelper.cs" />
+    <Compile Include="HttpsHelper.cs" />
+    <Compile Include="HttpApiUrlAcl.cs" />
+    <Compile Include="NetFwTypeLib\INetFwAuthorizedApplication.cs" />
+    <Compile Include="NetFwTypeLib\INetFwAuthorizedApplications.cs" />
+    <Compile Include="NetFwTypeLib\INetFwIcmpSettings.cs" />
+    <Compile Include="NetFwTypeLib\INetFwMgr.cs" />
+    <Compile Include="NetFwTypeLib\INetFwOpenPort.cs" />
+    <Compile Include="NetFwTypeLib\INetFwOpenPorts.cs" />
+    <Compile Include="NetFwTypeLib\INetFwPolicy.cs" />
+    <Compile Include="NetFwTypeLib\INetFwPolicy2.cs" />
+    <Compile Include="NetFwTypeLib\INetFwProduct.cs" />
+    <Compile Include="NetFwTypeLib\INetFwProducts.cs" />
+    <Compile Include="NetFwTypeLib\INetFwProfile.cs" />
+    <Compile Include="NetFwTypeLib\INetFwRemoteAdminSettings.cs" />
+    <Compile Include="NetFwTypeLib\INetFwRule.cs" />
+    <Compile Include="NetFwTypeLib\INetFwRule2.cs" />
+    <Compile Include="NetFwTypeLib\INetFwRule3.cs" />
+    <Compile Include="NetFwTypeLib\INetFwRules.cs" />
+    <Compile Include="NetFwTypeLib\INetFwService.cs" />
+    <Compile Include="NetFwTypeLib\INetFwServiceRestriction.cs" />
+    <Compile Include="NetFwTypeLib\INetFwServices.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_ACTION.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_IP_PROTOCOL.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_IP_VERSION.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_MODIFY_STATE.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_PROFILE_TYPE.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_PROFILE_TYPE2.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_RULE_DIRECTION.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_SCOPE.cs" />
+    <Compile Include="NetFwTypeLib\NET_FW_SERVICE_TYPE.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AutoRunManager.cs" />
+    <Compile Include="ServiceHelper.cs" />
+    <Compile Include="SslCertBinding_Net\BindingOptions.cs" />
+    <Compile Include="SslCertBinding_Net\CertificateBinding.cs" />
+    <Compile Include="SslCertBinding_Net\CertificateBindingConfiguration.cs" />
+    <Compile Include="SslCertBinding_Net\HttpApi.cs" />
+    <Compile Include="SslCertBinding_Net\ICertificateBindingConfiguration.cs" />
+    <Compile Include="SslCertBinding_Net\SockaddrInterop.cs" />
+    <Compile Include="UserHelper.cs" />
+    <Compile Include="X509Helper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="_readme.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

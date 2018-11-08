@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ClownFish.Base;
 using ClownFish.HttpServer;
+using ClownFish.KitLib;
 
 namespace ClownFish.RequestLogConsole
 {
@@ -38,7 +39,7 @@ namespace ClownFish.RequestLogConsole
             string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
 
             // 将当前进程添加到防火墙的允许列表中
-            NetFwTypeLib.FirewallHelper.AllowApplication(exePath);
+            FirewallHelper.AllowApplication(exePath);
 
 
             // 强制指定【当前目录】，因为程序有可能是从计划任务中启动的，当前目录是Windows系统目录
