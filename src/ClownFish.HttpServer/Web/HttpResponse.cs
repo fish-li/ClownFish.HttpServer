@@ -58,6 +58,13 @@ namespace ClownFish.HttpServer.Web
 		}
 
         /// <summary>
+        /// 获取将响应写入其中的 System.IO.Stream 对象。
+        /// </summary>
+        public virtual Stream OutputStream {
+            get { return _response.OutputStream; }
+        }
+
+        /// <summary>
         /// 获取服务器返回的标头名称/值对集合。
         /// </summary>
         public virtual WebHeaderCollection Headers {
@@ -186,6 +193,20 @@ namespace ClownFish.HttpServer.Web
             // 其实它只是一个快捷方式。
 
             this._context.Application.CompleteRequest();
+        }
+
+        /// <summary>
+        /// 清除所有响应头
+        /// </summary>
+        public void ClearHeaders()
+        {
+            _response.Headers.Clear();
+        }
+
+
+        internal void ClearContent()
+        {
+            // 暂时没法实现
         }
 
 

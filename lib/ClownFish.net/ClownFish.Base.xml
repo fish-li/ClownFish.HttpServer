@@ -1096,6 +1096,13 @@
             提供一些与URL有关的扩展方法
             </summary>
         </member>
+        <member name="M:ClownFish.Base.UrlExtensions.GetWebSiteRoot(System.String)">
+            <summary>
+            从一个URL中获取网站的根地址，也就是提取：http://xxx.xxxx.com 部分。
+            </summary>
+            <param name="absoluteUrl"></param>
+            <returns></returns>
+        </member>
         <member name="M:ClownFish.Base.UrlExtensions.UrlEncode(System.String)">
             <summary>
             等同于：System.Web.HttpUtility.UrlEncode(text)
@@ -1447,6 +1454,16 @@
         <member name="F:ClownFish.Base.Http.ResponseContentType.Bin">
             <summary>
             表示以二进制形式响应
+            </summary>
+        </member>
+        <member name="T:ClownFish.Base.Http.SysNetInitializer">
+            <summary>
+            初始化系统网络相关设置
+            </summary>
+        </member>
+        <member name="M:ClownFish.Base.Http.SysNetInitializer.Init">
+            <summary>
+            触发执行初始化（可多次调用，只有第一次有效）
             </summary>
         </member>
         <member name="T:ClownFish.Base.Http.CustomDataAttribute">

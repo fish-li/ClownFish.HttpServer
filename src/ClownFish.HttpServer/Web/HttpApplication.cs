@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ClownFish.Base.TypeExtend;
-using ClownFish.HttpServer.Common;
 using ClownFish.HttpServer.Handlers;
 using ClownFish.HttpServer.Result;
 
@@ -167,15 +166,20 @@ namespace ClownFish.HttpServer.Web
 
         private async Task<IActionResult> ExecuteHandler()
         {
-            if( this.Context.HttpHandler is ITaskHttpHandler ) {
+            if( this.Context.HttpHandler is ITaskMvcHttpHandler ) {
                 // 只执行Action方法
-                ITaskHttpHandler handler2 = this.Context.HttpHandler as ITaskHttpHandler;
-                return await handler2.ProcessRequestAsync(this.Context);
+                ITaskMvcHttpHandler handler = this.Context.HttpHandler as ITaskMvcHttpHandler;
+                return await handler.ProcessRequestAsync(this.Context);
             }
-            else if( this.Context.HttpHandler is IHttpHandler2 ) {
+            else if( this.Context.HttpHandler is IMvcHttpHandler ) {
                 // 只执行Action方法
-                IHttpHandler2 handler2 = this.Context.HttpHandler as IHttpHandler2;
-                return handler2.ProcessRequest2(this.Context);
+                IMvcHttpHandler handler = this.Context.HttpHandler as IMvcHttpHandler;
+                return handler.ProcessRequest2(this.Context);
+            }
+            else if( this.Context.HttpHandler is ITaskHttpHandler ) {
+                ITaskHttpHandler handler = this.Context.HttpHandler as ITaskHttpHandler;
+                await handler.ProcessRequestAsync(this.Context);
+                return null;
             }
             else {
                 // 老的IHttpHandler，整个过程合并在一起

@@ -54,6 +54,9 @@
     <Compile Include="..\ClownFish.HttpServer\Properties\AssemblyVersion.cs">
       <Link>Properties\AssemblyVersion.cs</Link>
     </Compile>
+    <Compile Include="..\ClownFish.StaticFileServer.WinApp\HttpServerLauncher.cs">
+      <Link>HttpServerLauncher.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,12 +72,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="app.manifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ServerOption.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

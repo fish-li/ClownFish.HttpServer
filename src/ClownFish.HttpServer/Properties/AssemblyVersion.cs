@@ -12,5 +12,5 @@
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.18.1017.1450")]
+[assembly: AssemblyFileVersion("1.18.1219.2130")]
 

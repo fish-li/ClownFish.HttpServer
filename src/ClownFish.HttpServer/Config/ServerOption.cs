@@ -22,10 +22,19 @@ namespace ClownFish.HttpServer.Config
 		[XmlArray("httpListener")]
 		[XmlArrayItem("option")]
 		public HttpListenerOption[] HttpListenerOptions { get; set; }
-		/// <summary>
-		/// 需要加载的模块（类型字符串）
-		/// </summary>
-		[XmlArray("modules")]
+
+        /// <summary>
+        /// 通用配置参数
+        /// </summary>
+        [XmlArray("appSettings")]
+        [XmlArrayItem("add")]
+        public AppSetting[] AppSettings { get; set; }
+
+
+        /// <summary>
+        /// 需要加载的模块（类型字符串）
+        /// </summary>
+        [XmlArray("modules")]
 		[XmlArrayItem("type")]
 		public string[] Modules { get; set; }
 
@@ -50,6 +59,25 @@ namespace ClownFish.HttpServer.Config
         /// </summary>
         [NonSerialized]
         internal InternalOptions InternalOptions;   // { get; set; }
+    }
+
+    /// <summary>
+    /// key/value 配置项
+    /// </summary>
+    [Serializable]
+    public sealed class AppSetting
+    {
+        /// <summary>
+        /// key
+        /// </summary>
+        [XmlAttribute("key")]
+        public string Key { get; set; }
+
+        /// <summary>
+        /// value
+        /// </summary>
+        [XmlAttribute("value")]
+        public string Value { get; set; }
     }
 
 	/// <summary>

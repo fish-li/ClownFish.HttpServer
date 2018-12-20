@@ -16,7 +16,7 @@ namespace ClownFish.HttpServer.Web
 	/// <summary>
 	/// 实现IHttpHandler接口，用于执行某个服务方法
 	/// </summary>
-	public sealed class ServiceHandler : ITaskHttpHandler, IHttpHandlerInitializer, IDisposable
+	public sealed class ServiceHandler : ITaskMvcHttpHandler, IHttpHandlerInitializer, IDisposable
     {
 		private readonly Type _serviceType;
 		private readonly MethodInfo _method;

@@ -90,7 +90,19 @@ namespace ClownFish.HttpServer.Web
             get { return _request.Url; }
         }
 
-        
+        /// <summary>
+        /// 获取包含正文数据的流，这些数据由客户端发送。
+        /// </summary>
+        public virtual Stream InputStream {
+            get { return _request.InputStream; }
+        }
+
+        /// <summary>
+        /// 获取请求被定向到的服务器 IP 地址和端口号。
+        /// </summary>
+        public virtual string UserHostAddress {
+            get { return _request.UserHostAddress; }
+        }
 
         /// <summary>
         /// 获取 System.Boolean 值，该值指示该请求是否来自本地计算机。
@@ -289,7 +301,7 @@ namespace ClownFish.HttpServer.Web
 			get { return _request.ContentType; }
 		}
 
-                     
+
 
     }
 }

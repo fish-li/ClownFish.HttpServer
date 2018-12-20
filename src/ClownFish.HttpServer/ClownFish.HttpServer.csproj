@@ -73,6 +73,7 @@
     <Compile Include="Handlers\DirectoryBrowseHandlerFactory.cs" />
     <Compile Include="Handlers\StaticFileHandlerFactory.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
+    <Compile Include="Proxy\HttpProxyHandler.cs" />
     <Compile Include="Result\BinaryResult.cs" />
     <Compile Include="Result\HtmlResult.cs" />
     <Compile Include="Result\RedirectResult.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Result\ResultConvert.cs" />
     <Compile Include="Web\HttpModule.cs" />
     <Compile Include="Web\HttpApplication.cs" />
+    <Compile Include="Proxy\HttpProxyModule.cs" />
     <Compile Include="Web\IHttpHandler.cs" />
     <Compile Include="Handlers\OptionsHandler.cs" />
     <Compile Include="Web\HttpContext.cs" />

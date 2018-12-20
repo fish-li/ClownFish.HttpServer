@@ -19,8 +19,7 @@ namespace ClownFish.StaticFileServer.WinApp
             Application.SetCompatibleTextRenderingDefault(false);
 
             try {
-                if( HttpServerLauncher.Start() == false )
-                    return;
+                HttpServerLauncher.Start();
             }
             catch(Exception ex ) {
                 MessageBox.Show(ex.Message, "ClownFish.StaticFileServer", MessageBoxButtons.OK, MessageBoxIcon.Error);

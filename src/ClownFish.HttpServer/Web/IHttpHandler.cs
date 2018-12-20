@@ -19,10 +19,25 @@ namespace ClownFish.HttpServer.Web
 		void ProcessRequest(HttpContext context);
 	}
 
+
+    /// <summary>
+    /// 异步版本的IHttpHandler
+    /// </summary>
+    public interface ITaskHttpHandler : IHttpHandler
+    {
+        /// <summary>
+        /// 处理HTTP请求，
+        /// 仅获取Action的执行结果，不包含输出过程。
+        /// </summary>
+        /// <param name="context"></param>
+        Task ProcessRequestAsync(HttpContext context);
+    }
+
+
     /// <summary>
     /// 增强版本的IHttpHandler，更适合MVC的设计思路
     /// </summary>
-    public interface IHttpHandler2 : IHttpHandler
+    public interface IMvcHttpHandler : IHttpHandler
     {
         /// <summary>
         /// 处理HTTP请求，
@@ -35,7 +50,7 @@ namespace ClownFish.HttpServer.Web
     /// <summary>
     /// 增强版本的IHttpHandler，更适合MVC的设计思路
     /// </summary>
-    public interface ITaskHttpHandler : IHttpHandler
+    public interface ITaskMvcHttpHandler : IHttpHandler
 	{
 		/// <summary>
 		/// 处理HTTP请求，
